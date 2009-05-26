@@ -1,0 +1,12 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage[procnames, noindent, lineno5, leftno]{lgrind}
+\def\LGfsize{\normalsize}
+\begin{document}
+Welcome to my first try to include a source code listing in \LaTeX :
+
+%\begin{lgrind}
+%\input{doc/helloworld.cpp.tex}
+%\end{lgrind}
+\lgrindfile{helloworld.cpp.tex}
+\lgrindfile{myheader.h.tex}
+\end{document}

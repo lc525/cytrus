@@ -1,0 +1,16 @@
+B.Sc. Degree
+
+*Details
+Name: Lucian Carata
+Theme: 3D Object Reconstruction From Images of an Unmarked Environment as of 23.02.2009
+
+
+*Directory Structure
+
+.git - git repository 
+1.bin - project binaries
+2.doc - documentation and B.Sc Thesis
+3.lib - libraries are placed here, after compilation
+4.src - project sources
+5.var - temporary input/output data
+6.tools - utilities created and used for the B.Sc. Thesis 
