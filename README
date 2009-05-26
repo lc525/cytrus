@@ -1,9 +1,15 @@
 /*
  * Author: Lucian Carata, calucian[]yahoo.co.uk
- * B.Sc. Theme: 3D Object Reconstruction From Multiple Views
+ * B.Sc. Theme: (I) object recognition from video stream, (II) 3D object reconstruction from motion (SfM)
  *
- * Current Status: I. Bibliografical Research/Writing Utility Software
- * B.Sc. Deadline: 10.06.2009 
+ *                 I. Bibliografical Research/Writing Utility Software
+ *                 II. Technology prototype implementation | Project Architecture
+ *                          (CUDA - gpu alg, 
+ *                           C++ - cpu alg, 
+ *                           C++/CLI - managed dll, allows interface to access the lower layers, 
+ *                           WPF - interface)
+ * Current Status: III. Implementation | Thesis Writing
+ * B.Sc. Deadline: 20.07.2009 [deadline changed] 
  */
 
 *** Note:
@@ -15,3 +21,7 @@ I will try to post here the progress of my work, as well as references to
 important articles in the field.
 
 ***
+
+Momentarley, my B.Sc Thesis will concentrate on object recognition, as an aplication
+of the SURF algorithm, implemented on CPU, as well as GPU - CUDA).
+The SURF algorithm will be then used as a first step in 3D object modelling.
