@@ -1,6 +1,6 @@
 /*
  * Author: Lucian Carata, calucian[]yahoo.co.uk
- * B.Sc. Theme: (I) object recognition from video stream, (II) 3D object reconstruction from motion (SfM)
+ * B.Sc. Theme: (I) object recognition from video stream, (II) 3D object reconstruction from camera motion (SfM)
  *
  *                 I. Bibliografical Research/Writing Utility Software
  *                 II. Technology prototype implementation | Project Architecture
@@ -9,10 +9,14 @@
  *                           C++/CLI - managed dll, allows interface to access the lower layers, 
  *                           WPF - interface)
  * Current Status: III. Implementation | Thesis Writing
+ *
  * B.Sc. Deadline: 20.07.2009 [deadline changed] 
  */
 
+
 *** Note:
+
+[! The Repository Code is yet incomplete, as i perform the integration of various prototype implementations ]
 
 While this will develop to be my B.Sc Thesis (and as a result
 I can't be assisted by others in writing the code), please feel free 
@@ -24,4 +28,9 @@ important articles in the field.
 
 Momentarley, my B.Sc Thesis will concentrate on object recognition, as an aplication
 of the SURF algorithm, implemented on CPU, as well as GPU - CUDA).
-The SURF algorithm will be then used as a first step in 3D object modelling.
+The SURF algorithm will be then used as a first step in 3D object modelling. [out of scope for the time being]
+
+The interface of the application will be written in WPF/C# , and as such will not be portable on linux environments. (This is due to my lack of knowledge/experience in the GTK++ area, and the small amout of available time)
+Despite this, the library implementing the SURF algorithm is written in C++, and it will be tested on both windows/linux before release.
+
+Practically, for making the whole application work under linux, one must write 2 SO-specific layers: the Camera HAL Layer (for image aquisition from cameras, currently using DirectShow under Windows) and the Presentation Layer (for displaying the results, currently using WPF under Windows).
