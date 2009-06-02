@@ -1,0 +1,7 @@
+D:\B.Sc_Work\Work\src\CytrusConsole\obj\Debug\ResolveAssemblyReference.cache
+D:\B.Sc_Work\Work\src\CytrusConsole\bin\CytrusConsole.exe
+D:\B.Sc_Work\Work\src\CytrusConsole\bin\CytrusConsole.pdb
+D:\B.Sc_Work\Work\src\CytrusConsole\bin\CytrusManagedLib_dbg.dll
+D:\B.Sc_Work\Work\src\CytrusConsole\bin\CytrusManagedLib_dbg.pdb
+D:\B.Sc_Work\Work\src\CytrusConsole\obj\Debug\CytrusConsole.exe
+D:\B.Sc_Work\Work\src\CytrusConsole\obj\Debug\CytrusConsole.pdb
