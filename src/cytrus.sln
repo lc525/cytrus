@@ -8,16 +8,9 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CytrusAlgLib", "CytrusAlgLi
 		{28623A2E-01DB-46ED-AF4B-2B10C4610A95} = {28623A2E-01DB-46ED-AF4B-2B10C4610A95}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CytrusManagedLib", "CytrusManagedLib\CytrusManagedLib.csproj", "{8B2710F8-6D92-47F4-AEF5-589D72F04413}"
-	ProjectSection(ProjectDependencies) = postProject
-		{28623A2E-01DB-46ED-AF4B-2B10C4610A95} = {28623A2E-01DB-46ED-AF4B-2B10C4610A95}
-		{58195B5F-0AFD-48C2-B6C2-B5880EFFA70B} = {58195B5F-0AFD-48C2-B6C2-B5880EFFA70B}
-	EndProjectSection
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CytrusConsole", "CytrusConsole\CytrusConsole.csproj", "{915E2015-E775-4F8A-A99B-21846FFD9EA3}"
-	ProjectSection(ProjectDependencies) = postProject
-		{8B2710F8-6D92-47F4-AEF5-589D72F04413} = {8B2710F8-6D92-47F4-AEF5-589D72F04413}
-	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CytrusManagedLib", "CytrusManagedLib\CytrusManagedLib.vcproj", "{2C79B2B6-2F5D-452A-A79A-51A476AAB6B7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -49,16 +42,6 @@ Global
 		{58195B5F-0AFD-48C2-B6C2-B5880EFFA70B}.Release|Mixed Platforms.Build.0 = Release|Win32
 		{58195B5F-0AFD-48C2-B6C2-B5880EFFA70B}.Release|Win32.ActiveCfg = Release|Win32
 		{58195B5F-0AFD-48C2-B6C2-B5880EFFA70B}.Release|Win32.Build.0 = Release|Win32
-		{8B2710F8-6D92-47F4-AEF5-589D72F04413}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8B2710F8-6D92-47F4-AEF5-589D72F04413}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8B2710F8-6D92-47F4-AEF5-589D72F04413}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{8B2710F8-6D92-47F4-AEF5-589D72F04413}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{8B2710F8-6D92-47F4-AEF5-589D72F04413}.Debug|Win32.ActiveCfg = Debug|Any CPU
-		{8B2710F8-6D92-47F4-AEF5-589D72F04413}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8B2710F8-6D92-47F4-AEF5-589D72F04413}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8B2710F8-6D92-47F4-AEF5-589D72F04413}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{8B2710F8-6D92-47F4-AEF5-589D72F04413}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{8B2710F8-6D92-47F4-AEF5-589D72F04413}.Release|Win32.ActiveCfg = Release|Any CPU
 		{915E2015-E775-4F8A-A99B-21846FFD9EA3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{915E2015-E775-4F8A-A99B-21846FFD9EA3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{915E2015-E775-4F8A-A99B-21846FFD9EA3}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
@@ -69,6 +52,16 @@ Global
 		{915E2015-E775-4F8A-A99B-21846FFD9EA3}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{915E2015-E775-4F8A-A99B-21846FFD9EA3}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{915E2015-E775-4F8A-A99B-21846FFD9EA3}.Release|Win32.ActiveCfg = Release|Any CPU
+		{2C79B2B6-2F5D-452A-A79A-51A476AAB6B7}.Debug|Any CPU.ActiveCfg = Debug|Win32
+		{2C79B2B6-2F5D-452A-A79A-51A476AAB6B7}.Debug|Mixed Platforms.ActiveCfg = Debug|Win32
+		{2C79B2B6-2F5D-452A-A79A-51A476AAB6B7}.Debug|Mixed Platforms.Build.0 = Debug|Win32
+		{2C79B2B6-2F5D-452A-A79A-51A476AAB6B7}.Debug|Win32.ActiveCfg = Debug|Win32
+		{2C79B2B6-2F5D-452A-A79A-51A476AAB6B7}.Debug|Win32.Build.0 = Debug|Win32
+		{2C79B2B6-2F5D-452A-A79A-51A476AAB6B7}.Release|Any CPU.ActiveCfg = Release|Win32
+		{2C79B2B6-2F5D-452A-A79A-51A476AAB6B7}.Release|Mixed Platforms.ActiveCfg = Release|Win32
+		{2C79B2B6-2F5D-452A-A79A-51A476AAB6B7}.Release|Mixed Platforms.Build.0 = Release|Win32
+		{2C79B2B6-2F5D-452A-A79A-51A476AAB6B7}.Release|Win32.ActiveCfg = Release|Win32
+		{2C79B2B6-2F5D-452A-A79A-51A476AAB6B7}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

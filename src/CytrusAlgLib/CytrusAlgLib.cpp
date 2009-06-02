@@ -15,7 +15,11 @@
 #include "stdafx.h"
 #include "CytrusAlgLib.h"
 
-Surf :: Surf(IImage *img, std::vector<Poi> &ipts) : _ipts(ipts)
-{
+//Surf :: Surf(IImage *img, bool uSURF)
+//{
+//	return;
+//}
+
+cytrus::alg::AddClass::AddClass(){
 	return;
 }

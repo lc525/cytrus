@@ -2,7 +2,7 @@ B.Sc. Degree
 
 *Details
 Name: Lucian Carata
-Theme: 3D Object Reconstruction From Images of an Unmarked Environment as of 23.02.2009
+Theme: Object Recognition From Live Sequences of Images in an Unmarked Environment as of 03.05.2009
 
 
 *Directory Structure
