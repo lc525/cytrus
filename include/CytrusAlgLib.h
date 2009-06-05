@@ -6,6 +6,7 @@
 ** Project: Cytrus
 ** License notice:  GNU GPL
 **
+** in namespace cytrus::alg
 ** -----------------------------------------------------------------
 ** CytrusAlgLib.h : Dll function declarations. The dll is used for 
 ** performing image-based transformation algorithms.
@@ -16,17 +17,25 @@
 
 #ifdef CYTRUSALGLIB_EXPORTS
 #define CYTRUSALGLIB_API __declspec(dllexport)
+#define EXPIMP_TEMPLATE
 #else
 #define CYTRUSALGLIB_API __declspec(dllimport)
+#define EXPIMP_TEMPLATE extern
 #endif
 
 #define Configuration Section:
 //1.Debug options DEBUG | DEBUG_TRACE |RELEASE
 #define DEBUG
 
-#include "poi.h"
-#include "iimage.h"
-#include <vector>
+//#include "poi.h"
+//#include "iimage.h"
+//#include <vector>
+#include "IImageConsumer.h"
+#include "IImageSource.h"
+#include "DirectShowCameraSource.h"
+
+//EXPIMP_TEMPLATE template class CYTRUSALGLIB_API std::list<char*>;
+//EXPIMP_TEMPLATE template class CYTRUSALGLIB_API std::pair<int,int>;
 
 namespace cytrus{
 	namespace alg{
