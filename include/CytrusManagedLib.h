@@ -2,8 +2,11 @@
 
 #pragma once
 #include "CytrusAlgLib.h"
+#include <list>
+#include <iostream>
 
 using namespace System;
+using namespace cytrus::cameraHAL;
 
 namespace CytrusManagedLib {
 
@@ -12,8 +15,9 @@ namespace CytrusManagedLib {
 	public:
 		int u;
 		Class1(){
-			cytrus::alg::AddClass c;
-			u=c.Add(2,7);
+			//DirectShowCameraSource p;
+			DirectShowCameraSource* cs=DirectShowCameraSource::getCameraInstance();
+			std::list<char*> lst=cs->getAvailableCameras();
 		}
 
 		int getU(){
