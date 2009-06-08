@@ -12,6 +12,7 @@
 */
 #include "stdafx.h"
 #include "DirectShowCameraSource.h"
+#include <iostream>
 //#include <boost/thread/thread.hpp>
 
 using namespace cytrus::cameraHAL;
@@ -28,6 +29,8 @@ DirectShowCameraSource::DirectShowCameraSource(){
 	_currentCamera=NO_CAMERA;
 	deviceHandle=NULL;
 	_cameraIsStarted=false;
+	width=0;
+	height=0;
 	getCameraList();
 }
 
@@ -71,7 +74,9 @@ std::list<char*> DirectShowCameraSource::getAvailableCameras(bool refresh){
 void DirectShowCameraSource::setActiveCamera(int cIndex){
 	_currentCamera=cIndex;
 	BSTR pbstrName;
-	GetCameraDetails(cIndex,deviceHandle,&pbstrName);
+	IUnknown** iunk=new IUnknown*;
+	GetCameraDetails(cIndex,iunk,&pbstrName);
+	deviceHandle=iunk;
 	SysFreeString(pbstrName);
 }
 
@@ -79,9 +84,12 @@ void DirectShowCameraSource::notifyConsumers(){
 }
 
 void DirectShowCameraSource::startCapture(){
+	PFN_CaptureCallback cb=&DirectShowCameraSource::callbackFunc;
+	StartCamera(deviceHandle[0],cb, &width, &height);
 }
 
 void DirectShowCameraSource::stopCapture(){
+	StopCamera();
 }
 
 std::pair<int,int> DirectShowCameraSource::getImageSize(){
@@ -99,6 +107,7 @@ std::pair<int,int> DirectShowCameraSource::getImageSize(){
 
 void __stdcall DirectShowCameraSource::callbackFunc(DWORD dwSize, BYTE* pbData){
 	//for(int i=0; i<consumers
+	std::cout<<"Processing image..."<<std::endl;
 }
 
 #endif

@@ -18,12 +18,6 @@
 #include <qedit.h>
 #include <strsafe.h>
 
-
-BOOL APIENTRY DllMain( HMODULE hModule,
-                       DWORD  ul_reason_for_call,
-                       LPVOID lpReserved
-					 );
-
 ////// Private variables
 #define MAX_CAMERAS		10
 
@@ -33,16 +27,9 @@ struct CameraInfo
 	IMoniker* pMoniker;
 };
 
-IGraphBuilder* g_pGraphBuilder = NULL;
-IMediaControl* g_pMediaControl = NULL;
-ICaptureGraphBuilder2* g_pCaptureGraphBuilder = NULL;
-IBaseFilter* g_pIBaseFilterCam = NULL;
-IBaseFilter* g_pIBaseFilterSampleGrabber = NULL;
-IBaseFilter* g_pIBaseFilterNullRenderer = NULL;
-CameraInfo g_aCameraInfo[MAX_CAMERAS] = {0};
 
 typedef void (__stdcall *PFN_CaptureCallback)(DWORD dwSize, BYTE* pbData);
-PFN_CaptureCallback g_pfnCaptureCallback = NULL;
+
 
 ///// Forward declarations
 HRESULT ConfigureSampleGrabber(IBaseFilter *pIBaseFilter);

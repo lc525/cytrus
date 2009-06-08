@@ -41,7 +41,7 @@ namespace cytrus{
 		//
 		class CYTRUSALGLIB_API DirectShowCameraSource: public IImageSource{
 			// TODO: add thread safetyness to singleton & other members.
-			private:
+			public:
 				static DirectShowCameraSource* instance;  // singleton instance
 				
 				// current capture device spec:

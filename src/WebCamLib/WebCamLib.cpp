@@ -21,13 +21,15 @@
 #pragma managed(push, off)
 #endif
 
-BOOL APIENTRY DllMain( HMODULE hModule,
-                       DWORD  ul_reason_for_call,
-                       LPVOID lpReserved
-					 )
-{
-    return TRUE;
-}
+IGraphBuilder* g_pGraphBuilder = NULL;
+IMediaControl* g_pMediaControl = NULL;
+ICaptureGraphBuilder2* g_pCaptureGraphBuilder = NULL;
+IBaseFilter* g_pIBaseFilterCam = NULL;
+IBaseFilter* g_pIBaseFilterSampleGrabber = NULL;
+IBaseFilter* g_pIBaseFilterNullRenderer = NULL;
+CameraInfo g_aCameraInfo[MAX_CAMERAS] = {0};
+
+PFN_CaptureCallback g_pfnCaptureCallback = NULL;
 
 ///// Forward declarations
 void MyFreeMediaType(AM_MEDIA_TYPE& mt)

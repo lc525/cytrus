@@ -82,7 +82,7 @@ namespace cytrus{
 
 		//};
 
-
+		//DUMMY CLASS FOR DLL TESTING - TO BE REMOVED
 		class CYTRUSALGLIB_API AddClass {
 			public:
 				AddClass();
