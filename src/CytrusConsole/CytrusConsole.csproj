@@ -40,7 +40,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
+    <OutputPath>bin\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -110,6 +110,6 @@
   </Target>
   -->
   <PropertyGroup>
-    <PostBuildEvent>copy /Y $(ProjectDir)bin\$(ProjectName).exe $(ProjectDir)..\..\bin\$(ProjectName)_dbg.exe</PostBuildEvent>
+    <PostBuildEvent>copy /Y $(ProjectDir)bin\$(ProjectName).exe $(ProjectDir)..\..\bin\$(ProjectName).exe</PostBuildEvent>
   </PropertyGroup>
 </Project>

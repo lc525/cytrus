@@ -121,7 +121,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="D:\B.Sc\Work\include"
+				AdditionalIncludeDirectories="..\..\include"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;WEBCAMLIB_EXPORTS"
 				RuntimeLibrary="0"
 				UsePrecompiledHeader="2"
@@ -184,6 +184,10 @@
 			Filter="cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx"
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
+			<File
+				RelativePath=".\dllmain.cpp"
+				>
+			</File>
 			<File
 				RelativePath=".\stdafx.cpp"
 				>

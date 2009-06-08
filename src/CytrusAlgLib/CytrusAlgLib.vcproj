@@ -22,6 +22,7 @@
 			IntermediateDirectory=".\tmp"
 			ConfigurationType="2"
 			CharacterSet="1"
+			DeleteExtensionsOnClean="*.obj;*.ilk;*.tlb;*.tli;*.tlh;*.tmp;*.rsp;*.pgc;*.pgd;*.meta;$(TargetPath);"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -61,8 +62,10 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
+				AdditionalDependencies="WebCamLib_dbg.lib comsuppw.lib"
 				OutputFile="$(OutDir)\$(ProjectName)_dbg.dll"
 				LinkIncremental="2"
+				AdditionalLibraryDirectories="..\..\lib"
 				GenerateDebugInformation="true"
 				SubSystem="2"
 				TargetMachine="1"
@@ -118,7 +121,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
-				AdditionalIncludeDirectories="D:\B.Sc\Work\include"
+				AdditionalIncludeDirectories="..\..\include"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;CYTRUSALGLIB_EXPORTS"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
@@ -137,7 +140,9 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
+				AdditionalDependencies="WebCamLib.lib comsuppw.lib"
 				LinkIncremental="1"
+				AdditionalLibraryDirectories="..\..\lib"
 				GenerateDebugInformation="true"
 				SubSystem="2"
 				OptimizeReferences="2"
@@ -177,10 +182,6 @@
 			Filter="cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx"
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
-			<File
-				RelativePath=".\CytrusAlgLib.cpp"
-				>
-			</File>
 			<File
 				RelativePath=".\dllmain.cpp"
 				>
@@ -223,28 +224,36 @@
 					/>
 				</FileConfiguration>
 			</File>
+			<Filter
+				Name="cytrus::cameraHAL"
+				>
+				<File
+					RelativePath=".\DirectShowCameraSource.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\IImageConsumer.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\IImageSource.cpp"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="cytrus::alg"
+				>
+				<File
+					RelativePath=".\CytrusAlgLib.cpp"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="Header Files"
 			Filter="h;hpp;hxx;hm;inl;inc;xsd"
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
-			<File
-				RelativePath="..\..\include\BitmapImage.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\include\CytrusAlgLib.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\include\IImage.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\include\poi.h"
-				>
-			</File>
 			<File
 				RelativePath=".\stdafx.h"
 				>
@@ -253,6 +262,42 @@
 				RelativePath=".\targetver.h"
 				>
 			</File>
+			<Filter
+				Name="cytrus::cameraHAL"
+				>
+				<File
+					RelativePath="..\..\include\DirectShowCameraSource.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\include\IImageConsumer.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\include\IImageSource.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="cytrus::alg"
+				>
+				<File
+					RelativePath="..\..\include\BitmapImage.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\include\CytrusAlgLib.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\include\IImage.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\include\poi.h"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="Resource Files"

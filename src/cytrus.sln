@@ -11,6 +11,9 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CytrusConsole", "CytrusConsole\CytrusConsole.csproj", "{915E2015-E775-4F8A-A99B-21846FFD9EA3}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CytrusManagedLib", "CytrusManagedLib\CytrusManagedLib.vcproj", "{2C79B2B6-2F5D-452A-A79A-51A476AAB6B7}"
+	ProjectSection(ProjectDependencies) = postProject
+		{58195B5F-0AFD-48C2-B6C2-B5880EFFA70B} = {58195B5F-0AFD-48C2-B6C2-B5880EFFA70B}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
