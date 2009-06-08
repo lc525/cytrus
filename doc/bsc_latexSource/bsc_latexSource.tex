@@ -1,0 +1,31 @@
+% *************** LEd - BSc Degree Latex Source / Main File ***************
+% Document Language: Romanian
+
+\documentclass[11pt, a4paper, makeidx]{memoir}
+\input{style.tex}
+
+\begin{document}
+% *************** Front matter ***************
+\frontmatter
+\input{front.tex}
+
+% *************** Main matter ***************
+\mainmatter
+\input{ack/ack.tex}
+\input{chap1/chap1.tex}
+\input{chap2/chap2.tex}
+
+% *************** Bibliography ***************
+\bibliographystyle{plain}
+{\small\bibliography{bsc_latexSource}}
+
+% *************** Appendixes ***************
+\appendix
+\appendixpage*
+\input{app1/app1.tex}
+
+% *************** Back matter ***************
+\backmatter
+\input{back.tex}
+
+\end{document}
