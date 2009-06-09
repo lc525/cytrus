@@ -39,7 +39,7 @@ namespace cytrus{
 				// This function is called by the image source when the image data is ready
 				// (has been loaded from disk, has been recieved from a camera etc.). 
 				//
-				virtual void processImage(unsigned long dwSize, char* pbData)=0;
+				virtual void processImage(unsigned long dwSize, unsigned char* pbData)=0;
 
 				//
 				// This function is called by the image source when the size of the image

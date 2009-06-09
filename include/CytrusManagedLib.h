@@ -9,16 +9,28 @@ using namespace System;
 using namespace System::Collections::Generic;
 using namespace System::Runtime::InteropServices;
 using namespace cytrus::cameraHAL;
+using namespace cytrus::alg;
 
 
 namespace CytrusManagedLib {
 
+	public delegate void CaptureCallbackProc(int dwSize, array<byte>^ pbData);
+
 	public ref class Class1
-	{
-		public:
-		int u;
+	{	
+	private:
+		static GCHandle gch;
+		
+		CaptureCallbackProc^ fPtr;
+		void callEventWrapper(int dwSize, array<byte>^ pbData){
+			onImageAvailable(dwSize,pbData);
+		}
+	public:
 		DirectShowCameraSource* cs;
 		List<String^>^ cList;
+		event CaptureCallbackProc^ onImageAvailable;
+
+		POIAlgResult result;
 		
 		Class1(){
 			cList=gcnew List<String^>();
@@ -32,6 +44,12 @@ namespace CytrusManagedLib {
 				String^ name=gcnew String((*it));
 				cList->Add(name);
 			}
+
+			//marshalling events
+			fPtr= gcnew CaptureCallbackProc(this, &Class1::callEventWrapper);
+			gch = GCHandle::Alloc(fPtr);
+			IntPtr ip = Marshal::GetFunctionPointerForDelegate(fPtr);
+			result = static_cast<POIAlgResult>(ip.ToPointer());
 		}
 
 		void selectCamera(int i){
@@ -44,10 +62,13 @@ namespace CytrusManagedLib {
 
 		void stopCapture(){
 			cs->stopCapture();
+			gch.Free();
 		}
 
-		int getU(){
-			return u;
+		void runAlg(){
+			SurfAlg* alg=new SurfAlg(cs, result);
+			alg->run();
 		}
+
 	};
 }

@@ -7,7 +7,7 @@
 ** License notice:  GNU GPL
 **
 ** -----------------------------------------------------------------
-** IImage.h: Defines a common interface for images used in the cytrus algorithms
+** BitmapImage.h: Defines a common interface for images used in the cytrus algorithms
 **
 */
 

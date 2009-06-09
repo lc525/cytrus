@@ -8,8 +8,10 @@ namespace CytrusConsole
 {
     class Program
     {
+        static int val;
         static void Main(string[] args)
         {
+            val = 0;
             Class1 c=new Class1();
             Console.WriteLine("DEBUG: Choose one input device:");
             int i = 1;
@@ -23,9 +25,18 @@ namespace CytrusConsole
             string answer = Console.ReadLine();
             int u=Int32.Parse(answer);
             c.selectCamera(u);
-            c.startCapture();
+            c.onImageAvailable += new CaptureCallbackProc(myFunc);
+            c.runAlg();
             Console.ReadLine();
+            Console.WriteLine(val);
             c.stopCapture();
         }
+
+        public static void myFunc(int pbSize, byte[] pbData)
+        {
+            if (val == 0) Console.WriteLine("Started");
+            val++;
+        }
+        
     }
 }

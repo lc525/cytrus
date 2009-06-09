@@ -12,8 +12,7 @@
 */
 #include "stdafx.h"
 #include "DirectShowCameraSource.h"
-#include <iostream>
-//#include <boost/thread/thread.hpp>
+//#include <boost/thread/thread.hpp> - futures
 
 using namespace cytrus::cameraHAL;
 
@@ -106,8 +105,9 @@ std::pair<int,int> DirectShowCameraSource::getImageSize(){
 }
 
 void __stdcall DirectShowCameraSource::callbackFunc(DWORD dwSize, BYTE* pbData){
-	//for(int i=0; i<consumers
-	std::cout<<"Processing image..."<<std::endl;
+	for(std::set<IImageConsumer*>::iterator cIt=instance->consumers.begin(); cIt!=instance->consumers.end(); cIt++){
+		(*cIt)->processImage(dwSize,pbData);
+	}
 }
 
 #endif
