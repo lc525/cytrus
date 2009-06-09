@@ -12,9 +12,11 @@
 */
 #include "stdafx.h"
 #include "IImageConsumer.h"
+#include "IImageSource.h"
 using namespace cytrus::cameraHAL;
 
 
 IImageConsumer::IImageConsumer(IImageSource* imgSource){
 	_imgSource=imgSource;
+	_imgSource->registerImageConsumer(this);
 }
