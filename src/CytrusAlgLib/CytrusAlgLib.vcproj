@@ -247,6 +247,14 @@
 					RelativePath=".\CytrusAlgLib.cpp"
 					>
 				</File>
+				<File
+					RelativePath=".\IPOIAlgorithm.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\SurfAlg.cpp"
+					>
+				</File>
 			</Filter>
 		</Filter>
 		<Filter
@@ -290,11 +298,27 @@
 					>
 				</File>
 				<File
+					RelativePath="..\..\include\IDescriptor.h"
+					>
+				</File>
+				<File
 					RelativePath="..\..\include\IImage.h"
 					>
 				</File>
 				<File
+					RelativePath="..\..\include\ILocator.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\include\IPOIAlgorithm.h"
+					>
+				</File>
+				<File
 					RelativePath="..\..\include\poi.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\include\SurfAlg.h"
 					>
 				</File>
 			</Filter>
