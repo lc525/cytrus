@@ -25,7 +25,7 @@ namespace CytrusConsole
             string answer = Console.ReadLine();
             int u=Int32.Parse(answer);
             c.selectCamera(u);
-            c.onImageAvailable += new CaptureCallbackProc(myFunc);
+            //c.onImageAvailable += new CaptureCallbackProc(myFunc);
             c.runAlg();
             Console.ReadLine();
             Console.WriteLine(val);

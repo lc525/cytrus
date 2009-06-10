@@ -35,6 +35,7 @@ namespace cytrus{
 			public: 
 				
 				IImageConsumer(IImageSource* imgSource);
+				virtual ~IImageConsumer();
 				//
 				// This function is called by the image source when the image data is ready
 				// (has been loaded from disk, has been recieved from a camera etc.). 

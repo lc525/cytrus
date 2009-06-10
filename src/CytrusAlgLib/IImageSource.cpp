@@ -16,6 +16,13 @@ using namespace cytrus::cameraHAL;
 
 typedef std::set<IImageConsumer*> imageConsumerSet;
 
+IImageSource::~IImageSource(){
+	for(imageConsumerSet::iterator it=consumers.begin(); it!=consumers.end(); it++){
+		delete (*it);
+	}
+}
+
+
 bool IImageSource::registerImageConsumer(IImageConsumer *c){
 	std::pair<imageConsumerSet::iterator, bool> p=consumers.insert(c);
 	return p.second;
