@@ -34,6 +34,15 @@ DirectShowCameraSource::DirectShowCameraSource(){
 }
 
 DirectShowCameraSource::~DirectShowCameraSource(){
+	if(_cameraIsStarted) stopCapture();
+	int currentNo=_availableCameras.size();
+	if(currentNo>0){
+		for(std::list<char*>::iterator nIt=_availableCameras.begin(); nIt!=_availableCameras.end(); nIt++){
+			delete (*nIt);
+		}
+	}
+	if(deviceHandle!=NULL) 
+		delete []deviceHandle;
 	CoUninitialize();
 }
 
@@ -71,6 +80,9 @@ std::list<char*> DirectShowCameraSource::getAvailableCameras(bool refresh){
 }
 
 void DirectShowCameraSource::setActiveCamera(int cIndex){
+	if(deviceHandle!=NULL){
+		delete []deviceHandle;	
+	}
 	_currentCamera=cIndex;
 	BSTR pbstrName;
 	IUnknown** iunk=new IUnknown*;
@@ -79,16 +91,24 @@ void DirectShowCameraSource::setActiveCamera(int cIndex){
 	SysFreeString(pbstrName);
 }
 
+void DirectShowCameraSource::displayCameraPropertiesDialog(HWND hwnd){
+	if(_currentCamera!=NO_CAMERA){
+		DisplayCameraPropertiesDialog(deviceHandle[0],hwnd);
+	}
+}
+
 void DirectShowCameraSource::notifyConsumers(){
 }
 
 void DirectShowCameraSource::startCapture(){
+	_cameraIsStarted=true;
 	PFN_CaptureCallback cb=&DirectShowCameraSource::callbackFunc;
 	StartCamera(deviceHandle[0],cb, &width, &height);
 }
 
 void DirectShowCameraSource::stopCapture(){
 	StopCamera();
+	_cameraIsStarted=false;
 }
 
 std::pair<int,int> DirectShowCameraSource::getImageSize(){

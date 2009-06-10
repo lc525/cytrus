@@ -55,12 +55,13 @@ namespace cytrus{
 				int _nrAvailableCameras;
 				std::list<char*> _availableCameras;
 				DirectShowCameraSource();
-				~DirectShowCameraSource();
+				virtual ~DirectShowCameraSource();
 				void getCameraList();
 			public:	
 				static DirectShowCameraSource* getCameraInstance();
 				std::list<char*> getAvailableCameras(bool refresh=true);
 				void setActiveCamera(int cIndex);
+				void displayCameraPropertiesDialog(HWND hwnd);
 
 				virtual void notifyConsumers();
 				virtual void notifySizeChange(){};

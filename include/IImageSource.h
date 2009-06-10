@@ -42,6 +42,9 @@ namespace cytrus{
 			protected: 
 				std::set<IImageConsumer*> consumers;
 			public:
+
+				virtual ~IImageSource();
+
 				//
 				// This function manually notifies all the registered consumers.
 				// The implementation usually calls IImageConsumer.processImage, passing the source's image

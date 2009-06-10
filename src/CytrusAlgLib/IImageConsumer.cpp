@@ -15,6 +15,10 @@
 #include "IImageSource.h"
 using namespace cytrus::cameraHAL;
 
+IImageConsumer::~IImageConsumer(){
+	_imgSource->removeImageConsumer(this);
+}
+
 
 IImageConsumer::IImageConsumer(IImageSource* imgSource){
 	_imgSource=imgSource;
