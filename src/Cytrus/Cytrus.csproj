@@ -8,7 +8,7 @@
     <ProjectGuid>{AA3CABA2-4BC5-45C6-87BE-398191D35E6E}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Cytrus</RootNamespace>
+    <RootNamespace>cytrus.managed</RootNamespace>
     <AssemblyName>Cytrus</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -69,6 +69,8 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FrameRenderer.cs" />
+    <Compile Include="ImageInterop.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

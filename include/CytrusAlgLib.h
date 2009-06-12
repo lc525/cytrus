@@ -83,15 +83,6 @@ namespace cytrus{
 
 		//};
 
-		//DUMMY CLASS FOR DLL TESTING - TO BE REMOVED
-		class CYTRUSALGLIB_API AddClass {
-			public:
-				AddClass();
-				int Add(int a, int b){
-					return a+b;
-				}
-		};
-
 
 	} //namespace alg
 } // namespace cytrus
