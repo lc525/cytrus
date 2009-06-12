@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.1415926-2.2-0.999.6 (MiKTeX 2.7) (preloaded format=xelatex 2009.6.8)  10 JUN 2009 17:50
+This is XeTeX, Version 3.1415926-2.2-0.999.6 (MiKTeX 2.7) (preloaded format=xelatex 2009.6.8)  11 JUN 2009 12:21
 entering extended mode
 **D:/B.Sc_Work/Work/doc/bsc_latexSource/bsc_latexSource.tex
 (D:/B.Sc_Work/Work/doc/bsc_latexSource/bsc_latexSource.tex
@@ -793,9 +793,13 @@ File: eu1lmss.fd 2007/01/14 v1.3 Font defs for Latin Modern
 
 ]
 LaTeX Font Info:    Font shape `EU1/lmss/m/it' in size <10.95> not available
-(Font)              Font shape `EU1/lmss/m/sl' tried instead on input line 55.
- [3]
-[4
+(Font)              Font shape `EU1/lmss/m/sl' tried instead on input line 63.
+
+Underfull \hbox (badness 10000) in paragraph at lines 64--67
+
+ []
+
+[3] [4
 
 ] (D:\B.Sc_Work\Work\doc\bsc_latexSource\bsc_latexSource.toc
 LaTeX Font Info:    Try loading font information for U+msa on input line 4.
@@ -811,35 +815,32 @@ File: umsb.fd 2002/01/19 v2.2g AMS font definitions
 LaTeX Font Info:    Try loading font information for U+stmry on input line 4.
 
 ("C:\Program Files\MiKTeX 2.7\tex\latex\stmaryrd\ustmry.fd")
-LaTeX Font Info:    Try loading font information for OT1+lmr on input line 11.
+LaTeX Font Info:    Try loading font information for OT1+lmr on input line 12.
 
 ("C:\Program Files\MiKTeX 2.7\tex\latex\lm\ot1lmr.fd"
 File: ot1lmr.fd 2007/01/14 v1.3 Font defs for Latin Modern
 ))) [1] [2
 
 ]
-(D:\B.Sc_Work\Work\doc\bsc_latexSource\ack/ack.tex)
-(D:\B.Sc_Work\Work\doc\bsc_latexSource\chap1/chap1.tex [1
+(D:\B.Sc_Work\Work\doc\bsc_latexSource\chap1/chap1.tex)
+(D:\B.Sc_Work\Work\doc\bsc_latexSource\chap2/chap2.tex [1
 
 ] [2
 
 ])
-(D:\B.Sc_Work\Work\doc\bsc_latexSource\chap2/chap2.tex [3] [4
-
-])
-(D:\B.Sc_Work\Work\doc\bsc_latexSource\bsc_latexSource.bbl [5] [6
+(D:\B.Sc_Work\Work\doc\bsc_latexSource\bsc_latexSource.bbl [3] [4
 
 ]
 bibitemlist
-) [7] [8
+) [5] [6
 
-] [9] [10] (D:\B.Sc_Work\Work\doc\bsc_latexSource\app1/app1.tex)
-[11
+] [7] [8] (D:\B.Sc_Work\Work\doc\bsc_latexSource\app1/app1.tex)
+[9
 
-] [12
+] [10
 
 ] (D:\B.Sc_Work\Work\doc\bsc_latexSource\back.tex
-(D:\B.Sc_Work\Work\doc\bsc_latexSource\symbols.tex) [13
+(D:\B.Sc_Work\Work\doc\bsc_latexSource\symbols.tex) [11
 
 
 
@@ -854,7 +855,7 @@ File: ot1lmss.fd 2007/01/14 v1.3 Font defs for Latin Modern
 Package hyperref Warning: Glyph not defined in PD1 encoding,
 (hyperref)                removing `\u' on input line 16.
 
-(D:\B.Sc_Work\Work\doc\bsc_latexSource\bsc_latexSource.lof) [14
+(D:\B.Sc_Work\Work\doc\bsc_latexSource\bsc_latexSource.lof) [12
 
 ]
 
@@ -863,7 +864,7 @@ Package hyperref Warning: Glyph not defined in PD1 encoding,
 
 (D:\B.Sc_Work\Work\doc\bsc_latexSource\bsc_latexSource.lot)
 No file bsc_latexSource.ind.
-) [15
+) [13
 
 ]
 \tf@toc=\write6
@@ -871,12 +872,12 @@ No file bsc_latexSource.ind.
 \tf@lot=\write8
  (D:\B.Sc_Work\Work\doc\bsc_latexSource\bsc_latexSource.aux) ) 
 Here is how much of TeX's memory you used:
- 10713 strings out of 30467
- 158719 string characters out of 1190985
+ 10709 strings out of 30467
+ 158654 string characters out of 1190985
  295022 words of memory out of 1500000
- 13646 multiletter control sequences out of 110000
+ 13645 multiletter control sequences out of 110000
  17988 words of font info for 61 fonts, out of 1200000 for 2000
  14 hyphenation exceptions out of 8191
- 43i,11n,38p,516b,340s stack positions out of 5000i,500n,10000p,200000b,5000s
+ 43i,11n,38p,564b,340s stack positions out of 5000i,500n,10000p,200000b,5000s
 
-Output written on bsc_latexSource.pdf (21 pages).
+Output written on bsc_latexSource.pdf (19 pages).

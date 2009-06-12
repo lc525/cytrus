@@ -11,21 +11,23 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using CytrusManagedLib;
+using cytrus.managed;
 using System.Collections.ObjectModel;
 using System.Windows.Interop;
 using System.IO;
 using System.Windows.Threading;
+using Tomers.WPF.Imaging.Demo;
 
-namespace Cytrus
+namespace cytrus.managed
 {
     /// <summary>
     /// Interaction logic for Window1.xaml
     /// </summary>
     public partial class Window1 : Window
     {
-        private Class1 c;
+        private CameraMgr cameraManager;
         static bool isCapturing;
+        private FrameRenderer _frameRenderer = FrameRenderer.Null;
         
         public Window1()
         {
@@ -34,30 +36,39 @@ namespace Cytrus
 
         private void CytrusMain_Loaded(object sender, RoutedEventArgs e)
         {
-            c=new Class1();
-            cameraList.ItemsSource = c.cList;
-            c.selectCamera(0);
-            c.onNewImageAvailable += new NewImageCallback(c_onNewImageAvailable);
+            cameraManager=new CameraMgr();
+            cameraList.ItemsSource = cameraManager.getCameraList();
+            cameraManager.selectCamera(0);
+
+            cameraManager.onNewImageAvailable += new ImageCaptureCallback(c_onNewImageAvailable);
             isCapturing = false;
+        }
+
+        void c_onNewImageAvailable(byte[] pbData)
+        {
+            this.Dispatcher.Invoke(DispatcherPriority.Normal, (Action)(() =>
+            {
+                _frameRenderer.RenderFrame(pbData);
+            }));
         }
 
         private void RefreshCameraList_Click(object sender, RoutedEventArgs e)
         {
-            c.refreshCameraList();
+            cameraManager.refreshCameraList();
             cameraList.SelectedIndex = 0;
         }
 
         private void DriverOptions_Click(object sender, RoutedEventArgs e)
         {
             HwndSource p=(HwndSource)PresentationSource.FromVisual(this);
-            c.displayDriverProperties(p.Handle);
+            cameraManager.showPropertiesDialog(p.Handle);
         }
 
         private void cameraList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             ComboBox cb=(ComboBox)e.Source;
             if(cb.SelectedIndex>=0)
-                c.selectCamera(cb.SelectedIndex);
+                cameraManager.selectCamera(cb.SelectedIndex);
         }
 
         private void StartCapture_Click(object sender, RoutedEventArgs e)
@@ -66,35 +77,16 @@ namespace Cytrus
             {
                 isCapturing = true;
                 StartCapture.Content = "Stop Capture";
-                c.runAlg();
+                cameraManager.startCapture();
+                PixelFormat pixelFormat = PixelFormats.Bgr24;
+                _frameRenderer = new ImageInteropFrameRenderer(captureImg, cameraManager._camWidth, cameraManager._camHeight, pixelFormat);
             }
             else
             {
                 isCapturing = false;
                 StartCapture.Content = "Start Capture";
-                c.stopCapture();
+                cameraManager.stopCapture();
             }
-        }
-
-        void c_onNewImageAvailable()
-        {
-            this.Dispatcher.Invoke(DispatcherPriority.Normal, (Action)(() =>
-            {
-                MemoryStream ms = new MemoryStream();
-
-                c.capturedImg.Save(ms, System.Drawing.Imaging.ImageFormat.Jpeg);
-
-                System.Windows.Media.Imaging.BitmapImage bImg = new System.Windows.Media.Imaging.BitmapImage();
-
-                bImg.BeginInit();
-
-                bImg.StreamSource = new MemoryStream(ms.ToArray());
-
-                bImg.EndInit();
-                captureImg.Source = bImg;
-                captureImg.InvalidateVisual();
-            }));
-            
         }
     }
 }

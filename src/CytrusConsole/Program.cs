@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using CytrusManagedLib;
+using System.Collections.ObjectModel;
+using cytrus.managed;
 
 namespace CytrusConsole
 {
@@ -12,10 +13,11 @@ namespace CytrusConsole
         static void Main(string[] args)
         {
             val = 0;
-            Class1 c=new Class1();
+            CameraMgr c = new CameraMgr();
             Console.WriteLine("DEBUG: Choose one input device:");
             int i = 1;
-            foreach(string s in c.cList){
+            ObservableCollection<string> cList= c.getCameraList();
+            foreach(string s in cList){
                 Console.Write("\t"+i+". ");
                 Console.WriteLine(s);
                 i++;
@@ -26,7 +28,7 @@ namespace CytrusConsole
             int u=Int32.Parse(answer);
             c.selectCamera(u);
             //c.onImageAvailable += new CaptureCallbackProc(myFunc);
-            c.runAlg();
+            c.startCapture();
             Console.ReadLine();
             Console.WriteLine(val);
             c.stopCapture();

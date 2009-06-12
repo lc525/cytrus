@@ -19,7 +19,3 @@
 //{
 //	return;
 //}
-
-cytrus::alg::AddClass::AddClass(){
-	return;
-}
