@@ -1,7 +1,7 @@
-This is XeTeX, Version 3.1415926-2.2-0.999.6 (MiKTeX 2.7) (preloaded format=xelatex 2009.6.8)  11 JUN 2009 12:21
+This is XeTeX, Version 3.1415926-2.2-0.999.6 (MiKTeX 2.7) (preloaded format=xelatex 2009.6.8)  14 JUN 2009 20:18
 entering extended mode
-**D:/B.Sc_Work/Work/doc/bsc_latexSource/bsc_latexSource.tex
-(D:/B.Sc_Work/Work/doc/bsc_latexSource/bsc_latexSource.tex
+**bsc_latexSource.tex
+(bsc_latexSource.tex
 LaTeX2e <2005/12/01>
 Babel <v3.8l> and hyphenation patterns for english, dumylang, nohyphenation, ge
 rman, ngerman, french, romanian, loaded.
@@ -316,8 +316,7 @@ Package verse [2008/07/23] emulated by memoir.
 
 ("C:\Program Files\MiKTeX 2.7\tex\latex\memoir\mempatch.sty"
 File: mempatch.sty 2008/07/23 v6.0 Patches for memoir class v1.6180339
-))
-(D:\B.Sc_Work\Work\doc\bsc_latexSource\style.tex
+)) (style.tex
 ("C:\Program Files\MiKTeX 2.7\tex\latex\graphics\graphicx.sty"
 Package: graphicx 1999/02/16 v1.0f Enhanced LaTeX Graphics (DPC,SPQR)
 
@@ -343,6 +342,7 @@ d. JK)
 \Gin@req@height=\dimen147
 \Gin@req@width=\dimen148
 )
+("C:\Program Files\MiKTeX 2.7\tex\latex\ltxmisc\import.sty")
 ("C:\Program Files\MiKTeX 2.7\tex\latex\marvosym\marvosym.sty"
 Package: marvosym 2006/05/11 v2.1 Martin Vogel's Symbols font definitions
 )
@@ -557,14 +557,14 @@ File: color.cfg 2007/01/18 v1.5 color configuration of teTeX/TeXLive
 )
 Package color Info: Driver file: xetex.def on input line 130.
 )
-Package color Info: Redefining color yellow on input line 37.
-Package color Info: Redefining color red on input line 51.
-Package color Info: Redefining color magenta on input line 57.
-Package color Info: Redefining color blue on input line 78.
-Package color Info: Redefining color cyan on input line 80.
-Package color Info: Redefining color green on input line 90.
-Package color Info: Redefining color black on input line 102.
-Package color Info: Redefining color white on input line 103.
+Package color Info: Redefining color yellow on input line 38.
+Package color Info: Redefining color red on input line 52.
+Package color Info: Redefining color magenta on input line 58.
+Package color Info: Redefining color blue on input line 79.
+Package color Info: Redefining color cyan on input line 81.
+Package color Info: Redefining color green on input line 91.
+Package color Info: Redefining color black on input line 103.
+Package color Info: Redefining color white on input line 104.
 
 ("C:\Program Files\MiKTeX 2.7\tex\latex\hyperref\hyperref.sty"
 Package: hyperref 2008/09/29 v6.78l Hypertext links for LaTeX
@@ -685,7 +685,7 @@ Sidebarheight: 594.32022pt
 LaTeX Warning: Unused global option(s):
     [makeidx].
 
-(D:\B.Sc_Work\Work\doc\bsc_latexSource\bsc_latexSource.aux)
+(bsc_latexSource.aux)
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 7.
 LaTeX Font Info:    ... okay on input line 7.
 LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 7.
@@ -773,35 +773,34 @@ Package: refcount 2008/08/11 v3.1 Data extraction from references (HO)
 LaTeX Info: Redefining \ref on input line 7.
 LaTeX Info: Redefining \pageref on input line 7.
 
-(D:\B.Sc_Work\Work\doc\bsc_latexSource\bsc_latexSource.out)
-(D:\B.Sc_Work\Work\doc\bsc_latexSource\bsc_latexSource.out)
+(bsc_latexSource.out) (bsc_latexSource.out)
 \@outlinefile=\write5
 \AtBeginShipoutBox=\box36
 
 Redoing nameref's sectioning
 Redoing nameref's label
-(D:\B.Sc_Work\Work\doc\bsc_latexSource\front.tex
+(front.tex
 LaTeX Font Info:    Try loading font information for EU1+lmss on input line 11.
 
-
-("C:\Program Files\MiKTeX 2.7\tex\xelatex\euenc\eu1lmss.fd"
+ ("C:\Program Files\MiKTeX 2.7\tex\xelatex\euenc\eu1lmss.fd"
 File: eu1lmss.fd 2007/01/14 v1.3 Font defs for Latin Modern
-) [1
+)
+[1
 
 
 ] [2
 
 ]
 LaTeX Font Info:    Font shape `EU1/lmss/m/it' in size <10.95> not available
-(Font)              Font shape `EU1/lmss/m/sl' tried instead on input line 63.
+(Font)              Font shape `EU1/lmss/m/sl' tried instead on input line 62.
 
-Underfull \hbox (badness 10000) in paragraph at lines 64--67
+Underfull \hbox (badness 10000) in paragraph at lines 63--66
 
  []
 
 [3] [4
 
-] (D:\B.Sc_Work\Work\doc\bsc_latexSource\bsc_latexSource.toc
+] (bsc_latexSource.toc
 LaTeX Font Info:    Try loading font information for U+msa on input line 4.
 
 ("C:\Program Files\MiKTeX 2.7\tex\latex\amsfonts\umsa.fd"
@@ -822,62 +821,78 @@ File: ot1lmr.fd 2007/01/14 v1.3 Font defs for Latin Modern
 ))) [1] [2
 
 ]
-(D:\B.Sc_Work\Work\doc\bsc_latexSource\chap1/chap1.tex)
-(D:\B.Sc_Work\Work\doc\bsc_latexSource\chap2/chap2.tex [1
+(chap1/chap1.tex
+Underfull \vbox (badness 10000) has occurred while \output is active []
 
-] [2
+ [1
 
-])
-(D:\B.Sc_Work\Work\doc\bsc_latexSource\bsc_latexSource.bbl [3] [4
+]
+File: chap1/localizare_poi.png Graphic file (type QTm)
+
+<use  "chap1/localizare_poi.png" >
+File: chap1/descriere_poi.png Graphic file (type QTm)
+ <use  "chap1/descriere_poi.png" > [2])
+(chap2/chap2.tex [3] [4
+
+]) (bsc_latexSource.bbl [5] [6
 
 ]
 bibitemlist
-) [5] [6
+) [7] [8
 
-] [7] [8] (D:\B.Sc_Work\Work\doc\bsc_latexSource\app1/app1.tex)
-[9
+] [9] [10] (app1/app1.tex) [11
 
-] [10
+] [12
 
-] (D:\B.Sc_Work\Work\doc\bsc_latexSource\back.tex
-(D:\B.Sc_Work\Work\doc\bsc_latexSource\symbols.tex) [11
+] (back.tex (symbols.tex
+
+LaTeX Warning: Reference `sym:SIFT' on page 13 undefined on input line 20.
+
+) [13
 
 
 
 ]
 LaTeX Font Info:    Try loading font information for OT1+lmss on input line 16.
 
-
-("C:\Program Files\MiKTeX 2.7\tex\latex\lm\ot1lmss.fd"
+ ("C:\Program Files\MiKTeX 2.7\tex\latex\lm\ot1lmss.fd"
 File: ot1lmss.fd 2007/01/14 v1.3 Font defs for Latin Modern
 )
 
 Package hyperref Warning: Glyph not defined in PD1 encoding,
 (hyperref)                removing `\u' on input line 16.
 
-(D:\B.Sc_Work\Work\doc\bsc_latexSource\bsc_latexSource.lof) [12
+(bsc_latexSource.lof) [14
 
 ]
 
 Package hyperref Warning: Glyph not defined in PD1 encoding,
 (hyperref)                removing `\u' on input line 19.
 
-(D:\B.Sc_Work\Work\doc\bsc_latexSource\bsc_latexSource.lot)
-No file bsc_latexSource.ind.
-) [13
+(bsc_latexSource.lot) (bsc_latexSource.ind [15
 
-]
+] [16
+
+] [17
+
+
+]))
 \tf@toc=\write6
 \tf@lof=\write7
 \tf@lot=\write8
- (D:\B.Sc_Work\Work\doc\bsc_latexSource\bsc_latexSource.aux) ) 
-Here is how much of TeX's memory you used:
- 10709 strings out of 30467
- 158654 string characters out of 1190985
- 295022 words of memory out of 1500000
- 13645 multiletter control sequences out of 110000
- 17988 words of font info for 61 fonts, out of 1200000 for 2000
- 14 hyphenation exceptions out of 8191
- 43i,11n,38p,564b,340s stack positions out of 5000i,500n,10000p,200000b,5000s
 
-Output written on bsc_latexSource.pdf (19 pages).
+(bsc_latexSource.aux)
+
+LaTeX Warning: There were undefined references.
+
+ ) 
+Here is how much of TeX's memory you used:
+ 10752 strings out of 30467
+ 158679 string characters out of 1190985
+ 301997 words of memory out of 1500000
+ 13674 multiletter control sequences out of 110000
+ 18012 words of font info for 64 fonts, out of 1200000 for 2000
+ 14 hyphenation exceptions out of 8191
+ 43i,11n,47p,1285b,380s stack positions out of 5000i,500n,10000p,200000b,5000s
+
+Output written on bsc_latexSource.pdf (23 pages).

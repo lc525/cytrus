@@ -5,17 +5,49 @@
 \label{sec:chapter1}
 
 
-\section{Abordarea temei}
+\section{Recunoaºterea automatã a obiectelor}
+\label{sec:chapter1:tema-prezentare}
+
+Identificarea ºi recunoaºterea automatã a unor obiecte, în imagini statice sau secvenþe video, este îndelung studiatã în grafica pe calculator, prezentând interes din perspectiva dificultãþilor întâmpinate în rezolvarea problemei de sistemele de calcul în comparaþie cu sistemele biologice, dar ºi datoritã aplicabilitãþii în domenii din cele mai diverse.
+
+Astfel, primele aplicaþii s-au conturat în mediul industrial, pentru inspectarea automatã a produselor de pe liniile de fabricaþie (de exemplu, identificarea defectelor unor plãci integrate - lipituri incorecte, plasari incorecte de componente etc). Totuºi, mediul de recunoaºtere în aceste cazuri este unul controlat, existând limite stricte între care recunoaºterea se realizeazã cu succes. Mai mult, obiectele pentru care se realizeazã identificarea au caracteristici bine cunoscute. Pornind de aici, s-au dezvoltat metode care încearcã sã elimine cât mai multe dintre restricþii, ºi sã permitã recunoaºterea în cazul general. Aceste abordãri lãrgesc gama de aplicaþii ºi în zona utilizatorilor obiºnuiþi, pentru îmbunãtãþirea urmãtoarelor generaþii de motoare de cãutare, programe de chat sau de supraveghere a locuinþelor. Desigur, domenii precum medicina (recunoaºterea sau numãrarea celulelor de un anumit tip), robotica (dezvoltarea unor roboþi care sã interacþioneze cu mediul înconjurãtor folosind "vederea artificialã") utilizeazã ºi ele recunoaºterea obiectelor ca subproblemã. Aplicaþii similare existã în domeniul militar (recunoaºterea unor dispozitive suspecte în aeroporturi, identificarea persoanelor pe baza înfãþiºãrii).
+
+Problemele cele mai mari în identificarea ºi recunoaºterea obiectelor apar datoritã variaþiilor din mediul în care obiectul este plasat (culoare, luminã, umbre, reflexii, ocluzionarea obiectului þintã de cãtre alte obiecte). De asemenea, apar dificultãþi ºi datoritã diferenþelor de poziþionare ºi perspectivã între reprezentarea iniþialã a obiectului care se doreºte a fi identificat (de cele mai multe ori, o fotografie a respectivului obiect) ºi situaþia realã în care se încearcã identificarea acestuia (când el poate fi "privit" la o altã scalã, rotit sau dintr-un punct de vedere diferit).
+
+Au fost gãsite mai multe abordãri pentru rezolvarea acestor probleme, majoritatea detectând în fiecare imagine anumite zone caracteristice, invariante la modificãri ale parametrilor de mediu/perspectivã. Se realizeazã apoi o potrivire între ele ºi o bazã de date în care au fost anterior reþinute caracteristicile obiectelor cãutate. Diferenþele între metode se referã la modalitatea de detecþie a zonelor, la forma lor (puncte, arii din imagine) ºi la informaþiile reþinute pentru fiecare zonã în parte astfel încât ea sã poatã fi regãsitã într-o nouã imagine ºi atribuitã ca aparþinând obiectului cãutat.  
+
+La momentul actual, tehnicile de recunoaºtere nededicate permit o detecþie cu un procentaj de reuºitã ºi repetabilitate a rezultatelor suficient de mare (tipic peste 80\%) pentru a fi considerate aplicabile cu succes în aplicaþii de orice tip. Totuºi, se pune problema selectãrii unor metode cât mai eficiente, care sã poatã fi aplicate "in timp real", folosind resurse de calcul reduse.
+
+
+\section{Formularea ºi abordarea temei}
 \label{sec:chapter1:tema-abordare}
 
-Problema identificãrii ºi recunoaºterii automate a unor obiecte în imagini statice sau secvenþe video este una îndelung studiatã în domeniul graficii pe calculator, fiind de interes atât din perspectiva dificultãþilor întâmpinate în rezolvarea ei de sistemele de calcul în comparaþie cu sistemele biologice cât ºi datoritã multitudinii de aplicaþii practice în care poate juca un rol important. Astfel, începând din zona tradiþionalã a controlului echipamentelor bazat pe imagini,
+Recunoaºterea unor obiecte (furnizate ca imagini, drept date de intrare), într-o secvenþã video live sau filmatã anterior (video salvat pe hdd), presupune detectarea existenþei obiectelor ºi identificarea poziþiei acestora în fiecare frame, urmatã de "adnotarea" frame-ului în zona obiectului recunoscut. Atât iniþial, pentru imaginile ce definesc obiectele, cât ºi pentru secvenþa video, se aplicã aceeaºi algoritmi de determinare a zonelor caracteristice. Apoi, se realizeazã o potrivire între rezultatele obþinute pentru frame-ul curent ºi modelul determinat pentru fiecare dintre obiecte. În mãsura în care existã corespondenþe (în frame-ul curent existã zone similare cu cele ale obiectului), se stabileºte prezenþa obiectului în frame, precum ºi poziþia acestuia. Se doreºte o variaþie cât mai micã a rezultatelor la schimbãri de scalã, rotaþii, modificãri ale perspectivei 3D ºi a luminozitãþii ambientale, urmãrind în acelaºi timp o repetabilitate crescutã a experimentelor. De asemenea, este de preferat sã nu se impunã restricþii legate de modul în care sunt capturate imaginile sau de calibrarea anterioarã a dispozitivelor (camere video, aparate foto digitale).
 
-+ aplicaþii
-- probleme fundamentale (grele) 
-- modalitãþi de abordare
-- stadiul actual
+Dacã drept zone caracteristice se folosesc puncte de interes, existã 2 paºi generali în analiza fiecãrei imagini prelucrate:
+\begin{enumerate}
+\item {\em Localizarea}: determinarea automatã a poziþiei punctelor de interes (în douã imagini ale aceluiaºi obiect, se doreºte ca punctele de interes sã fie localizate în aceeaºi zonã relativ la obiect - Figura~\ref{fig:chap1:localizarePOI})
+\begin{figure}[htbp]
+\numberwithin{figure}{chapter}
+\centering
+\includegraphics[scale=0.7]{localizare_poi.png}
+\caption{{\em Localizarea punctelor de interes:} rulând în mod independent algoritmul pe douã imagini ale aceluiaºi obiect în situaþii diferite, se doreºte ca punctele de interes sã fie identificate în aceleaºi poziþii relativ la obiect}
+\label{fig:chap1:localizarePOI}
+\end{figure}
+\item {\em Descrierea}: fiecãrui punct de interes determinat anterior îi sunt asociate o mulþime de date rezultate din analiza imaginii, astfel încât el sã poatã fi identificat cu un grad ridicat de individualitate în comparaþie cu restul punctelor de interes (Figura~\ref{fig:chap1:descrierePOI}). În imagini diferite ale aceluiaºi obiect, vectorul obþinut trebuie sã fie invariant la modificãri ale mediului (luminozitate) sau la transformãri afine asupra obiectului (translaþii, rotaþii, scalãri), pentru a asigura o recunoaºtere adecvatã (cãutarea se realizeazã pe baza descriptorilor). 
+\begin{figure}[htbp]
+\numberwithin{figure}{chapter}
+\centering
+\includegraphics[scale=0.7]{descriere_poi.png}
+\caption{{\em Descrierea punctelor de interes:} Asocierea de informaþii pentru identificare, considerând vecinãtatea punctului de interes.}
+\label{fig:chap1:descrierePOI}
+\end{figure}
+\end{enumerate}
 
-\section{Descrierea temei}
-\label{sec:chapter1:tema-descriere}
+Pentru fiecare dintre aceºti paºi, existã diferiþi algoritmi, unii asigurând o "acoperire" mai bunã a obiectelor cu puncte de interes, alþii concentrându-se pe stabilitatea trãsãturilor determinate sau pe eficienþa computaþionalã. Desigur, trebuie realizat un compromis astfel încât sã se ajungã la o soluþie acceptabilã pentru cât mai multe aplicaþii. De menþionat cã algoritmii de localizare ºi cei de descriere pot fi aleºi în mod independent, dar o analizã a performanþelor nu poate fi realizatã decât la nivelul efectului aplicãrii celor 2 paºi, în mod secvenþial.
+
+Metodele ce au la bazã trasãturi identificate prin puncte de interes pot fi folosite ºi în alte aplicaþii, nu doar cea a recunoaºterii. Astfel de algoritmi pot fi aplicaþi, de exemplu, ca prim pas în reconstruirea unor modele 3D ale obiectelor din imagini sau video. Prin urmare, sunt de utilitate mare implementãrile cât mai generale, flexibile, care sã poatã fi utilizate într-o gamã largã de aplicaþii sau teste comparative. 
+
+Lucrarea de faþã se referã la detaliile unei astfel de implementãri.
 
 % ********** End of chapter **********
