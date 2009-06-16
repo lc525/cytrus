@@ -310,7 +310,7 @@
 					>
 				</File>
 				<File
-					RelativePath=".\IImageTransform.h"
+					RelativePath="..\..\include\IImageTransform.h"
 					>
 				</File>
 				<File
@@ -318,7 +318,7 @@
 					>
 				</File>
 				<File
-					RelativePath=".\IntegralImageTransform.h"
+					RelativePath="..\..\include\IntegralImageTransform.h"
 					>
 				</File>
 				<File
