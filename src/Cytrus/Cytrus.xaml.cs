@@ -28,11 +28,20 @@ namespace cytrus.managed
         private CameraMgr cameraManager;
         static bool isCapturing;
         private FrameRenderer _frameRenderer = FrameRenderer.Null;
+        private ObservableCollection<RecognisedObject> _rObj = new ObservableCollection<RecognisedObject>();
         
         public Window1()
         {
+            //temporary
+            _rObj.Add(new RecognisedObject("Mouse", 45));
+            _rObj.Add(new RecognisedObject("Human Face", 20));
+            //
+
             InitializeComponent();
         }
+
+        public ObservableCollection<RecognisedObject> RecognisedObjects
+        { get { return _rObj; } }
 
         private void CytrusMain_Loaded(object sender, RoutedEventArgs e)
         {
@@ -77,6 +86,7 @@ namespace cytrus.managed
             {
                 isCapturing = true;
                 StartCapture.Content = "Stop Capture";
+                StartCapture.SetResourceReference(BackgroundProperty, "stopCaptureButtonBrush");
                 cameraManager.startCapture();
                 PixelFormat pixelFormat = PixelFormats.Bgr24;
                 _frameRenderer = new ImageInteropFrameRenderer(captureImg, cameraManager._camWidth, cameraManager._camHeight, pixelFormat);
@@ -85,6 +95,7 @@ namespace cytrus.managed
             {
                 isCapturing = false;
                 StartCapture.Content = "Start Capture";
+                StartCapture.SetResourceReference(BackgroundProperty, "captureOnButtonBrush");
                 cameraManager.stopCapture();
             }
         }

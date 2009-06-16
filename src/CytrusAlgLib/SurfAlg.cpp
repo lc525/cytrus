@@ -36,11 +36,10 @@ void SurfAlg::processImage(unsigned long dwSize, unsigned char* pbData){
 	gray32_image_t integral(width,height);
 	gray32_view_t dstView = view(integral);
 	
-	IntegralImageTransform tr;
-	tr.applyTransform(grView,dstView);
+	IntegralImageTransform::applyTransform(grView,dstView);
 	
-	//_outputAlgResult(dwSize,(unsigned char*)interleaved_view_get_raw_data(dstView));
-	_outputAlgResult(dwSize,pbData);
+	_outputAlgResult(dwSize,(unsigned char*)interleaved_view_get_raw_data(dstView));
+	//_outputAlgResult(dwSize,pbData);
 }
 				
 void SurfAlg::onSourceSizeChange(){
