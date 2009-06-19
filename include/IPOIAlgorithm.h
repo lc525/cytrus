@@ -28,6 +28,7 @@
 #include "IImageConsumer.h"
 #include "ILocator.h"
 #include "IDescriptor.h"
+#include <list>
 
 using namespace cytrus::cameraHAL;
 using namespace cytrus::alg;
@@ -40,8 +41,11 @@ namespace cytrus{
 				ILocator *_poiLoc;
 				IDescriptor *_poiDescr;
 				POIAlgResult _outputAlgResult;
+				std::list<std::pair<char*,int>*>* _outputModes;
+				int _currentOutputMode;
 			public:
 				IPOIAlgorithm(IImageSource* imgSrc, ILocator* poiLocator, IDescriptor* poiDescriptor, POIAlgResult outputFunc);
+				virtual ~IPOIAlgorithm();
 
 				//This function should be overriden to process the image data from the source.
 				//It will be automatically called by the image source, when the algorithm runs.
@@ -51,6 +55,11 @@ namespace cytrus{
 				
 				//Actions to take when the image from the source changes size
 				virtual void onSourceSizeChange()=0;
+				
+				//Manage algorithm Output modes
+				virtual void setOutputMode(int mode);
+				virtual int getCurrentOutputMode();
+				virtual std::list<std::pair<char*,int>*>* getOutputModes();
 				
 				//Runs the POI Algorithm
 				void run();

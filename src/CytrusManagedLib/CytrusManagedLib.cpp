@@ -16,8 +16,16 @@
 #include "CytrusManagedLib.h"
 
 using namespace cytrus::managed;
+using namespace System::Windows::Media;
 
 void CameraMgr::callImageCaptureEvent(int dwSize, unsigned char* pbData){
+	/*if(lastdwSize==-1) lastdwSize=dwSize;
+	else
+		if(lastdwSize!=dwSize){
+			onOutputModeChange(outputModes[alg->getCurrentOutputMode()]);
+			lastdwSize=dwSize;
+		}*/ // outputMode change events (not used)
+
 	array<byte>^ byteArray = gcnew array< byte >(dwSize);
 	Marshal::Copy((IntPtr)pbData,byteArray, 0, dwSize);
 	onNewImageAvailable(byteArray);
@@ -26,7 +34,10 @@ void CameraMgr::callImageCaptureEvent(int dwSize, unsigned char* pbData){
 
 CameraMgr::CameraMgr(){
 	cList=gcnew ObservableCollection<String^>();
+	outputModes=gcnew ObservableCollection<OutputMode^>();
+	//lastdwSize=-1; // outputMode change events (not used)
 	std::list<char*> cLst;
+	std::list<std::pair<char*,int>*>* outputModesULst;
 
 	cs=DirectShowCameraSource::getCameraInstance();
 	cLst=cs->getAvailableCameras();
@@ -46,6 +57,21 @@ CameraMgr::CameraMgr(){
 
 	//Initialise processing
 	alg=new SurfAlg(cs, result);
+
+	outputModesULst=alg->getOutputModes();
+	for(std::list<std::pair<char*,int>*>::iterator it=outputModesULst->begin(); it!=outputModesULst->end(); it++){
+		String^ name=gcnew String((*it)->first);
+		PixelFormat^ pf;
+		switch((*it)->second){
+			case 1: pf=PixelFormats::Bgr24; break;
+			case 2: pf=PixelFormats::Gray8; break;
+		}
+		OutputMode^ om=gcnew OutputMode();
+		om->modeName=name;
+		om->pixelFormat=pf;
+
+		outputModes->Add(om);
+	}
 }
 
 CameraMgr::!CameraMgr(){
@@ -77,6 +103,16 @@ ObservableCollection<String^>^ CameraMgr::getCameraList(){
 
 void CameraMgr::showPropertiesDialog(IntPtr window){
 	cs->displayCameraPropertiesDialog((HWND)(window.ToPointer()));
+}
+
+
+
+void CameraMgr::setActiveOutputMode(int modeIndex){
+	alg->setOutputMode(modeIndex);
+}
+
+ObservableCollection<OutputMode^>^ CameraMgr::getOutputModesList(){
+	return outputModes;
 }
 
 void CameraMgr::startCapture(){
