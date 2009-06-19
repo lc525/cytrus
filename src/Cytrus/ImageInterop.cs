@@ -23,10 +23,11 @@ namespace Tomers.WPF.Imaging.Demo
 	{
 		#region Fields
 
-		private readonly int _pixelWidth;
-		private readonly int _pixelHeight;
-		private readonly PixelFormat _pixelFormat;
-		private readonly int _stride;
+		private  int _pixelWidth;
+		private  readonly int _pixelHeight;
+		private  PixelFormat _pixelFormat;
+		private  int _stride;
+        private  static object syncModifyPixelFormatLock=new object();
 
 		private IntPtr _section;
 		private IntPtr _pixels;
@@ -69,16 +70,28 @@ namespace Tomers.WPF.Imaging.Demo
 		{
 			Marshal.Copy(pixels, 0, _pixels, pixels.Length);
 			// Create a bitmap source using the memory section
-			BitmapSource source = System.Windows.Interop.Imaging.CreateBitmapSourceFromMemorySection(
-				_section,
-				_pixelWidth,
-				_pixelHeight,
-				_pixelFormat,
-				_stride,
-				0);
-
-			return source;
+            lock (syncModifyPixelFormatLock)
+            {
+                BitmapSource source = System.Windows.Interop.Imaging.CreateBitmapSourceFromMemorySection(
+                    _section,
+                    _pixelWidth,
+                    _pixelHeight,
+                    _pixelFormat,
+                    _stride,
+                    0);
+                return source;
+            }
 		}
+
+
+        public void ChangePixelFormat(PixelFormat newPixelFormat)
+        {
+            lock (syncModifyPixelFormatLock)
+            {
+                this._pixelFormat = newPixelFormat;
+                this._stride = (_pixelWidth * _pixelFormat.BitsPerPixel + 7) / 8;
+            }
+        }
 
 		#endregion
 

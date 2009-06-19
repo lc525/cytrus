@@ -648,6 +648,114 @@
 			<GradientStop Color="#DDDDDD" Offset="0.5"/>
 			<GradientStop Color="#A0A0A0" Offset="1"/>
 		</LinearGradientBrush>
+		<LinearGradientBrush x:Key="ProgressBarBackground" EndPoint="1,0" StartPoint="0,0">
+			<GradientStop Color="#BABABA" Offset="0"/>
+			<GradientStop Color="#C7C7C7" Offset="0.5"/>
+			<GradientStop Color="#BABABA" Offset="1"/>
+		</LinearGradientBrush>
+		<LinearGradientBrush x:Key="ProgressBarBorderBrush" EndPoint="0,1" StartPoint="0,0">
+			<GradientStop Color="#B2B2B2" Offset="0"/>
+			<GradientStop Color="#8C8C8C" Offset="1"/>
+		</LinearGradientBrush>
+		<LinearGradientBrush x:Key="ProgressBarGlassyHighlight" EndPoint="0,1" StartPoint="0,0">
+			<GradientStop Color="#50FFFFFF" Offset="0.5385"/>
+			<GradientStop Color="#00FFFFFF" Offset="0.5385"/>
+		</LinearGradientBrush>
+		<LinearGradientBrush x:Key="ProgressBarTopHighlight" EndPoint="0,1" StartPoint="0,0">
+			<GradientStop Color="#80FFFFFF" Offset="0.05"/>
+			<GradientStop Color="#00FFFFFF" Offset="0.25"/>
+		</LinearGradientBrush>
+		<LinearGradientBrush x:Key="ProgressBarIndicatorAnimatedFill" EndPoint="0,0" StartPoint="-100,0" MappingMode="Absolute">
+			<GradientStop Color="#00000000" Offset="0"/>
+			<GradientStop Color="#FF000000" Offset="0.4"/>
+			<GradientStop Color="#FF000000" Offset="0.6"/>
+			<GradientStop Color="#00000000" Offset="1"/>
+		</LinearGradientBrush>
+		<LinearGradientBrush x:Key="ProgressBarIndicatorDarkEdgeLeft" EndPoint="1,0" StartPoint="0,0">
+			<GradientStop Color="#0C000000" Offset="0"/>
+			<GradientStop Color="#20000000" Offset="0.3"/>
+			<GradientStop Color="#00000000" Offset="1"/>
+		</LinearGradientBrush>
+		<LinearGradientBrush x:Key="ProgressBarIndicatorDarkEdgeRight" EndPoint="1,0" StartPoint="0,0">
+			<GradientStop Color="#00000000" Offset="0"/>
+			<GradientStop Color="#20000000" Offset="0.7"/>
+			<GradientStop Color="#0C000000" Offset="1"/>
+		</LinearGradientBrush>
+		<RadialGradientBrush x:Key="ProgressBarIndicatorLightingEffectLeft" RelativeTransform="1,0,0,1,0.5,0.5" RadiusX="1" RadiusY="1">
+			<GradientStop Color="#60FFFFC4" Offset="0"/>
+			<GradientStop Color="#00FFFFC4" Offset="1"/>
+		</RadialGradientBrush>
+		<LinearGradientBrush x:Key="ProgressBarIndicatorLightingEffect" EndPoint="0,0" StartPoint="0,1">
+			<GradientStop Color="#60FFFFC4" Offset="0"/>
+			<GradientStop Color="#00FFFFC4" Offset="1"/>
+		</LinearGradientBrush>
+		<RadialGradientBrush x:Key="ProgressBarIndicatorLightingEffectRight" RelativeTransform="1,0,0,1,-0.5,0.5" RadiusX="1" RadiusY="1">
+			<GradientStop Color="#60FFFFC4" Offset="0"/>
+			<GradientStop Color="#00FFFFC4" Offset="1"/>
+		</RadialGradientBrush>
+		<LinearGradientBrush x:Key="ProgressBarIndicatorGlassyHighlight" EndPoint="0,1" StartPoint="0,0">
+			<GradientStop Color="#90FFFFFF" Offset="0.5385"/>
+			<GradientStop Color="#00FFFFFF" Offset="0.5385"/>
+		</LinearGradientBrush>
+		<Style x:Key="ProgressBarStyle1" TargetType="{x:Type ProgressBar}">
+			<Setter Property="Foreground" Value="#01D328"/>
+			<Setter Property="Background" Value="{StaticResource ProgressBarBackground}"/>
+			<Setter Property="BorderBrush" Value="{StaticResource ProgressBarBorderBrush}"/>
+			<Setter Property="BorderThickness" Value="1"/>
+			<Setter Property="Template">
+				<Setter.Value>
+					<ControlTemplate TargetType="{x:Type ProgressBar}">
+						<Grid x:Name="Background" SnapsToDevicePixels="true">
+							<Rectangle Fill="{TemplateBinding Background}" RadiusX="2" RadiusY="2"/>
+							<Rectangle Margin="1,3,1,-1" x:Name="PART_Track" d:IsHidden="True"/>
+							<Decorator HorizontalAlignment="Left" Margin="0.25,0.25,0,1.75" x:Name="PART_Indicator">
+								<Grid x:Name="Foreground">
+									<Grid.RowDefinitions>
+										<RowDefinition/>
+										<RowDefinition/>
+									</Grid.RowDefinitions>
+									<Grid.ColumnDefinitions>
+										<ColumnDefinition MaxWidth="15"/>
+										<ColumnDefinition Width="0.1*"/>
+										<ColumnDefinition MaxWidth="15"/>
+									</Grid.ColumnDefinitions>
+									<Rectangle Fill="{TemplateBinding Foreground}" x:Name="Indicator" Grid.ColumnSpan="3" Grid.RowSpan="2" d:IsHidden="True"/>
+								</Grid>
+							</Decorator>
+							<Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="2" d:IsHidden="True"/>
+						</Grid>
+						<ControlTemplate.Triggers>
+							<Trigger Property="Orientation" Value="Vertical">
+								<Setter Property="LayoutTransform" TargetName="Background">
+									<Setter.Value>
+										<RotateTransform Angle="-90"/>
+									</Setter.Value>
+								</Setter>
+								<Setter Property="LayoutTransform" TargetName="PART_Track">
+									<Setter.Value>
+										<RotateTransform Angle="90"/>
+									</Setter.Value>
+								</Setter>
+								<Setter Property="LayoutTransform" TargetName="PART_Indicator">
+									<Setter.Value>
+										<RotateTransform Angle="90"/>
+									</Setter.Value>
+								</Setter>
+								<Setter Property="LayoutTransform" TargetName="Foreground">
+									<Setter.Value>
+										<RotateTransform Angle="-90"/>
+									</Setter.Value>
+								</Setter>
+							</Trigger>
+							<Trigger Property="IsIndeterminate" Value="true">
+								<Setter Property="Visibility" TargetName="Indicator" Value="Collapsed"/>
+							</Trigger>
+							<Trigger Property="IsIndeterminate" Value="false"/>
+						</ControlTemplate.Triggers>
+					</ControlTemplate>
+				</Setter.Value>
+			</Setter>
+		</Style>
 		<Style x:Key="ToolBarHorizontalOverflowButtonStyle" TargetType="{x:Type ToggleButton}">
 			<Setter Property="Background" Value="{StaticResource ToolBarToggleButtonHorizontalBackground}"/>
 			<Setter Property="MinHeight" Value="0"/>
@@ -840,7 +948,27 @@
 			<GradientStop Color="#FFFBADAD" Offset="0.509"/>
 			<GradientStop Color="#FFCF8B8B" Offset="1"/>
 		</LinearGradientBrush>
+		<Storyboard x:Key="OnMouseEnter1">
+			<DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="viewbox" Storyboard.TargetProperty="(UIElement.Opacity)">
+				<SplineDoubleKeyFrame KeyTime="00:00:00" Value="0.44"/>
+				<SplineDoubleKeyFrame KeyTime="00:00:00.5000000" Value="1"/>
+			</DoubleAnimationUsingKeyFrames>
+		</Storyboard>
+		<Storyboard x:Key="OnMouseLeave1">
+			<DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="viewbox" Storyboard.TargetProperty="(UIElement.Opacity)">
+				<SplineDoubleKeyFrame KeyTime="00:00:00" Value="1"/>
+				<SplineDoubleKeyFrame KeyTime="00:00:00.5000000" Value="0.44"/>
+			</DoubleAnimationUsingKeyFrames>
+		</Storyboard>
 	</Window.Resources>
+	<Window.Triggers>
+		<EventTrigger RoutedEvent="Mouse.MouseEnter" SourceName="viewbox">
+			<BeginStoryboard Storyboard="{StaticResource OnMouseEnter1}"/>
+		</EventTrigger>
+		<EventTrigger RoutedEvent="Mouse.MouseLeave" SourceName="viewbox">
+			<BeginStoryboard Storyboard="{StaticResource OnMouseLeave1}" x:Name="OnMouseLeave1_BeginStoryboard"/>
+		</EventTrigger>
+	</Window.Triggers>
 	<Window.Background>
 		<LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
 			<GradientStop Color="#FF353535" Offset="0"/>
@@ -848,13 +976,35 @@
 		</LinearGradientBrush>
 	</Window.Background>
 	<DockPanel>
-		<Menu Width="Auto" Height="Auto" DockPanel.Dock="Top" Background="{x:Null}" Foreground="#FFFFFFFF" Opacity="1">
-			<MenuItem Style="{DynamicResource MenuItemStyle2}" Background="#00FFFFFF" Header="_File">
-				<MenuItem Header="_Load Object Data"/>
-				<Separator Opacity="0.325"/>
-				<MenuItem Style="{DynamicResource MenuItemStyle1}" Background="#FF6D6D6D" Header="E_xit" IsCheckable="False"/>
-			</MenuItem>
-		</Menu>
+		<Grid DockPanel.Dock="Top">
+			<Menu Background="{x:Null}" Foreground="#FFFFFFFF" Opacity="1" Margin="0,0,313,0" HorizontalAlignment="Left">
+				<MenuItem Style="{DynamicResource MenuItemStyle2}" Background="#00FFFFFF" Header="_File">
+					<MenuItem Header="_Load Object Data"/>
+					<Separator Opacity="0.325"/>
+					<MenuItem Style="{DynamicResource MenuItemStyle1}" Background="#FF6D6D6D" Header="E_xit" IsCheckable="False"/>
+				</MenuItem>
+			</Menu>
+			<Menu HorizontalAlignment="Right" Margin="0,0,0,0" Width="78" RenderTransformOrigin="0.5,0.5" Background="{x:Null}">
+				<Menu.RenderTransform>
+					<TransformGroup>
+						<ScaleTransform ScaleX="-1" ScaleY="-1"/>
+						<SkewTransform AngleX="0" AngleY="0"/>
+						<RotateTransform Angle="0"/>
+						<TranslateTransform X="0" Y="0"/>
+					</TransformGroup>
+				</Menu.RenderTransform>
+				<MenuItem Width="48.51" Height="20.96" Header="_Help" RenderTransformOrigin="0.5,0.5" Foreground="#FFFFF9F9">
+					<MenuItem.RenderTransform>
+						<TransformGroup>
+							<ScaleTransform ScaleX="1" ScaleY="1"/>
+							<SkewTransform AngleX="0" AngleY="0"/>
+							<RotateTransform Angle="179.854"/>
+							<TranslateTransform X="0" Y="0"/>
+						</TransformGroup>
+					</MenuItem.RenderTransform>
+				</MenuItem>
+			</Menu>
+		</Grid>
 		<ToolBarTray Width="Auto" Height="30" DockPanel.Dock="Top" Margin="0,0,0,10">
 			<ToolBarTray.Background>
 				<LinearGradientBrush EndPoint="344.005,344.799" StartPoint="343.997,-343.201" MappingMode="Absolute">
@@ -874,7 +1024,7 @@
 				</Button>
 			</ToolBar>
 		</ToolBarTray>
-		<StackPanel Margin="4,4,0,4" x:Name="s_setup" VerticalAlignment="Top" Width="256" Height="353">
+		<StackPanel Margin="4,4,0,4" x:Name="s_setup" VerticalAlignment="Top" Width="256" Height="Auto">
 			<Expander x:Name="ImageSetup" Width="253.827" BorderBrush="#62979797" Panel.ZIndex="10" Header="Image Setup" Style="{DynamicResource ExpanderStyle1}" VerticalAlignment="Stretch" Height="Auto" Background="#00000000" Foreground="#FFFFFFFF" IsExpanded="True">
 				<Grid Width="340.043" Height="134" Background="#00FFFFFF">
 					<ComboBox Margin="100,25.92,101.043,0" x:Name="cameraList" VerticalAlignment="Top" IsSynchronizedWithCurrentItem="True" d:LayoutOverrides="Height" SelectionChanged="cameraList_SelectionChanged"/>
@@ -886,30 +1036,65 @@
 					<Button Margin="100,57,101.043,0" VerticalAlignment="Top" Height="Auto" Content="Driver Options" x:Name="DriverOptions" Click="DriverOptions_Click"/>
 				</Grid>
 			</Expander>
-			<Expander x:Name="Objects" Width="253.827" BorderBrush="#62979797" Panel.ZIndex="10" Style="{DynamicResource ExpanderStyle1}" Height="Auto" Foreground="#FFFFFFFF" IsExpanded="True" Header="Objects">
-				<StackPanel Width="Auto" Height="172" RenderTransformOrigin="0.488,-0.034" VerticalAlignment="Stretch">
+			<Expander x:Name="Objects" Width="253.827" BorderBrush="#62979797" Panel.ZIndex="10" Style="{DynamicResource ExpanderStyle1}" Height="Auto" Foreground="#FFFFFFFF" IsExpanded="True" Header="Objects" Margin="0,4,0,0">
+				<StackPanel Width="Auto" Height="Auto" RenderTransformOrigin="0.488,-0.034" VerticalAlignment="Top">
 					<Path Fill="{x:Null}" Stretch="Fill" Stroke="#85BBBBBB" Height="1" Data="M2,1 L303,1" Width="258"/>
-					<ListView Width="Auto" Height="125" IsSynchronizedWithCurrentItem="True" Margin="4,7,4,4" ItemsSource="{Binding Path=RecognisedObjects}" VerticalAlignment="Stretch">
+					<ListView Width="Auto" Height="125" IsSynchronizedWithCurrentItem="True" Margin="4,7,4,4" ItemsSource="{Binding Path=RecognisedObjects}" VerticalAlignment="Stretch" Background="#FF3A3A3A" Foreground="#FF8F8F8F" IsEnabled="True" Focusable="False" TabIndex="0">
 						<ListView.View>
 							<GridView>
 								<GridViewColumn Header="Object Name" 
-									DisplayMemberBinding="{Binding Path=ObjectName}" />
-								<GridViewColumn Header="Recognition certainty">
-									<!--DisplayMemberBinding="{Binding Path=RecognitionCertainty}"-->
+									DisplayMemberBinding="{Binding Path=ShortName}" />
+								<GridViewColumn Header="Detected">
 									<GridViewColumn.CellTemplate>
 										<DataTemplate>
-											<Image Source="res\world_edit.png"/>
+											<StackPanel Orientation="Horizontal">
+												<ProgressBar VerticalAlignment="Bottom" Height="16.333" BorderBrush="{x:Null}" Style="{DynamicResource ProgressBarStyle1}" Width="83.833" HorizontalAlignment="Left" Value="{Binding Path=RecognitionCertainty}">
+												    		<ProgressBar.Foreground>
+																<VisualBrush TileMode="Tile" Viewbox="0,0,1.2,1.2" Viewport="0,0,17,17" ViewportUnits="Absolute">
+												    				<VisualBrush.Visual>
+												    					<Canvas>
+												    						<Path x:Name="star" Fill="#FFF4D400" Data="F1 M 145.637,174.227L 127.619,110.39L 180.809,70.7577L 114.528,68.1664L 93.2725,5.33333L 70.3262,67.569L 4,68.3681L 56.0988,109.423L 36.3629,172.75L 91.508,135.888L 145.637,174.227 Z"/>
+												    					</Canvas>
+												    				</VisualBrush.Visual>
+												    			</VisualBrush>
+												    		</ProgressBar.Foreground>
+												    		<ProgressBar.Background>
+												    			<VisualBrush TileMode="Tile" Viewbox="0,0,1.2,1.2" Viewport="0,0,17,17" ViewportUnits="Absolute">
+												    				<VisualBrush.Visual>
+												    					<Canvas>
+												    						<Path x:Name="star2" Fill="Gray" Data="F1 M 145.637,174.227L 127.619,110.39L 180.809,70.7577L 114.528,68.1664L 93.2725,5.33333L 70.3262,67.569L 4,68.3681L 56.0988,109.423L 36.3629,172.75L 91.508,135.888L 145.637,174.227 Z"/>
+												    					</Canvas>
+												    				</VisualBrush.Visual>
+												    			</VisualBrush>
+												    		</ProgressBar.Background>
+												    	</ProgressBar>
+											</StackPanel>
 										</DataTemplate>
 									</GridViewColumn.CellTemplate>
 								</GridViewColumn>
-							</GridView>
+                                <GridViewColumn Header="Certainty" DisplayMemberBinding="{Binding Path=RecognitionCertainty}" />
+                            </GridView>
 						</ListView.View>
 					</ListView>
 				</StackPanel>
 			</Expander>
 		</StackPanel>
 		<Border Background="{x:Null}" BorderBrush="#82848484" BorderThickness="1,1,1,1" CornerRadius="3,3,3,3" Margin="4,4,4,4" Width="Auto" Height="Auto" Padding="0,0,0,0">
-			<Image x:Name="captureImg" Width="Auto" Height="Auto" Margin="4,4,4,4" Stretch="Fill"/>
+			<Grid Width="Auto" Height="Auto" ShowGridLines="False">
+				<Viewbox HorizontalAlignment="Right" Margin="0,8,8,0" x:Name="viewbox" VerticalAlignment="Top" Width="200" Height="19" Opacity="0.44" Stretch="Fill" Panel.ZIndex="7">
+					<Grid Width="200" Height="19">
+						<ComboBox Margin="85,0,0,0" x:Name="outputM" FontSize="10" IsSynchronizedWithCurrentItem="True" Panel.ZIndex="7" SelectionChanged="outputM_SelectionChanged"/>
+						<TextBlock HorizontalAlignment="Left" Margin="0,1,0,1" Width="98" TextWrapping="Wrap"><Run Foreground="#FFFFFFFF" Text="Output Mode:"/></TextBlock>
+					</Grid>
+				</Viewbox>
+				<Image x:Name="captureImg" Width="Auto" Height="Auto" Stretch="Fill" Margin="4,4,4,4" VerticalAlignment="Stretch"/>
+				<Border HorizontalAlignment="Center" Margin="167,184.04,153.588,190" x:Name="No_capture" VerticalAlignment="Center">
+					<Grid>
+						<TextBlock Margin="22.542,1.52,0,3.52" FontSize="12" Foreground="#FFDEDEDE" Text="Capture not active. Press &quot;Start Capture&quot;" TextWrapping="Wrap" d:LayoutOverrides="HorizontalAlignment, VerticalAlignment, Width, Height"/>
+						<TextBlock HorizontalAlignment="Left" Width="20.542" FontFamily="Webdings" FontSize="18" Foreground="#FFC40000" Text="&lt;" TextWrapping="Wrap"/>
+					</Grid>
+				</Border>
+			</Grid>
 		</Border>
         
 	</DockPanel>

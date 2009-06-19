@@ -26,13 +26,14 @@ namespace Tomers.WPF.Imaging.Demo
 		public static readonly FrameRenderer Null = new NullFrameRenderer();
 
 		private readonly Image _image;
+        protected static object syncFormatChangeLock=new object();
 
 		public Image Image
 		{
 			get { return _image; }
 		}
 		
-		private readonly int _pixelWidth;
+		protected readonly int _pixelWidth;
 
 		public int PixelWidth
 		{
@@ -46,14 +47,14 @@ namespace Tomers.WPF.Imaging.Demo
 			get { return _pixelHeight; }
 		}
 
-		private readonly PixelFormat _pixelFormat;
+		protected PixelFormat _pixelFormat;
 
 		public PixelFormat PixelFormat
 		{
 			get { return _pixelFormat; }
 		}
 
-		private readonly int _stride;
+		protected int _stride;
 
 		public int Stride
 		{
@@ -72,10 +73,12 @@ namespace Tomers.WPF.Imaging.Demo
 		}
 
 		public abstract void RenderFrame(byte[] source);
+        public abstract void ChangePixelFormat(PixelFormat newPixelFormat);
 
 		private sealed class NullFrameRenderer : FrameRenderer
 		{
 			public override void RenderFrame(byte[] source) { }
+            public override void ChangePixelFormat(PixelFormat newPixelFormat){}
 		}
 
 		#region IDisposable Members
@@ -110,6 +113,16 @@ namespace Tomers.WPF.Imaging.Demo
 			// Update Image with new source
 			Image.Source = _imageInterop.CreateBitmapSource(source);
 		}
+
+        public override void ChangePixelFormat(PixelFormat newPixelFormat)
+        {
+            lock (syncFormatChangeLock)
+            {
+                this._pixelFormat = newPixelFormat;
+                this._stride = (_pixelWidth * _pixelFormat.BitsPerPixel + 7) / 8;
+                _imageInterop.ChangePixelFormat(newPixelFormat);
+            }
+        }
 
 		protected override void Dispose(bool disposing)
 		{
