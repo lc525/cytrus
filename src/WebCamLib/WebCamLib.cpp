@@ -341,7 +341,7 @@ __declspec(dllexport) DWORD APIENTRY StartCamera(IUnknown *pUnk, PFN_CaptureCall
 					hr = E_FAIL;  // Wrong format
 				}
 
-				MyFreeMediaType(mt);  //TODO: Fix this as its leaking
+				MyFreeMediaType(mt);  //TODO: Fix this as its leaking - DONE(lucian carata)
 
 			}
 		}
@@ -382,7 +382,7 @@ __declspec(dllexport) DWORD APIENTRY StartCamera(IUnknown *pUnk, PFN_CaptureCall
 __declspec(dllexport) DWORD APIENTRY StopCamera()
 {
 	HRESULT hr = S_OK;
-
+	
 	if (g_pMediaControl != NULL)
 	{
 		g_pMediaControl->Stop();
@@ -444,7 +444,7 @@ __declspec(dllexport) DWORD APIENTRY Cleanup()
 
 }
 
-void CleanupCameraInfo()
+__declspec(dllexport) void CleanupCameraInfo()
 {
 	for (int n = 0; n < MAX_CAMERAS; n++)
 	{

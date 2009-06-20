@@ -42,7 +42,7 @@ namespace cytrus{
 				IDescriptor *_poiDescr;
 				POIAlgResult _outputAlgResult;
 				std::list<std::pair<char*,int>*>* _outputModes;
-				int _currentOutputMode;
+				volatile int _currentOutputMode;
 			public:
 				IPOIAlgorithm(IImageSource* imgSrc, ILocator* poiLocator, IDescriptor* poiDescriptor, POIAlgResult outputFunc);
 				virtual ~IPOIAlgorithm();
@@ -52,6 +52,10 @@ namespace cytrus{
 				//If one has to display the results of the algorithm to an outside source,
 				//the implementation of this function can call _outputAlgResult with appropiate data.
 				virtual void processImage(unsigned long dwSize, unsigned char* pbData)=0;
+
+				//Allows for processing the image at a smaller size than captured
+				//returns true if the processing size could be set (is valid, processing size<image size)
+				virtual bool setProcessingSize(int newWidth, int newHeight)=0;
 				
 				//Actions to take when the image from the source changes size
 				virtual void onSourceSizeChange()=0;

@@ -24,7 +24,7 @@ namespace Tomers.WPF.Imaging.Demo
 		#region Fields
 
 		private  int _pixelWidth;
-		private  readonly int _pixelHeight;
+		private  int _pixelHeight;
 		private  PixelFormat _pixelFormat;
 		private  int _stride;
         private  static object syncModifyPixelFormatLock=new object();
@@ -89,6 +89,16 @@ namespace Tomers.WPF.Imaging.Demo
             lock (syncModifyPixelFormatLock)
             {
                 this._pixelFormat = newPixelFormat;
+                this._stride = (_pixelWidth * _pixelFormat.BitsPerPixel + 7) / 8;
+            }
+        }
+
+        public void ChangeImageSize(int newWidth, int newHeight)
+        {
+            lock (syncModifyPixelFormatLock)
+            {
+                this._pixelWidth = newWidth;
+                this._pixelHeight = newHeight;
                 this._stride = (_pixelWidth * _pixelFormat.BitsPerPixel + 7) / 8;
             }
         }

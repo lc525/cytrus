@@ -32,7 +32,7 @@
 namespace cytrus{
 	namespace cameraHAL{
 
-		//#ifdef WIN32
+		#ifdef WIN32
 		//
 		// DirectShowCameraSource is an image source aquiring images from camera devices
 		// (connected by usb, firewire etc) through DirectShow/DirectX
@@ -78,4 +78,4 @@ namespace cytrus{
 }
 
 
-//#endif
+#endif

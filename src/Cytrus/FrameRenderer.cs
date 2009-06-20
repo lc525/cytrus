@@ -26,21 +26,26 @@ namespace Tomers.WPF.Imaging.Demo
 		public static readonly FrameRenderer Null = new NullFrameRenderer();
 
 		private readonly Image _image;
-        protected static object syncFormatChangeLock=new object();
+        protected static Object syncFormatChangeLock=new Object();
+
+        public Object SyncLock
+        {
+            get { return syncFormatChangeLock; }
+        }
 
 		public Image Image
 		{
 			get { return _image; }
 		}
 		
-		protected readonly int _pixelWidth;
+		protected int _pixelWidth;
 
 		public int PixelWidth
 		{
 			get { return _pixelWidth; }
 		}
 
-		private readonly int _pixelHeight;
+		protected int _pixelHeight;
 
 		public int PixelHeight
 		{
@@ -74,11 +79,13 @@ namespace Tomers.WPF.Imaging.Demo
 
 		public abstract void RenderFrame(byte[] source);
         public abstract void ChangePixelFormat(PixelFormat newPixelFormat);
+        public abstract void ChangeImageSize(int newWidth, int newHeight);
 
 		private sealed class NullFrameRenderer : FrameRenderer
 		{
 			public override void RenderFrame(byte[] source) { }
             public override void ChangePixelFormat(PixelFormat newPixelFormat){}
+            public override void ChangeImageSize(int newWidth, int newHeight){}
 		}
 
 		#region IDisposable Members
@@ -110,8 +117,11 @@ namespace Tomers.WPF.Imaging.Demo
 		
 		public override void RenderFrame(byte[] source)
 		{
-			// Update Image with new source
-			Image.Source = _imageInterop.CreateBitmapSource(source);
+            lock (syncFormatChangeLock)
+            {
+                // Update Image with new source
+                    Image.Source = _imageInterop.CreateBitmapSource(source);
+            }
 		}
 
         public override void ChangePixelFormat(PixelFormat newPixelFormat)
@@ -121,6 +131,17 @@ namespace Tomers.WPF.Imaging.Demo
                 this._pixelFormat = newPixelFormat;
                 this._stride = (_pixelWidth * _pixelFormat.BitsPerPixel + 7) / 8;
                 _imageInterop.ChangePixelFormat(newPixelFormat);
+            }
+        }
+
+        public override void ChangeImageSize(int newWidth, int newHeight)
+        {
+            lock (syncFormatChangeLock)
+            {
+                this._pixelHeight = newHeight;
+                this._pixelWidth = newWidth;
+                this._stride = (_pixelWidth * _pixelFormat.BitsPerPixel + 7) / 8;
+                _imageInterop.ChangeImageSize(newWidth, newHeight);
             }
         }
 

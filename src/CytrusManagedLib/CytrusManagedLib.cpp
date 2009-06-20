@@ -115,10 +115,21 @@ ObservableCollection<OutputMode^>^ CameraMgr::getOutputModesList(){
 	return outputModes;
 }
 
+bool CameraMgr::setProcessingSize(int width, int height){
+	bool success=alg->setProcessingSize(width, height);
+	if(success){
+		_camWidth=width;
+		_camHeight=height;
+	}
+	return success;
+}
+
 void CameraMgr::startCapture(){
 	alg->run();
+
 	_camWidth=cs->width;
 	_camHeight=cs->height;
+
 }
 
 
