@@ -1025,15 +1025,17 @@
 			</ToolBar>
 		</ToolBarTray>
 		<StackPanel Margin="4,4,0,4" x:Name="s_setup" VerticalAlignment="Top" Width="256" Height="Auto">
-			<Expander x:Name="ImageSetup" Width="253.827" BorderBrush="#62979797" Panel.ZIndex="10" Header="Image Setup" Style="{DynamicResource ExpanderStyle1}" VerticalAlignment="Stretch" Height="Auto" Background="#00000000" Foreground="#FFFFFFFF" IsExpanded="True">
-				<Grid Width="340.043" Height="134" Background="#00FFFFFF">
+			<Expander x:Name="ImageSetup" Width="253.827" BorderBrush="#62979797" Panel.ZIndex="10" Header="Image Setup" Style="{DynamicResource ExpanderStyle1}" VerticalAlignment="Stretch" Height="189" Background="#00000000" Foreground="#FFFFFFFF" IsExpanded="True">
+				<Grid Width="340.043" Height="163" Background="#00FFFFFF" VerticalAlignment="Top">
+					<TextBlock x:Name="ImgSizeLabel" Width="76" Text="Resize:" TextWrapping="Wrap" HorizontalAlignment="Left" Margin="14,89.04,0,0" IsEnabled="False" VerticalAlignment="Top"/>
 					<ComboBox Margin="100,25.92,101.043,0" x:Name="cameraList" VerticalAlignment="Top" IsSynchronizedWithCurrentItem="True" d:LayoutOverrides="Height" SelectionChanged="cameraList_SelectionChanged"/>
 					<TextBlock HorizontalAlignment="Left" Margin="14,25.92,0,0" x:Name="CameraSourceLabel" VerticalAlignment="Top" Width="76" Height="21.96" Text="Source:" TextWrapping="Wrap"/>
 					<Button HorizontalAlignment="Left" Margin="9,0,0,8" x:Name="RefreshCameraList" VerticalAlignment="Bottom" Width="55.623" Height="24" Content="Refresh" RenderTransformOrigin="0.48,0.455" Click="RefreshCameraList_Click"/>
 					<Path Fill="{x:Null}" Stretch="Fill" Stroke="#85BBBBBB" Margin="0,0,82.043,0" VerticalAlignment="Top" Height="1" Data="M2,1 L303,1"/>
 					<Button HorizontalAlignment="Left" Margin="68.623,0,0,8" x:Name="StartCapture" VerticalAlignment="Bottom" Width="92" Height="24" Content="Start Capture" Click="StartCapture_Click" Background="{DynamicResource captureOnButtonBrush}"/>
-					<TextBlock HorizontalAlignment="Left" Margin="14,59,0,55" Width="82" Text="Configuration: " TextWrapping="Wrap"/>
+					<TextBlock HorizontalAlignment="Left" Margin="14,59,0,0" Width="82" Text="Configuration: " TextWrapping="Wrap" VerticalAlignment="Top"/>
 					<Button Margin="100,57,101.043,0" VerticalAlignment="Top" Height="Auto" Content="Driver Options" x:Name="DriverOptions" Click="DriverOptions_Click"/>
+					<ComboBox Margin="100,88.04,101.043,0" Height="Auto" IsEditable="False" IsSynchronizedWithCurrentItem="True" IsEnabled="False" x:Name="imgSizeCombo" VerticalAlignment="Top"/>
 				</Grid>
 			</Expander>
 			<Expander x:Name="Objects" Width="253.827" BorderBrush="#62979797" Panel.ZIndex="10" Style="{DynamicResource ExpanderStyle1}" Height="Auto" Foreground="#FFFFFFFF" IsExpanded="True" Header="Objects" Margin="0,4,0,0">
@@ -1087,7 +1089,16 @@
 						<TextBlock HorizontalAlignment="Left" Margin="0,1,0,1" Width="98" TextWrapping="Wrap"><Run Foreground="#FFFFFFFF" Text="Output Mode:"/></TextBlock>
 					</Grid>
 				</Viewbox>
-				<Image x:Name="captureImg" Width="Auto" Height="Auto" Stretch="Fill" Margin="4,4,4,4" VerticalAlignment="Stretch"/>
+				<Image x:Name="captureImg" Width="Auto" Height="Auto" Stretch="Fill" Margin="4,4,4,4" VerticalAlignment="Stretch" RenderTransformOrigin="0.5,0.5">
+					<Image.RenderTransform>
+						<TransformGroup>
+							<ScaleTransform ScaleX="1" ScaleY="-1"/>
+							<SkewTransform AngleX="0" AngleY="0"/>
+							<RotateTransform Angle="0"/>
+							<TranslateTransform X="0" Y="0"/>
+						</TransformGroup>
+					</Image.RenderTransform>
+				</Image>
 				<Border HorizontalAlignment="Center" Margin="167,184.04,153.588,190" x:Name="No_capture" VerticalAlignment="Center">
 					<Grid>
 						<TextBlock Margin="22.542,1.52,0,3.52" FontSize="12" Foreground="#FFDEDEDE" Text="Capture not active. Press &quot;Start Capture&quot;" TextWrapping="Wrap" d:LayoutOverrides="HorizontalAlignment, VerticalAlignment, Width, Height"/>

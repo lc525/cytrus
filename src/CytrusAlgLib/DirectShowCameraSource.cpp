@@ -35,6 +35,7 @@ DirectShowCameraSource::DirectShowCameraSource(){
 
 DirectShowCameraSource::~DirectShowCameraSource(){
 	if(_cameraIsStarted) stopCapture();
+	CleanupCameraInfo();
 	int currentNo=_availableCameras.size();
 	if(currentNo>0){
 		for(std::list<char*>::iterator nIt=_availableCameras.begin(); nIt!=_availableCameras.end(); nIt++){

@@ -33,7 +33,7 @@ typedef void (__stdcall *PFN_CaptureCallback)(DWORD dwSize, BYTE* pbData);
 
 ///// Forward declarations
 HRESULT ConfigureSampleGrabber(IBaseFilter *pIBaseFilter);
-void CleanupCameraInfo();
+extern "C" __declspec(dllexport) void CleanupCameraInfo();
 extern "C" __declspec(dllexport) DWORD APIENTRY Cleanup();
 extern "C" __declspec(dllexport) DWORD APIENTRY StopCamera();
 

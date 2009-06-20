@@ -76,6 +76,7 @@ namespace cytrus {
 
 			void setActiveOutputMode(int modeIndex);
 			ObservableCollection<OutputMode^>^ getOutputModesList();
+			bool setProcessingSize(int width, int height);
 
 			void startCapture();
 			void stopCapture();

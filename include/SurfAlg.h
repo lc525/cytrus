@@ -33,10 +33,15 @@ using namespace cytrus::alg;
 namespace cytrus{
 	namespace alg{
 		class CYTRUSALGLIB_API SurfAlg : public IPOIAlgorithm{
+			private:
+				volatile int _pWidth, _pHeight;
+				volatile bool _isCustomPrelSize;
 			public:
 				SurfAlg(IImageSource* imgSrc, POIAlgResult outputFunc);
 
 				virtual void processImage(unsigned long dwSize, unsigned char* pbData);
+
+				virtual bool setProcessingSize(int newWidth, int newHeight);
 				
 				//Actions to take when the image from the source changes size
 				virtual void onSourceSizeChange();
