@@ -1083,6 +1083,9 @@
 		</StackPanel>
 		<Border Background="{x:Null}" BorderBrush="#82848484" BorderThickness="1,1,1,1" CornerRadius="3,3,3,3" Margin="4,4,4,4" Width="Auto" Height="Auto" Padding="0,0,0,0">
 			<Grid Width="Auto" Height="Auto" ShowGridLines="False">
+				<Rectangle Fill="#FF383838" Stroke="{x:Null}" Margin="0,0,0,0" VerticalAlignment="Top" Height="32" Panel.ZIndex="6" Opacity="0.45" HorizontalAlignment="Stretch"/>
+				<TextBlock HorizontalAlignment="Left" Margin="8,8,0,0" VerticalAlignment="Top" Width="Auto" Panel.ZIndex="7" Foreground="#FFD6D6D6" Text="FPS:" TextWrapping="Wrap"/>
+				<TextBlock HorizontalAlignment="Left" Margin="34,8,0,0" x:Name="fpsDisplay" VerticalAlignment="Top" Width="Auto" Height="Auto" Panel.ZIndex="7" Foreground="#FFD8D8D8" Text="0" TextWrapping="Wrap"/>
 				<Viewbox HorizontalAlignment="Right" Margin="0,8,8,0" x:Name="viewbox" VerticalAlignment="Top" Width="200" Height="19" Opacity="0.44" Stretch="Fill" Panel.ZIndex="7">
 					<Grid Width="200" Height="19">
 						<ComboBox Margin="85,0,0,0" x:Name="outputM" FontSize="10" IsSynchronizedWithCurrentItem="True" Panel.ZIndex="7" SelectionChanged="outputM_SelectionChanged"/>

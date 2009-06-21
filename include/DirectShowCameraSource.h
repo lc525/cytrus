@@ -39,26 +39,35 @@ namespace cytrus{
 		// As such, this is a Windows-specific implementation.
 		// Not threadsafe (yet)
 		//
+		typedef void (__stdcall *NewImageAvailableCallback)(void);
+
 		class CYTRUSALGLIB_API DirectShowCameraSource: public IImageSource{
 			// TODO: add thread safetyness to singleton & other members.
-			public:
+			private:
 				static DirectShowCameraSource* instance;  // singleton instance
+				static NewImageAvailableCallback signalNewImageAvailable;
+				IUnknown** deviceHandle;
+
+				static DWORD imageDataSize;
+				static BYTE* imageData;
 				
 				// current capture device spec:
 				int _currentCamera;
 				bool _cameraIsStarted;
-				IUnknown** deviceHandle;
-				int width, height;
-
 				//
-
-				int _nrAvailableCameras;
-				std::list<char*> _availableCameras;
+				
 				DirectShowCameraSource();
 				virtual ~DirectShowCameraSource();
 				void getCameraList();
-			public:	
-				static DirectShowCameraSource* getCameraInstance();
+
+			public:
+
+				int width, height;
+				int _nrAvailableCameras;
+				std::list<char*> _availableCameras;
+
+
+				static DirectShowCameraSource* getCameraInstance(NewImageAvailableCallback callback);
 				std::list<char*> getAvailableCameras(bool refresh=true);
 				void setActiveCamera(int cIndex);
 				void displayCameraPropertiesDialog(HWND hwnd);

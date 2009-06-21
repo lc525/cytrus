@@ -17,6 +17,7 @@
 
 using namespace cytrus::managed;
 using namespace System::Windows::Media;
+using namespace System::Threading;
 
 void CameraMgr::callImageCaptureEvent(int dwSize, unsigned char* pbData){
 	/*if(lastdwSize==-1) lastdwSize=dwSize;
@@ -28,7 +29,25 @@ void CameraMgr::callImageCaptureEvent(int dwSize, unsigned char* pbData){
 
 	array<byte>^ byteArray = gcnew array< byte >(dwSize);
 	Marshal::Copy((IntPtr)pbData,byteArray, 0, dwSize);
-	onNewImageAvailable(byteArray);
+	onImageAvailableForRendering(byteArray);
+}
+
+void CameraMgr::newImageAvailableEvent(){
+	//on different thread:
+	int workerThreads;
+	int completionPortThreads;
+	ThreadPool::GetAvailableThreads(workerThreads,completionPortThreads);
+	if(workerThreads>0) //drop frames instead of creating a huge number of threads
+		ThreadPool::QueueUserWorkItem(gcnew WaitCallback(this, &CameraMgr::cameraNotifyConsumers));
+
+	//Thread^ t1=gcnew Thread(gcnew ThreadStart(this, &CameraMgr::cameraNotifyConsumers));
+	//t1->Name="Surf processing thread";
+	//t1->Start();
+}
+
+void CameraMgr::cameraNotifyConsumers(Object^ o){
+	//on different thread:
+	cs->notifyConsumers();
 }
 
 
@@ -39,7 +58,11 @@ CameraMgr::CameraMgr(){
 	std::list<char*> cLst;
 	std::list<std::pair<char*,int>*>* outputModesULst;
 
-	cs=DirectShowCameraSource::getCameraInstance();
+	newImage= gcnew NewImageCallback(this, &CameraMgr::newImageAvailableEvent);
+	nigch = GCHandle::Alloc(newImage);
+	IntPtr ipni = Marshal::GetFunctionPointerForDelegate(newImage);
+	newImageAvailable = static_cast<NewImageAvailableCallback>(ipni.ToPointer());
+	cs=DirectShowCameraSource::getCameraInstance(newImageAvailable);
 	cLst=cs->getAvailableCameras();
 	int nr=cLst.size();
 
@@ -50,7 +73,7 @@ CameraMgr::CameraMgr(){
 	}
 
 	//Marshal events
-	fPtr= gcnew CaptureCallbackProc(this, &CameraMgr::callImageCaptureEvent);
+	fPtr= gcnew RenderResultCallbackProc(this, &CameraMgr::callImageCaptureEvent);
 	gch = GCHandle::Alloc(fPtr);
 	IntPtr ip = Marshal::GetFunctionPointerForDelegate(fPtr);
 	result = static_cast<POIAlgResult>(ip.ToPointer());
@@ -126,10 +149,8 @@ bool CameraMgr::setProcessingSize(int width, int height){
 
 void CameraMgr::startCapture(){
 	alg->run();
-
 	_camWidth=cs->width;
 	_camHeight=cs->height;
-
 }
 
 

@@ -20,8 +20,10 @@ using namespace cytrus::cameraHAL;
 #include "comutil.h" // link with comsuppw.lib
 
 
-DirectShowCameraSource* DirectShowCameraSource::instance = 0; // initialize pointer
-
+DirectShowCameraSource* DirectShowCameraSource::instance = NULL; // initialize pointer
+DWORD DirectShowCameraSource::imageDataSize=0;
+BYTE* DirectShowCameraSource::imageData=NULL;
+NewImageAvailableCallback DirectShowCameraSource::signalNewImageAvailable=NULL;
 
 DirectShowCameraSource::DirectShowCameraSource(){
 	CoInitializeEx(NULL,COINIT_MULTITHREADED);
@@ -67,7 +69,8 @@ void DirectShowCameraSource::getCameraList(){
 	}
 }
 
-DirectShowCameraSource* DirectShowCameraSource::getCameraInstance(){
+DirectShowCameraSource* DirectShowCameraSource::getCameraInstance(NewImageAvailableCallback callback){
+	signalNewImageAvailable=callback;
 	// TODO: make this thread safe (boost lock)
 	if(instance==NULL){
 		instance=new DirectShowCameraSource();
@@ -99,6 +102,9 @@ void DirectShowCameraSource::displayCameraPropertiesDialog(HWND hwnd){
 }
 
 void DirectShowCameraSource::notifyConsumers(){
+	for(std::set<IImageConsumer*>::iterator cIt=instance->consumers.begin(); cIt!=instance->consumers.end(); cIt++){
+		(*cIt)->processImage(imageDataSize,(unsigned char*)imageData);
+	}
 }
 
 void DirectShowCameraSource::startCapture(){
@@ -126,9 +132,13 @@ std::pair<int,int> DirectShowCameraSource::getImageSize(){
 }
 
 void __stdcall DirectShowCameraSource::callbackFunc(DWORD dwSize, BYTE* pbData){
-	for(std::set<IImageConsumer*>::iterator cIt=instance->consumers.begin(); cIt!=instance->consumers.end(); cIt++){
-		(*cIt)->processImage(dwSize,pbData);
+	if(imageDataSize!=dwSize){
+		imageDataSize=dwSize;
+			imageData=(BYTE*)realloc((void*)imageData, sizeof(BYTE)*dwSize);
+			if(imageData==NULL) exit(1);
 	}
+	memcpy_s((void*)imageData, sizeof(BYTE)*dwSize, pbData, sizeof(BYTE)*dwSize);
+	signalNewImageAvailable();
 }
 
 #endif

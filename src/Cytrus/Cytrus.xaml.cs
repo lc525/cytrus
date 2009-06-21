@@ -17,13 +17,14 @@ using System.Windows.Interop;
 using System.IO;
 using System.Windows.Threading;
 using Tomers.WPF.Imaging.Demo;
+using System.ComponentModel;
 
 namespace cytrus.managed
 {
     /// <summary>
     /// Interaction logic for Window1.xaml
     /// </summary>
-    public partial class Window1 : Window
+    public partial class Window1 : Window,INotifyPropertyChanged
     {
 
         public struct ImgSize
@@ -47,6 +48,11 @@ namespace cytrus.managed
         private ObservableCollection<RecognisedObject> _rObj = new ObservableCollection<RecognisedObject>();
         private ObservableCollection<ImgSize> _prelSizes = new ObservableCollection<ImgSize>();
         private SelectionChangedEventHandler sizeChangeHandler;
+        private DateTime _lastCapture;
+        private double _fps;
+        private double _meanfps;
+        private int meanFrames;
+        private int currentNoOfFrames;
         
         public Window1()
         {
@@ -54,9 +60,12 @@ namespace cytrus.managed
             _rObj.Add(new RecognisedObject("Mouse", 50));
             _rObj.Add(new RecognisedObject("Human Face", 20));
             //
-
+            Fps = 0;
+            _meanfps = 0;
+            meanFrames = 25;
+            currentNoOfFrames = 0;
             InitializeComponent();
-            sizeChangeHandler = new SelectionChangedEventHandler(outputM_SelectionChanged);
+            sizeChangeHandler = new SelectionChangedEventHandler(imgSizeCombo_SelectionChanged);
         }
 
         public ObservableCollection<RecognisedObject> RecognisedObjects
@@ -70,7 +79,7 @@ namespace cytrus.managed
             cameraManager.setActiveOutputMode(0);
             cameraManager.selectCamera(0);
 
-            cameraManager.onNewImageAvailable += new ImageCaptureCallback(c_onNewImageAvailable);
+            cameraManager.onImageAvailableForRendering += new ImageCaptureCallback(c_onNewImageAvailable);
             //cameraManager.onOutputModeChange += new OutputModeCallback(cameraManager_onOutputModeChange);
             isCapturing = false;
         }
@@ -80,6 +89,20 @@ namespace cytrus.managed
         {
             this.Dispatcher.Invoke(DispatcherPriority.Normal, (Action)(() =>
             {
+                DateTime dtCap = DateTime.Now;
+                if (currentNoOfFrames < meanFrames)
+                {
+                    double milliseconds = ((dtCap.Ticks - _lastCapture.Ticks) / TimeSpan.TicksPerMillisecond);// *1.15;
+                    _meanfps += Math.Round(1000 / milliseconds, 0);
+                    currentNoOfFrames++;
+                }
+                else
+                {
+                    Fps = Math.Round(_meanfps / meanFrames,0);
+                    currentNoOfFrames = 0;
+                    _meanfps = 0;
+                }
+                _lastCapture = dtCap;
                 _frameRenderer.RenderFrame(pbData);
             }));
         }
@@ -113,6 +136,11 @@ namespace cytrus.managed
                 No_capture.Visibility = Visibility.Collapsed;
                 cameraManager.startCapture();
 
+                Binding myBinding = new Binding("Fps");
+                myBinding.Source = this;
+                fpsDisplay.SetBinding(TextBlock.TextProperty, myBinding);
+                _lastCapture = DateTime.Now;
+
                 PixelFormat pixelFormat = PixelFormats.Rgb48;
                 // as an effect, alocates ImageInterop file mapping with sufficient space
                 // if you choose a pixelformat that uses less space than another one that you'll use later,
@@ -143,6 +171,9 @@ namespace cytrus.managed
                 imgSizeCombo.SelectionChanged -= sizeChangeHandler;
                 imgSizeCombo.IsEnabled = false;
                 StartCapture.Content = "Start Capture";
+                Fps = 0;
+                _meanfps = 0;
+                currentNoOfFrames = 0;
                 StartCapture.SetResourceReference(BackgroundProperty, "captureOnButtonBrush");
                 cameraManager.stopCapture();
             }
@@ -180,5 +211,43 @@ namespace cytrus.managed
 
             
         }
+
+        #region INotifyPropertyChanged Members
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public double Fps
+        {
+
+            get { return _fps; }
+
+            set
+            {
+
+                _fps = value;
+
+                // Call OnPropertyChanged whenever the property is updated
+
+                OnPropertyChanged("Fps");
+
+            }
+
+        }
+
+        protected void OnPropertyChanged(string name)
+        {
+
+            PropertyChangedEventHandler handler = PropertyChanged;
+
+            if (handler != null)
+            {
+
+                handler(this, new PropertyChangedEventArgs(name));
+
+            }
+
+        }
+
+        #endregion
     }
 }

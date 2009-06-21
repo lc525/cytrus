@@ -29,7 +29,8 @@ using namespace cytrus::alg;
 namespace cytrus {
 	namespace managed{
 
-		delegate void CaptureCallbackProc(int dwSize, unsigned char* pbData);
+		delegate void RenderResultCallbackProc(int dwSize, unsigned char* pbData);
+		delegate void NewImageCallback();
 		public delegate void ImageCaptureCallback(array<byte>^ pbData);
 
 		public ref struct OutputMode{
@@ -47,23 +48,27 @@ namespace cytrus {
 		public ref class CameraMgr
 		{	
 		private:
-			static GCHandle gch;
+			static GCHandle gch, nigch;
 			//static int lastdwSize; // outputMode change events (not used)
 			IPOIAlgorithm* alg;
-			CaptureCallbackProc^ fPtr;
+			RenderResultCallbackProc^ fPtr;
+			NewImageCallback^ newImage;
 			DirectShowCameraSource* cs;
 			ObservableCollection<String^>^ cList;
 			ObservableCollection<OutputMode^>^ outputModes;
 			POIAlgResult result;
+			NewImageAvailableCallback newImageAvailable;
 
 			void callImageCaptureEvent(int dwSize, unsigned char* pbData);
+			void newImageAvailableEvent();
+			void cameraNotifyConsumers(Object^ o);
 
 		public:
 			int _camWidth, _camHeight;
 
 			// Treat this event to recieve the images from the selected camera
 			// as an array of bytes.
-			event ImageCaptureCallback^ onNewImageAvailable;
+			event ImageCaptureCallback^ onImageAvailableForRendering;
 			//event OutputModeCallback^ onOutputModeChange; // outputMode change events (not used)
 			
 			CameraMgr();
