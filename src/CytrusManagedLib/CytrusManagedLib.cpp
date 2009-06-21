@@ -99,6 +99,7 @@ CameraMgr::CameraMgr(){
 
 CameraMgr::!CameraMgr(){
 	gch.Free();
+	nigch.Free();
 	delete alg;
 }
 
