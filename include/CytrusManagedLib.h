@@ -49,12 +49,16 @@ namespace cytrus {
 		{	
 		private:
 			static GCHandle gch, nigch;
+			static int thNr=0;
 			//static int lastdwSize; // outputMode change events (not used)
-			IPOIAlgorithm* alg;
+			std::list<IPOIAlgorithm*>* alg_ProcessingPool;
+			Dictionary<int, int>^ threadIndexes;
+
 			RenderResultCallbackProc^ fPtr;
 			NewImageCallback^ newImage;
 			DirectShowCameraSource* cs;
 			ObservableCollection<String^>^ cList;
+			
 			ObservableCollection<OutputMode^>^ outputModes;
 			POIAlgResult result;
 			NewImageAvailableCallback newImageAvailable;

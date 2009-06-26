@@ -39,19 +39,27 @@ void CameraMgr::newImageAvailableEvent(){
 	ThreadPool::GetAvailableThreads(workerThreads,completionPortThreads);
 	if(workerThreads>0) //drop frames instead of creating a huge number of threads
 		ThreadPool::QueueUserWorkItem(gcnew WaitCallback(this, &CameraMgr::cameraNotifyConsumers));
-
 	//Thread^ t1=gcnew Thread(gcnew ThreadStart(this, &CameraMgr::cameraNotifyConsumers));
 	//t1->Name="Surf processing thread";
 	//t1->Start();
 }
 
 void CameraMgr::cameraNotifyConsumers(Object^ o){
+	int code=Thread::CurrentThread->GetHashCode();
+	int index;
+	if(!threadIndexes->ContainsKey(code))
+		threadIndexes->Add(code,thNr++);
+	else
+		index=threadIndexes[code];
+	
 	//on different thread:
-	cs->notifyConsumers();
+	cs->notifyConsumer(index);
 }
 
 
 CameraMgr::CameraMgr(){
+	threadIndexes=gcnew Dictionary<int,int>();
+	alg_ProcessingPool=new std::list<IPOIAlgorithm*>();
 	cList=gcnew ObservableCollection<String^>();
 	outputModes=gcnew ObservableCollection<OutputMode^>();
 	//lastdwSize=-1; // outputMode change events (not used)
@@ -78,9 +86,16 @@ CameraMgr::CameraMgr(){
 	IntPtr ip = Marshal::GetFunctionPointerForDelegate(fPtr);
 	result = static_cast<POIAlgResult>(ip.ToPointer());
 
+	int workerThreads;
+	int completionPortThreads;
+	ThreadPool::GetMaxThreads(workerThreads,completionPortThreads);
 	//Initialise processing
-	alg=new SurfAlg(cs, result);
+	for(int u=0; u<workerThreads; u++){
+		IPOIAlgorithm* pw=new SurfAlg(cs, result);
+		alg_ProcessingPool->push_back(pw);
+	}
 
+	IPOIAlgorithm* alg=*(alg_ProcessingPool->begin());
 	outputModesULst=alg->getOutputModes();
 	for(std::list<std::pair<char*,int>*>::iterator it=outputModesULst->begin(); it!=outputModesULst->end(); it++){
 		String^ name=gcnew String((*it)->first);
@@ -100,7 +115,10 @@ CameraMgr::CameraMgr(){
 CameraMgr::!CameraMgr(){
 	gch.Free();
 	nigch.Free();
-	delete alg;
+	for(std::list<IPOIAlgorithm*>::iterator it=alg_ProcessingPool->begin(); it!=alg_ProcessingPool->end(); it++){
+		delete *it;
+	}
+	delete alg_ProcessingPool;
 }
 
 void CameraMgr::selectCamera(int i){
@@ -132,7 +150,9 @@ void CameraMgr::showPropertiesDialog(IntPtr window){
 
 
 void CameraMgr::setActiveOutputMode(int modeIndex){
-	alg->setOutputMode(modeIndex);
+	for(std::list<IPOIAlgorithm*>::iterator it=alg_ProcessingPool->begin(); it!=alg_ProcessingPool->end(); it++){
+		(*it)->setOutputMode(modeIndex);
+	}
 }
 
 ObservableCollection<OutputMode^>^ CameraMgr::getOutputModesList(){
@@ -140,16 +160,19 @@ ObservableCollection<OutputMode^>^ CameraMgr::getOutputModesList(){
 }
 
 bool CameraMgr::setProcessingSize(int width, int height){
-	bool success=alg->setProcessingSize(width, height);
-	if(success){
-		_camWidth=width;
-		_camHeight=height;
+	bool success;
+	for(std::list<IPOIAlgorithm*>::iterator it=alg_ProcessingPool->begin(); it!=alg_ProcessingPool->end(); it++){
+		success=(*it)->setProcessingSize(width, height);
+		if(success){
+			_camWidth=width;
+			_camHeight=height;
+		}
 	}
 	return success;
 }
 
 void CameraMgr::startCapture(){
-	alg->run();
+	cs->startCapture();
 	_camWidth=cs->width;
 	_camHeight=cs->height;
 }
