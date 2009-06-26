@@ -12,12 +12,14 @@
 */
 
 #include "stdafx.h"
-
 #include "CytrusManagedLib.h"
+
+//#define DEBUG_EVENTLOG // define to write alg worker information to Windows Event Log
 
 using namespace cytrus::managed;
 using namespace System::Windows::Media;
 using namespace System::Threading;
+using namespace System::Diagnostics;
 
 void CameraMgr::callImageCaptureEvent(int dwSize, unsigned char* pbData){
 	/*if(lastdwSize==-1) lastdwSize=dwSize;
@@ -47,8 +49,16 @@ void CameraMgr::newImageAvailableEvent(){
 void CameraMgr::cameraNotifyConsumers(Object^ o){
 	int code=Thread::CurrentThread->GetHashCode();
 	int index;
-	if(!threadIndexes->ContainsKey(code))
+	if(!threadIndexes->ContainsKey(code)){
 		threadIndexes->Add(code,thNr++);
+
+		#ifdef DEBUG_EVENTLOG
+			String^ u="Cytrus running processing on thread "+code.ToString();
+			EventLog^ e=gcnew EventLog("Application");
+			e->Source="Cytrus";
+			e->WriteEntry(u);
+		#endif
+	}
 	else
 		index=threadIndexes[code];
 	
