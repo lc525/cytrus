@@ -248,7 +248,11 @@
 					>
 				</File>
 				<File
-					RelativePath=".\IntegralImageTransform.cpp"
+					RelativePath=".\FastHessianLocator.hpp"
+					>
+				</File>
+				<File
+					RelativePath=".\IntegralImageTransform.hpp"
 					>
 				</File>
 				<File
@@ -299,6 +303,10 @@
 				</File>
 				<File
 					RelativePath="..\..\include\CytrusAlgLib.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\include\FastHessianLocator.h"
 					>
 				</File>
 				<File

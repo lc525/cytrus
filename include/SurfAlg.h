@@ -23,9 +23,11 @@
 	#endif
 #endif
 
+#include <vector>
 #include "IImageConsumer.h"
 #include "IImageSource.h"
 #include "IPOIAlgorithm.h"
+#include "poi.h"
 
 using namespace cytrus::cameraHAL;
 using namespace cytrus::alg;
@@ -36,6 +38,8 @@ namespace cytrus{
 			private:
 				volatile int _pWidth, _pHeight;
 				volatile bool _isCustomPrelSize;
+
+				std::vector<Poi> iPts;
 			public:
 				SurfAlg(IImageSource* imgSrc, POIAlgResult outputFunc);
 

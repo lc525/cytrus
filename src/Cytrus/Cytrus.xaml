@@ -1025,7 +1025,7 @@
 			</ToolBar>
 		</ToolBarTray>
 		<StackPanel Margin="4,4,0,4" x:Name="s_setup" VerticalAlignment="Top" Width="256" Height="Auto">
-			<Expander x:Name="ImageSetup" Width="253.827" BorderBrush="#62979797" Panel.ZIndex="10" Header="Image Setup" Style="{DynamicResource ExpanderStyle1}" VerticalAlignment="Stretch" Height="189" Background="#00000000" Foreground="#FFFFFFFF" IsExpanded="True">
+			<Expander x:Name="ImageSetup" Width="253.827" BorderBrush="#62979797" Panel.ZIndex="10" Header="Image Setup" Style="{DynamicResource ExpanderStyle1}" VerticalAlignment="Stretch" Height="Auto" Background="#00000000" Foreground="#FFFFFFFF" IsExpanded="True">
 				<Grid Width="340.043" Height="163" Background="#00FFFFFF" VerticalAlignment="Top">
 					<TextBlock x:Name="ImgSizeLabel" Width="76" Text="Resize:" TextWrapping="Wrap" HorizontalAlignment="Left" Margin="14,89.04,0,0" IsEnabled="False" VerticalAlignment="Top"/>
 					<ComboBox Margin="100,25.92,101.043,0" x:Name="cameraList" VerticalAlignment="Top" IsSynchronizedWithCurrentItem="True" d:LayoutOverrides="Height" SelectionChanged="cameraList_SelectionChanged"/>

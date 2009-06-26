@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.1415926-2.2-0.999.6 (MiKTeX 2.7) (preloaded format=xelatex 2009.6.8)  14 JUN 2009 20:18
+This is XeTeX, Version 3.1415926-2.2-0.999.6 (MiKTeX 2.7) (preloaded format=xelatex 2009.6.8)  22 JUN 2009 01:01
 entering extended mode
 **bsc_latexSource.tex
 (bsc_latexSource.tex
@@ -814,7 +814,7 @@ File: umsb.fd 2002/01/19 v2.2g AMS font definitions
 LaTeX Font Info:    Try loading font information for U+stmry on input line 4.
 
 ("C:\Program Files\MiKTeX 2.7\tex\latex\stmaryrd\ustmry.fd")
-LaTeX Font Info:    Try loading font information for OT1+lmr on input line 12.
+LaTeX Font Info:    Try loading font information for OT1+lmr on input line 13.
 
 ("C:\Program Files\MiKTeX 2.7\tex\latex\lm\ot1lmr.fd"
 File: ot1lmr.fd 2007/01/14 v1.3 Font defs for Latin Modern
@@ -831,49 +831,49 @@ File: chap1/localizare_poi.png Graphic file (type QTm)
 
 <use  "chap1/localizare_poi.png" >
 File: chap1/descriere_poi.png Graphic file (type QTm)
- <use  "chap1/descriere_poi.png" > [2])
-(chap2/chap2.tex [3] [4
+ <use  "chap1/descriere_poi.png" > [2]
+[3]) (chap2/chap2.tex [4]) (chap3/chap3.tex [5
 
-]) (bsc_latexSource.bbl [5] [6
+] [6
+
+]) (bsc_latexSource.bbl
+[7] [8
 
 ]
 bibitemlist
-) [7] [8
+) [9] [10
 
-] [9] [10] (app1/app1.tex) [11
+] [11] [12] (app1/app1.tex) [13
 
-] [12
+] [14
 
-] (back.tex (symbols.tex
-
-LaTeX Warning: Reference `sym:SIFT' on page 13 undefined on input line 20.
-
-) [13
+] (back.tex (symbols.tex) [15
 
 
 
 ]
 LaTeX Font Info:    Try loading font information for OT1+lmss on input line 16.
 
- ("C:\Program Files\MiKTeX 2.7\tex\latex\lm\ot1lmss.fd"
+
+("C:\Program Files\MiKTeX 2.7\tex\latex\lm\ot1lmss.fd"
 File: ot1lmss.fd 2007/01/14 v1.3 Font defs for Latin Modern
 )
 
 Package hyperref Warning: Glyph not defined in PD1 encoding,
 (hyperref)                removing `\u' on input line 16.
 
-(bsc_latexSource.lof) [14
+(bsc_latexSource.lof) [16
 
 ]
 
 Package hyperref Warning: Glyph not defined in PD1 encoding,
 (hyperref)                removing `\u' on input line 19.
 
-(bsc_latexSource.lot) (bsc_latexSource.ind [15
+(bsc_latexSource.lot) (bsc_latexSource.ind [17
 
-] [16
+] [18
 
-] [17
+] [19
 
 
 ]))
@@ -881,18 +881,14 @@ Package hyperref Warning: Glyph not defined in PD1 encoding,
 \tf@lof=\write7
 \tf@lot=\write8
 
-(bsc_latexSource.aux)
-
-LaTeX Warning: There were undefined references.
-
- ) 
+(bsc_latexSource.aux) ) 
 Here is how much of TeX's memory you used:
- 10752 strings out of 30467
- 158679 string characters out of 1190985
- 301997 words of memory out of 1500000
- 13674 multiletter control sequences out of 110000
- 18012 words of font info for 64 fonts, out of 1200000 for 2000
+ 10756 strings out of 30467
+ 158764 string characters out of 1190985
+ 302088 words of memory out of 1500000
+ 13676 multiletter control sequences out of 110000
+ 18004 words of font info for 63 fonts, out of 1200000 for 2000
  14 hyphenation exceptions out of 8191
- 43i,11n,47p,1285b,380s stack positions out of 5000i,500n,10000p,200000b,5000s
+ 43i,11n,38p,1286b,380s stack positions out of 5000i,500n,10000p,200000b,5000s
 
-Output written on bsc_latexSource.pdf (23 pages).
+Output written on bsc_latexSource.pdf (25 pages).
