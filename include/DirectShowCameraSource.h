@@ -53,7 +53,7 @@ namespace cytrus{
 				
 				// current capture device spec:
 				int _currentCamera;
-				bool _cameraIsStarted;
+				
 				//
 				
 				DirectShowCameraSource();
@@ -73,6 +73,7 @@ namespace cytrus{
 				void displayCameraPropertiesDialog(HWND hwnd);
 
 				virtual void notifyConsumers();
+				virtual void notifyConsumer(int consumerIndex);
 				virtual void notifySizeChange(){};
 
 				virtual void startCapture();

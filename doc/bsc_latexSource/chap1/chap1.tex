@@ -30,7 +30,7 @@ Dacã drept zone caracteristice se folosesc puncte de interes, existã 2 paºi gene
 \begin{figure}[htbp]
 \numberwithin{figure}{chapter}
 \centering
-\includegraphics[scale=0.7]{localizare_poi.png}
+\includegraphics[scale=0.7]{chap1/localizare_poi.png}
 \caption{{\em Localizarea punctelor de interes:} rulând în mod independent algoritmul pe douã imagini ale aceluiaºi obiect în situaþii diferite, se doreºte ca punctele de interes sã fie identificate în aceleaºi poziþii relativ la obiect}
 \label{fig:chap1:localizarePOI}
 \end{figure}
@@ -38,7 +38,7 @@ Dacã drept zone caracteristice se folosesc puncte de interes, existã 2 paºi gene
 \begin{figure}[htbp]
 \numberwithin{figure}{chapter}
 \centering
-\includegraphics[scale=0.7]{descriere_poi.png}
+\includegraphics[scale=0.7]{chap1/descriere_poi.png}
 \caption{{\em Descrierea punctelor de interes:} Asocierea de informaþii pentru identificare, considerând vecinãtatea punctului de interes.}
 \label{fig:chap1:descrierePOI}
 \end{figure}
@@ -46,8 +46,10 @@ Dacã drept zone caracteristice se folosesc puncte de interes, existã 2 paºi gene
 
 Pentru fiecare dintre aceºti paºi, existã diferiþi algoritmi, unii asigurând o "acoperire" mai bunã a obiectelor cu puncte de interes, alþii concentrându-se pe stabilitatea trãsãturilor determinate sau pe eficienþa computaþionalã. Desigur, trebuie realizat un compromis astfel încât sã se ajungã la o soluþie acceptabilã pentru cât mai multe aplicaþii. De menþionat cã algoritmii de localizare ºi cei de descriere pot fi aleºi în mod independent, dar o analizã a performanþelor nu poate fi realizatã decât la nivelul efectului aplicãrii celor 2 paºi, în mod secvenþial.
 
-Metodele ce au la bazã trasãturi identificate prin puncte de interes pot fi folosite ºi în alte aplicaþii, nu doar cea a recunoaºterii. Astfel de algoritmi pot fi aplicaþi, de exemplu, ca prim pas în reconstruirea unor modele 3D ale obiectelor din imagini sau video. Prin urmare, sunt de utilitate mare implementãrile cât mai generale, flexibile, care sã poatã fi utilizate într-o gamã largã de aplicaþii sau teste comparative. 
+Metodele ce au la bazã trasãturi identificate prin puncte de interes pot fi folosite ºi în alte aplicaþii, nu doar cea a recunoaºterii. Astfel de algoritmi pot fi aplicaþi, de exemplu, ca prim pas în reconstruirea unor modele 3D ale obiectelor din imagini sau video, sau pentru calibrarea aparatelor foto digitale. Prin urmare, sunt de utilitate mare implementãrile cât mai generale, flexibile, care sã poatã fi utilizate într-o gamã largã de aplicaþii sau teste comparative. Lucrarea de faþã se referã la detaliile unei astfel de implementãri.
 
-Lucrarea de faþã se referã la detaliile unei astfel de implementãri.
+{\em Capitolul~\ref{sec:chapter2}} face o scurtã trecere în revistã a cercetãrilor realizate în domeniu, punând accentul pe descrierea noþiunilor teoretice ºi a algoritmilor folosiþi.
 
+{\em Capitolul~\ref{sec:chapter3}} prezintã detaliile legate de proiectarea aplicaþiei propuse, descriind structura detaliatã a modulelor unei platforme software pentru prelucrarea fluxurilor de imagini ºi a submodulelor ce implementeazã algoritmii pentru detecþia de obiecte. 
+ 
 % ********** End of chapter **********

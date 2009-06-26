@@ -24,15 +24,25 @@ IImageSource::~IImageSource(){
 
 
 bool IImageSource::registerImageConsumer(IImageConsumer *c){
-	std::pair<imageConsumerSet::iterator, bool> p=consumers.insert(c);
-	return p.second;
+	if(!_sourceIsStarted){
+		std::pair<imageConsumerSet::iterator, bool> p=consumers.insert(c);
+		return p.second;
+	}
+	else{
+		return false;
+	}
 }
 
 bool IImageSource::removeImageConsumer(IImageConsumer *c){
-	imageConsumerSet::const_iterator foundConsumer=consumers.find(c);
-	if(foundConsumer!=consumers.end()){
-		consumers.erase(foundConsumer);
-		return true;
+	if(!_sourceIsStarted){
+		imageConsumerSet::const_iterator foundConsumer=consumers.find(c);
+		if(foundConsumer!=consumers.end()){
+			consumers.erase(foundConsumer);
+			return true;
+		}
+		return false;
 	}
-	return false;
+	else{
+		return false;
+	}
 }

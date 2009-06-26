@@ -41,6 +41,7 @@ namespace cytrus{
 		class CYTRUSALGLIB_API IImageSource{
 			protected: 
 				std::set<IImageConsumer*> consumers;
+				bool _sourceIsStarted;
 			public:
 
 				virtual ~IImageSource();
@@ -51,6 +52,13 @@ namespace cytrus{
 				// as a parameter.
 				//
 				virtual void notifyConsumers()=0;
+
+				//
+				// This function manually notifies a specific registered consumer.
+				// The implementation usually calls IImageConsumer.processImage, passing the source's image
+				// as a parameter.
+				//
+				virtual void notifyConsumer(int consumerIndex)=0;
 
 				//
 				// Returns the size <width,height> of the images that this
@@ -88,14 +96,18 @@ namespace cytrus{
 				// and the image will be sent to them for processing. 
 				// 
 				// returns true if the consumer could be registered correctly
-				//         false if the consumer already exists in the list.
+				//         false if the consumer already exists in the list;
+				//               another possibility is that the source is already started
+				//               for mentaining consistency, adding consumers "on the fly" is not supported
 				//
 				bool registerImageConsumer(IImageConsumer *c);
 
 				//
 				// Remove Image Consumer from the consumers that are waiting for this image source.
 				// returns true if the consumer could be removed correctly
-				//         false if the consumer did not previously exist in the list.
+				//         false if the consumer did not previously exist in the list;
+				//               another possibility is that the source is already started
+				//               for mentaining consistency, removing consumers "on the fly" is not supported
 				//
 				bool removeImageConsumer(IImageConsumer *c);
 		};

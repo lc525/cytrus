@@ -17,7 +17,11 @@
 #define _POI_H_
 
 #ifndef CYTRUSALGLIB_API
-#error "The file poi.h can only be included as part of the CytrusAlgLib library. Please include CytrusAlgLib.h instead"
+	#ifdef CYTRUSALGLIB_EXPORTS
+		#define CYTRUSALGLIB_API __declspec(dllexport)
+	#else
+		#define CYTRUSALGLIB_API __declspec(dllimport)
+	#endif
 #endif
 
 

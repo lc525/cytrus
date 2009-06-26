@@ -30,45 +30,17 @@ namespace cytrus{
 			// MutableImageViewConcept<DstView> >();
 			// ColorSpacesCompatibleConcept<color_space_type<SrcView>::type, color_space_type<DstView>::type> >();
 			template <typename SrcView, typename DstView>
-			static void applyTransform(SrcView& src, DstView& dst){
-				gil_function_requires<ImageViewConcept<SrcView> >();
-				gil_function_requires<MutableImageViewConcept<DstView> >();
-				gil_function_requires<ColorSpacesCompatibleConcept<
-										typename color_space_type<SrcView>::type, 
-										typename color_space_type<DstView>::type> >();
+			static void applyTransform(SrcView& src, DstView& dst);
 
-				DstView::xy_locator dst_loc = dst.xy_at(0,1);
-				DstView::xy_locator::cached_location_t above = dst_loc.cache_location(0,-1);
-
-				for (int y=0; y<src.height(); ++y) {
-					typename SrcView::x_iterator src_it = src.row_begin(y);
-					typename DstView::x_iterator dst_it = dst.row_begin(y);
-
-					unsigned int rowSum=0;
-					for (int x=0; x<src.width(); ++x) {
-						rowSum+=src_it[x];
-
-						if(y>0){
-							(*dst_it) = rowSum+dst_loc[above];
-							#ifdef DEBUG_OUTPUT
-								if(y==src.height()-1 && x==src.width()-1) 
-									std::cout<<"IntegralImage["<<src.height()<<"]"\
-														  <<"["<<src.width()<<"]="\
-														  <<rowSum+dst_loc[above]<<std::endl;
-							#endif
-							++dst_loc.x();
-						}
-						else{
-							(*dst_it) = rowSum;
-						}
-						++dst_it;             
-					}
-					if(y>0)
-						dst_loc+=point2<std::ptrdiff_t>(-dst.width(),1);
-				}
-			}
+			// IntegralImageView must be a GIL Image View. The following conditions must be met:
+			// ImageViewConcept<SrcView> >();
+			// The current implementation assumes the view has only one channel
+			template <typename IntegralImageView>
+			static float boxFilter(IntegralImageView& src, int xSt, int ySt, int boxHeight, int boxWidth);
 		};
 	}
 }
+
+#include "IntegralImageTransform.hpp"
 
 #endif

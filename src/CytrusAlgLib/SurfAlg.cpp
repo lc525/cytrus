@@ -13,6 +13,7 @@
 #include "stdafx.h"
 #include "SurfAlg.h"
 #include "IntegralImageTransform.h"
+#include "FastHessianLocator.h"
 #include <boost/gil/gil_all.hpp>
 #include <boost/gil/extension/numeric/sampler.hpp>
 #include <boost/gil/extension/numeric/resample.hpp>
@@ -20,8 +21,22 @@
 using namespace cytrus::alg;
 using namespace boost::gil;
 
+//Utility Functor for reasonable output of integral image
+	struct get_in_256_range : public std::binary_function<long, long, short> {
+		static unsigned long max;
+		short operator()(unsigned long src_loc) const {
+			return src_loc*255/max;
+		}
+	};
 
-SurfAlg::SurfAlg(IImageSource* imgSrc, POIAlgResult outputFunc):IPOIAlgorithm(imgSrc,NULL,NULL,outputFunc){
+	unsigned long get_in_256_range::max=1;
+//
+
+SurfAlg::SurfAlg(IImageSource* imgSrc, POIAlgResult outputFunc):
+	IPOIAlgorithm(imgSrc,
+				  new FastHessianLocator<gray32_view_t>,
+				  NULL,
+				  outputFunc){
 	
 	_pWidth=-1;
 	_pHeight=-1;
@@ -30,12 +45,12 @@ SurfAlg::SurfAlg(IImageSource* imgSrc, POIAlgResult outputFunc):IPOIAlgorithm(im
 	//Configure output modes
 	std::pair<char*, int>* grayscale=new std::pair<char*, int>();
 	grayscale->first="Grayscale";
-	grayscale->second=2;
+	grayscale->second=2; // PixelFormats::Gray8
 	_outputModes->push_back(grayscale);
 
 	std::pair<char*, int>* integral=new std::pair<char*, int>();
 	integral->first="Integral";
-	integral->second=2;
+	integral->second=2;  // PixelFormats::Gray8
 	_outputModes->push_back(integral);
 }
 
@@ -63,17 +78,16 @@ void SurfAlg::processImage(unsigned long dwSize, unsigned char* pbData){
 
 	gray8_image_t grImg(width,height);
 	gray8_view_t grView=view(grImg);
-
-	
-	//copy_pixels(color_converted_view<gray8_pixel_t>(flipped_up_down_view(myView)), grView);
 	copy_pixels(color_converted_view<gray8_pixel_t>(*prelView), grView);
 	
 	//calculate integral img
 	gray32_image_t integral(width,height);
-	gray32_view_t dstView = view(integral);
+	gray32_view_t integralView = view(integral);
+	IntegralImageTransform::applyTransform(grView,integralView);
 	
-	IntegralImageTransform::applyTransform(grView,dstView);
-	
+
+	//((FastHessianLocator<gray32_view_t>*)_poiLoc)->
+
 	unsigned long nSize=width*height*3;
 
 	switch(_currentOutputMode){
@@ -82,7 +96,14 @@ void SurfAlg::processImage(unsigned long dwSize, unsigned char* pbData){
 		case 1:
 			_outputAlgResult(nSize/3,(unsigned char*)interleaved_view_get_raw_data(grView)); break;
 		case 2:
-			_outputAlgResult(nSize/3,(unsigned char*)interleaved_view_get_raw_data(dstView)); break;
+			{
+			gray8_image_t rangeImg(width,height);
+			gray8_view_t rangedView=view(rangeImg);
+			get_in_256_range::max=*(integralView.xy_at(width-1,height-1));
+			transform_pixels(integralView,rangedView,get_in_256_range());
+			_outputAlgResult(nSize/3,(unsigned char*)interleaved_view_get_raw_data(rangedView)); 
+			break;
+			}
 		default:
 			_outputAlgResult(dwSize,pbData);
 	}

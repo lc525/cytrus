@@ -24,10 +24,14 @@
 	#endif
 #endif
 
+#include <vector>
+#include "poi.h"
+
 namespace cytrus{
 	namespace alg{
 		class CYTRUSALGLIB_API ILocator{
-
+			public:
+				virtual void locatePOIInImage(std::vector<Poi>& iPts_out)=0;
 		};
 	}
 }
