@@ -54,6 +54,11 @@ SurfAlg::SurfAlg(IImageSource* imgSrc, POIAlgResult outputFunc):
 	_outputModes->push_back(integral);
 }
 
+SurfAlg::~SurfAlg(){
+	if(_poiLoc!=NULL) delete _poiLoc;
+	if(_poiDescr!=NULL) delete _poiDescr;
+}
+
 void SurfAlg::processImage(unsigned long dwSize, unsigned char* pbData){
 	std::pair<int,int> size=_imgSource->getImageSize();
 	int width=size.first;
@@ -86,7 +91,9 @@ void SurfAlg::processImage(unsigned long dwSize, unsigned char* pbData){
 	IntegralImageTransform::applyTransform(grView,integralView);
 	
 
-	//((FastHessianLocator<gray32_view_t>*)_poiLoc)->
+	FastHessianLocator<gray32_view_t>* locator=(FastHessianLocator<gray32_view_t>*)_poiLoc;
+	locator->setSourceIntegralImg(integralView);
+	locator->locatePOIInImage(iPts);
 
 	unsigned long nSize=width*height*3;
 
