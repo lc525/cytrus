@@ -38,6 +38,7 @@ namespace cytrus{
 			template <typename IntegralImageView>
 			static float boxFilter(IntegralImageView& src, int xSt, int ySt, int boxHeight, int boxWidth);
 		};
+		
 	}
 }
 

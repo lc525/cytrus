@@ -42,6 +42,7 @@ namespace cytrus{
 				std::vector<Poi> iPts;
 			public:
 				SurfAlg(IImageSource* imgSrc, POIAlgResult outputFunc);
+				~SurfAlg();
 
 				virtual void processImage(unsigned long dwSize, unsigned char* pbData);
 
