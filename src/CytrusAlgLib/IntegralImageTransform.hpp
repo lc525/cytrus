@@ -70,11 +70,12 @@ float IntegralImageTransform::boxFilter(IntegralImageView& src, int xSt, int ySt
 	if(colEnd<0) colEnd=0;
 
 	IntegralImageView::xy_locator A,B,C,D;
-	A=src.xy_at(rowStart,colStart);
-	B=src.xy_at(rowStart,colEnd);
-	C=src.xy_at(rowEnd,colStart);
-	D=src.xy_at(rowEnd,colEnd);
+	A=src.xy_at(colStart,rowStart);
+	B=src.xy_at(colEnd,rowStart);
+	C=src.xy_at(colStart,rowEnd);
+	D=src.xy_at(colEnd,rowEnd);
 
-	return max(0, *A-*B-*C+*D);
+	float val=(*A)-(*B)-(*C)+(*D);
+	return max(0, val);
 
 }

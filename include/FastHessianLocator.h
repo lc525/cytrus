@@ -46,30 +46,41 @@ namespace cytrus{
 			private:
 				void initSetup(const int octaves, 
 							   const int intervals, 
-							   const int intSample, 
+							   const int sampling, 
 							   const float threshold);
+
+				void buildDet(); // this fills the hessianDet with values calculated
+								 // for pixels in the image (sampled)
 			protected:
 
 			IntegralImageView* _img;
+			int i_width, i_height;
+
 			int _octaves;
 			int _intervals;
-			int _intSample;
+			int _sampling;
 			int _threshold;
+
+			float* hessianDet; // array that contains
 
 			public:
 				FastHessianLocator(IntegralImageView& intImg, 
 								   const int octaves = OCTAVES, 
 								   const int intervals = INTERVALS, 
-								   const int intSample = INT_SAMPLE, 
+								   const int sampling = INT_SAMPLE, 
 								   const float threshold = THRES);
 
 				FastHessianLocator(const int octaves = OCTAVES, 
 								   const int intervals = INTERVALS, 
-								   const int intSample = INT_SAMPLE, 
+								   const int sampling = INT_SAMPLE, 
 								   const float threshold = THRES);
 
 				void setSourceIntegralImg(IntegralImageView& intImg);
 
+				
+				// Outputs in the given vector the interest points detected in the
+				// image, having only the location and scale information
+				// computed for them. 
 				virtual void locatePOIInImage(std::vector<Poi>& iPts_out);
 		};
 	}
