@@ -20,7 +20,8 @@ IImageConsumer::~IImageConsumer(){
 }
 
 
-IImageConsumer::IImageConsumer(IImageSource* imgSource){
+IImageConsumer::IImageConsumer(IImageSource* imgSource, int index){
 	_imgSource=imgSource;
+	consumerIndex=index;
 	_imgSource->registerImageConsumer(this);
 }

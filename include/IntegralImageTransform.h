@@ -36,7 +36,7 @@ namespace cytrus{
 			// ImageViewConcept<SrcView> >();
 			// The current implementation assumes the view has only one channel
 			template <typename IntegralImageView>
-			static float boxFilter(IntegralImageView& src, int xSt, int ySt, int boxHeight, int boxWidth);
+			static float boxFilter(IntegralImageView* src, int xSt, int ySt, int boxHeight, int boxWidth);
 		};
 		
 	}

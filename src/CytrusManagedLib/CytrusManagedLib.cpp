@@ -12,24 +12,29 @@
 */
 
 #include "stdafx.h"
-
 #include "CytrusManagedLib.h"
+
+//#define DEBUG_EVENTLOG // define to write alg worker information to Windows Event Log
+#define MAX_PROCESSING_THREADS 4
 
 using namespace cytrus::managed;
 using namespace System::Windows::Media;
 using namespace System::Threading;
+using namespace System::Diagnostics;
 
-void CameraMgr::callImageCaptureEvent(int dwSize, unsigned char* pbData){
-	/*if(lastdwSize==-1) lastdwSize=dwSize;
-	else
-		if(lastdwSize!=dwSize){
-			onOutputModeChange(outputModes[alg->getCurrentOutputMode()]);
-			lastdwSize=dwSize;
-		}*/ // outputMode change events (not used)
+void CameraMgr::callImageCaptureEvent(int dwSize, unsigned char* pbData, int index1){
 
 	array<byte>^ byteArray = gcnew array< byte >(dwSize);
+	List<Poi_m^>^ poiArray = gcnew List<Poi_m^>(120);
 	Marshal::Copy((IntPtr)pbData,byteArray, 0, dwSize);
-	onImageAvailableForRendering(byteArray);
+	std::list<IPOIAlgorithm*>::iterator it=alg_ProcessingPool->begin();
+	std::advance(it,index1);
+	std::vector<Poi> pctLst=(*it)->getPoiResult();
+	for(std::vector<Poi>::iterator it=pctLst.begin(); it!=pctLst.end(); it++){
+		poiArray->Add(gcnew Poi_m(it->x, it->y));
+	}
+
+	onImageAvailableForRendering(byteArray, poiArray);
 }
 
 void CameraMgr::newImageAvailableEvent(){
@@ -37,21 +42,35 @@ void CameraMgr::newImageAvailableEvent(){
 	int workerThreads;
 	int completionPortThreads;
 	ThreadPool::GetAvailableThreads(workerThreads,completionPortThreads);
-	if(workerThreads>0) //drop frames instead of creating a huge number of threads
+	if(workerThreads>0) //drop frames instead of creating a huge queue
 		ThreadPool::QueueUserWorkItem(gcnew WaitCallback(this, &CameraMgr::cameraNotifyConsumers));
-
-	//Thread^ t1=gcnew Thread(gcnew ThreadStart(this, &CameraMgr::cameraNotifyConsumers));
-	//t1->Name="Surf processing thread";
-	//t1->Start();
 }
 
 void CameraMgr::cameraNotifyConsumers(Object^ o){
-	//on different thread:
-	cs->notifyConsumers();
+	//on a different thread:
+
+	int code=Thread::CurrentThread->GetHashCode();
+	int index2;
+	if(!threadIndexes->ContainsKey(code)){
+		threadIndexes->Add(code,thNr++);
+
+		#ifdef DEBUG_EVENTLOG
+			String^ u="Cytrus running processing on thread "+code.ToString();
+			EventLog^ e=gcnew EventLog("Application");
+			e->Source="Cytrus";
+			e->WriteEntry(u);
+		#endif
+	}
+	else
+		index2=threadIndexes[code];
+	
+	cs->notifyConsumer(index2);
 }
 
 
 CameraMgr::CameraMgr(){
+	threadIndexes=gcnew Dictionary<int,int>();
+	alg_ProcessingPool=new std::list<IPOIAlgorithm*>();
 	cList=gcnew ObservableCollection<String^>();
 	outputModes=gcnew ObservableCollection<OutputMode^>();
 	//lastdwSize=-1; // outputMode change events (not used)
@@ -78,9 +97,14 @@ CameraMgr::CameraMgr(){
 	IntPtr ip = Marshal::GetFunctionPointerForDelegate(fPtr);
 	result = static_cast<POIAlgResult>(ip.ToPointer());
 
+	ThreadPool::SetMaxThreads(MAX_PROCESSING_THREADS,1000);
 	//Initialise processing
-	alg=new SurfAlg(cs, result);
+	for(int u=0; u<MAX_PROCESSING_THREADS; u++){
+		IPOIAlgorithm* pw=new SurfAlg(cs, result, u);
+		alg_ProcessingPool->push_back(pw);
+	}
 
+	IPOIAlgorithm* alg=*(alg_ProcessingPool->begin());
 	outputModesULst=alg->getOutputModes();
 	for(std::list<std::pair<char*,int>*>::iterator it=outputModesULst->begin(); it!=outputModesULst->end(); it++){
 		String^ name=gcnew String((*it)->first);
@@ -100,7 +124,10 @@ CameraMgr::CameraMgr(){
 CameraMgr::!CameraMgr(){
 	gch.Free();
 	nigch.Free();
-	delete alg;
+	for(std::list<IPOIAlgorithm*>::iterator it=alg_ProcessingPool->begin(); it!=alg_ProcessingPool->end(); it++){
+		delete *it;
+	}
+	delete alg_ProcessingPool;
 }
 
 void CameraMgr::selectCamera(int i){
@@ -132,7 +159,9 @@ void CameraMgr::showPropertiesDialog(IntPtr window){
 
 
 void CameraMgr::setActiveOutputMode(int modeIndex){
-	alg->setOutputMode(modeIndex);
+	for(std::list<IPOIAlgorithm*>::iterator it=alg_ProcessingPool->begin(); it!=alg_ProcessingPool->end(); it++){
+		(*it)->setOutputMode(modeIndex);
+	}
 }
 
 ObservableCollection<OutputMode^>^ CameraMgr::getOutputModesList(){
@@ -140,16 +169,19 @@ ObservableCollection<OutputMode^>^ CameraMgr::getOutputModesList(){
 }
 
 bool CameraMgr::setProcessingSize(int width, int height){
-	bool success=alg->setProcessingSize(width, height);
-	if(success){
-		_camWidth=width;
-		_camHeight=height;
+	bool success;
+	for(std::list<IPOIAlgorithm*>::iterator it=alg_ProcessingPool->begin(); it!=alg_ProcessingPool->end(); it++){
+		success=(*it)->setProcessingSize(width, height);
+		if(success){
+			_camWidth=width;
+			_camHeight=height;
+		}
 	}
 	return success;
 }
 
 void CameraMgr::startCapture(){
-	alg->run();
+	cs->startCapture();
 	_camWidth=cs->width;
 	_camHeight=cs->height;
 }
@@ -157,5 +189,6 @@ void CameraMgr::startCapture(){
 
 void CameraMgr::stopCapture(){
 	cs->stopCapture();
+
 }
 

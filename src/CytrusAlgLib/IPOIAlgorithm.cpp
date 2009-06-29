@@ -16,7 +16,7 @@
 
 using namespace cytrus::alg;
 
-IPOIAlgorithm::IPOIAlgorithm(IImageSource* imgSrc, ILocator* poiLocator, IDescriptor* poiDescriptor, POIAlgResult outputFunc):IImageConsumer(imgSrc){
+IPOIAlgorithm::IPOIAlgorithm(IImageSource* imgSrc, ILocator* poiLocator, IDescriptor* poiDescriptor, POIAlgResult outputFunc, int index):IImageConsumer(imgSrc, index){
 	_poiLoc=poiLocator;
 	_poiDescr=poiDescriptor;
 	_outputAlgResult=outputFunc;
@@ -51,4 +51,9 @@ std::list<std::pair<char*,int>*>* IPOIAlgorithm::getOutputModes(){
 void IPOIAlgorithm::run(){
 	_imgSource->startCapture();
 }
+
+std::vector<Poi> IPOIAlgorithm::getPoiResult(){
+	return iPts;
+}
+
 

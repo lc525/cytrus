@@ -244,6 +244,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Poi_m.h"
+				>
+			</File>
+			<File
 				RelativePath=".\resource.h"
 				>
 			</File>

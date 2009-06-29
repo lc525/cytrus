@@ -52,11 +52,11 @@ void IntegralImageTransform::applyTransform(SrcView& src, DstView& dst){
 }
 
 template <typename IntegralImageView>
-float IntegralImageTransform::boxFilter(IntegralImageView& src, int xSt, int ySt, int boxHeight, int boxWidth){
+float IntegralImageTransform::boxFilter(IntegralImageView* src, int xSt, int ySt, int boxHeight, int boxWidth){
 	gil_function_requires<ImageViewConcept<IntegralImageView> >();
 	
-	int width=src.width();
-	int height=src.height();
+	int width=src->width();
+	int height=src->height();
 
 	int rowStart = min(xSt, height) - 1;
 	int colStart = min(ySt, width)  - 1;
@@ -70,10 +70,10 @@ float IntegralImageTransform::boxFilter(IntegralImageView& src, int xSt, int ySt
 	if(colEnd<0) colEnd=0;
 
 	IntegralImageView::xy_locator A,B,C,D;
-	A=src.xy_at(colStart,rowStart);
-	B=src.xy_at(colEnd,rowStart);
-	C=src.xy_at(colStart,rowEnd);
-	D=src.xy_at(colEnd,rowEnd);
+	A=src->xy_at(colStart,rowStart);
+	C=src->xy_at(colStart,rowEnd);
+	B=src->xy_at(colEnd,rowStart);
+	D=src->xy_at(colEnd,rowEnd);
 
 	float val=(*A)-(*B)-(*C)+(*D);
 	return max(0, val);
