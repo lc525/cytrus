@@ -15,23 +15,26 @@
 #include "CytrusManagedLib.h"
 
 //#define DEBUG_EVENTLOG // define to write alg worker information to Windows Event Log
+#define MAX_PROCESSING_THREADS 4
 
 using namespace cytrus::managed;
 using namespace System::Windows::Media;
 using namespace System::Threading;
 using namespace System::Diagnostics;
 
-void CameraMgr::callImageCaptureEvent(int dwSize, unsigned char* pbData){
-	/*if(lastdwSize==-1) lastdwSize=dwSize;
-	else
-		if(lastdwSize!=dwSize){
-			onOutputModeChange(outputModes[alg->getCurrentOutputMode()]);
-			lastdwSize=dwSize;
-		}*/ // outputMode change events (not used)
+void CameraMgr::callImageCaptureEvent(int dwSize, unsigned char* pbData, int index1){
 
 	array<byte>^ byteArray = gcnew array< byte >(dwSize);
+	List<Poi_m^>^ poiArray = gcnew List<Poi_m^>(120);
 	Marshal::Copy((IntPtr)pbData,byteArray, 0, dwSize);
-	onImageAvailableForRendering(byteArray);
+	std::list<IPOIAlgorithm*>::iterator it=alg_ProcessingPool->begin();
+	std::advance(it,index1);
+	std::vector<Poi> pctLst=(*it)->getPoiResult();
+	for(std::vector<Poi>::iterator it=pctLst.begin(); it!=pctLst.end(); it++){
+		poiArray->Add(gcnew Poi_m(it->x, it->y));
+	}
+
+	onImageAvailableForRendering(byteArray, poiArray);
 }
 
 void CameraMgr::newImageAvailableEvent(){
@@ -39,16 +42,15 @@ void CameraMgr::newImageAvailableEvent(){
 	int workerThreads;
 	int completionPortThreads;
 	ThreadPool::GetAvailableThreads(workerThreads,completionPortThreads);
-	if(workerThreads>0) //drop frames instead of creating a huge number of threads
+	if(workerThreads>0) //drop frames instead of creating a huge queue
 		ThreadPool::QueueUserWorkItem(gcnew WaitCallback(this, &CameraMgr::cameraNotifyConsumers));
-	//Thread^ t1=gcnew Thread(gcnew ThreadStart(this, &CameraMgr::cameraNotifyConsumers));
-	//t1->Name="Surf processing thread";
-	//t1->Start();
 }
 
 void CameraMgr::cameraNotifyConsumers(Object^ o){
+	//on a different thread:
+
 	int code=Thread::CurrentThread->GetHashCode();
-	int index;
+	int index2;
 	if(!threadIndexes->ContainsKey(code)){
 		threadIndexes->Add(code,thNr++);
 
@@ -60,10 +62,9 @@ void CameraMgr::cameraNotifyConsumers(Object^ o){
 		#endif
 	}
 	else
-		index=threadIndexes[code];
+		index2=threadIndexes[code];
 	
-	//on different thread:
-	cs->notifyConsumer(index);
+	cs->notifyConsumer(index2);
 }
 
 
@@ -96,12 +97,10 @@ CameraMgr::CameraMgr(){
 	IntPtr ip = Marshal::GetFunctionPointerForDelegate(fPtr);
 	result = static_cast<POIAlgResult>(ip.ToPointer());
 
-	int workerThreads;
-	int completionPortThreads;
-	ThreadPool::GetMaxThreads(workerThreads,completionPortThreads);
+	ThreadPool::SetMaxThreads(MAX_PROCESSING_THREADS,1000);
 	//Initialise processing
-	for(int u=0; u<workerThreads; u++){
-		IPOIAlgorithm* pw=new SurfAlg(cs, result);
+	for(int u=0; u<MAX_PROCESSING_THREADS; u++){
+		IPOIAlgorithm* pw=new SurfAlg(cs, result, u);
 		alg_ProcessingPool->push_back(pw);
 	}
 
@@ -190,5 +189,6 @@ void CameraMgr::startCapture(){
 
 void CameraMgr::stopCapture(){
 	cs->stopCapture();
+
 }
 

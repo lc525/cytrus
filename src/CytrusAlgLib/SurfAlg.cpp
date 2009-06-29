@@ -32,11 +32,11 @@ using namespace boost::gil;
 	unsigned long get_in_256_range::max=1;
 //
 
-SurfAlg::SurfAlg(IImageSource* imgSrc, POIAlgResult outputFunc):
+SurfAlg::SurfAlg(IImageSource* imgSrc, POIAlgResult outputFunc, int index):
 	IPOIAlgorithm(imgSrc,
 				  new FastHessianLocator<gray32_view_t>,
 				  NULL,
-				  outputFunc){
+				  outputFunc, index){
 	
 	_pWidth=-1;
 	_pHeight=-1;
@@ -92,27 +92,29 @@ void SurfAlg::processImage(unsigned long dwSize, unsigned char* pbData){
 	
 
 	FastHessianLocator<gray32_view_t>* locator=(FastHessianLocator<gray32_view_t>*)_poiLoc;
+	locator->setParameters(3,4,width/120>=2?width/120:2, 10.007f);
 	locator->setSourceIntegralImg(integralView);
+	iPts.clear();
 	locator->locatePOIInImage(iPts);
 
 	unsigned long nSize=width*height*3;
 
 	switch(_currentOutputMode){
 		case 0:
-			_outputAlgResult(nSize,(unsigned char*)interleaved_view_get_raw_data(*prelView)); break;
+			_outputAlgResult(nSize,(unsigned char*)interleaved_view_get_raw_data(*prelView), consumerIndex); break;
 		case 1:
-			_outputAlgResult(nSize/3,(unsigned char*)interleaved_view_get_raw_data(grView)); break;
+			_outputAlgResult(nSize/3,(unsigned char*)interleaved_view_get_raw_data(grView), consumerIndex); break;
 		case 2:
 			{
 			gray8_image_t rangeImg(width,height);
 			gray8_view_t rangedView=view(rangeImg);
 			get_in_256_range::max=*(integralView.xy_at(width-1,height-1));
 			transform_pixels(integralView,rangedView,get_in_256_range());
-			_outputAlgResult(nSize/3,(unsigned char*)interleaved_view_get_raw_data(rangedView)); 
+			_outputAlgResult(nSize/3,(unsigned char*)interleaved_view_get_raw_data(rangedView), consumerIndex); 
 			break;
 			}
 		default:
-			_outputAlgResult(dwSize,pbData);
+			_outputAlgResult(dwSize,pbData,consumerIndex);
 	}
 
 	//cleanup:

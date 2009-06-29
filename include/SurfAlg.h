@@ -39,9 +39,8 @@ namespace cytrus{
 				volatile int _pWidth, _pHeight;
 				volatile bool _isCustomPrelSize;
 
-				std::vector<Poi> iPts;
 			public:
-				SurfAlg(IImageSource* imgSrc, POIAlgResult outputFunc);
+				SurfAlg(IImageSource* imgSrc, POIAlgResult outputFunc, int index);
 				~SurfAlg();
 
 				virtual void processImage(unsigned long dwSize, unsigned char* pbData);

@@ -29,9 +29,9 @@ using namespace cytrus::alg;
 namespace cytrus {
 	namespace managed{
 
-		delegate void RenderResultCallbackProc(int dwSize, unsigned char* pbData);
+		delegate void RenderResultCallbackProc(int dwSize, unsigned char* pbData, int index);
 		delegate void NewImageCallback();
-		public delegate void ImageCaptureCallback(array<byte>^ pbData);
+		public delegate void ImageCaptureCallback(array<byte>^ pbData, List<Poi_m^>^ poiData);
 
 		public ref struct OutputMode{
 			String^ modeName;
@@ -63,7 +63,7 @@ namespace cytrus {
 			POIAlgResult result;
 			NewImageAvailableCallback newImageAvailable;
 
-			void callImageCaptureEvent(int dwSize, unsigned char* pbData);
+			void callImageCaptureEvent(int dwSize, unsigned char* pbData, int index);
 			void newImageAvailableEvent();
 			void cameraNotifyConsumers(Object^ o);
 

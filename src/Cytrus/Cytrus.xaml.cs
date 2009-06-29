@@ -18,6 +18,7 @@ using System.IO;
 using System.Windows.Threading;
 using Tomers.WPF.Imaging.Demo;
 using System.ComponentModel;
+using ImageAnnotationDemo;
 
 namespace cytrus.managed
 {
@@ -43,6 +44,7 @@ namespace cytrus.managed
         }
         
         private CameraMgr cameraManager;
+        readonly List<PoiImageAnnotation> _poiAnnotations = new List<PoiImageAnnotation>();
         static bool isCapturing;
         private FrameRenderer _frameRenderer = FrameRenderer.Null;
         private ObservableCollection<RecognisedObject> _rObj = new ObservableCollection<RecognisedObject>();
@@ -50,9 +52,10 @@ namespace cytrus.managed
         private SelectionChangedEventHandler sizeChangeHandler;
         private DateTime _lastCapture;
         private double _fps;
-        private double _meanfps;
         private int meanFrames;
         private int currentNoOfFrames;
+        private Size imgSize;
+
         
         public Window1()
         {
@@ -61,8 +64,7 @@ namespace cytrus.managed
             _rObj.Add(new RecognisedObject("Human Face", 20));
             //
             Fps = 0;
-            _meanfps = 0;
-            meanFrames = 25;
+            meanFrames = 100;
             currentNoOfFrames = 0;
             InitializeComponent();
             sizeChangeHandler = new SelectionChangedEventHandler(imgSizeCombo_SelectionChanged);
@@ -78,32 +80,50 @@ namespace cytrus.managed
             outputM.ItemsSource = cameraManager.getOutputModesList();
             cameraManager.setActiveOutputMode(0);
             cameraManager.selectCamera(0);
-
             cameraManager.onImageAvailableForRendering += new ImageCaptureCallback(c_onNewImageAvailable);
             //cameraManager.onOutputModeChange += new OutputModeCallback(cameraManager_onOutputModeChange);
             isCapturing = false;
         }
 
 
-        void c_onNewImageAvailable(byte[] pbData)
+        void c_onNewImageAvailable(byte[] pbData, List<Poi_m> poiData)
         {
             this.Dispatcher.Invoke(DispatcherPriority.Normal, (Action)(() =>
             {
-                DateTime dtCap = DateTime.Now;
                 if (currentNoOfFrames < meanFrames)
                 {
-                    double milliseconds = ((dtCap.Ticks - _lastCapture.Ticks) / TimeSpan.TicksPerMillisecond);// *1.15;
-                    _meanfps += Math.Round(1000 / milliseconds, 0);
                     currentNoOfFrames++;
                 }
                 else
                 {
-                    Fps = Math.Round(_meanfps / meanFrames,0);
+                    DateTime dtCap = DateTime.Now;
+                    double milliseconds = (double)((dtCap.Ticks - _lastCapture.Ticks) / TimeSpan.TicksPerMillisecond); //*1.15;
+                    Fps = Math.Round((meanFrames*1000)/milliseconds,2);
                     currentNoOfFrames = 0;
-                    _meanfps = 0;
+                    _lastCapture = dtCap;
                 }
-                _lastCapture = dtCap;
                 _frameRenderer.RenderFrame(pbData);
+
+                //display poi's:
+                //int st = (int)Fps / 3+1;
+                //if (currentNoOfFrames % 5 == 0)
+                //{
+                //    foreach (PoiImageAnnotation p in _poiAnnotations)
+                //    {
+                //        p.Delete();
+                //    }
+                //    _poiAnnotations.Clear();
+                //    //foreach (Poi_m p in poiData)
+                //    //{
+                //    //    _poiAnnotations.Add(PoiImageAnnotation.Create(captureImg, p));
+                //    //}
+                //    for (int i = 0; i<poiData.Count; i++)
+                //    {
+                //        _poiAnnotations.Add(PoiImageAnnotation.Create(captureImg, poiData[i],imgSize));
+                //    }
+                //}
+
+
             }));
         }
 
@@ -128,12 +148,14 @@ namespace cytrus.managed
 
         private void StartCapture_Click(object sender, RoutedEventArgs e)
         {
+            imgSize = captureImg.RenderSize;
             if (!isCapturing)
             {
                 isCapturing = true;
                 StartCapture.Content = "Stop Capture";
                 StartCapture.SetResourceReference(BackgroundProperty, "stopCaptureButtonBrush");
                 No_capture.Visibility = Visibility.Collapsed;
+
                 cameraManager.startCapture();
 
                 Binding myBinding = new Binding("Fps");
@@ -152,6 +174,7 @@ namespace cytrus.managed
                 // change back to current pixelformat
                 OutputMode om = outputM.SelectedItem as OutputMode;
                 _frameRenderer.ChangePixelFormat((PixelFormat)om.pixelFormat);
+
 
                 _prelSizes.Clear();
                 for (int i = 0; i < 4; i++)
@@ -172,7 +195,6 @@ namespace cytrus.managed
                 imgSizeCombo.IsEnabled = false;
                 StartCapture.Content = "Start Capture";
                 Fps = 0;
-                _meanfps = 0;
                 currentNoOfFrames = 0;
                 StartCapture.SetResourceReference(BackgroundProperty, "captureOnButtonBrush");
                 cameraManager.stopCapture();

@@ -44,13 +44,23 @@ namespace cytrus{
 		class FastHessianLocator:public ILocator{
 
 			private:
-				void initSetup(const int octaves, 
-							   const int intervals, 
-							   const int sampling, 
-							   const float threshold);
 
 				void buildDet(); // this fills the hessianDet with values calculated
 								 // for pixels in the image (sampled)
+				
+				//! Interpolation functions - adapted from Lowe's SIFT implementation
+				// (Adapted from Bay, Evans - SURF, the above coment is from their
+				//  implementation)
+				void interpolateExtremum(std::vector<Poi>& iPts_out, int octv, int intvl, int r, int c);
+				void interpolateStep(int octv, int intvl, int r, int c, double* xi, double* xr, double* xc );
+				double* deriv3D( int octv, int intvl, int r, int c );
+				double* hessian3D(int octv, int intvl, int r, int c );
+				// Non-maximum supression
+				int isExtremum(int octv, int intvl, int column, int row); 
+				
+				//utility
+				inline int getLaplacianSign(int o, int i, int c, int r);
+				inline float getHessian(int octave, int interval, int column, int row);
 			protected:
 
 			IntegralImageView* _img;
@@ -76,7 +86,10 @@ namespace cytrus{
 								   const float threshold = THRES);
 
 				void setSourceIntegralImg(IntegralImageView& intImg);
-
+				void setParameters(const int octaves, 
+								   const int intervals, 
+								   const int sampling , 
+								   const float threshold);
 				
 				// Outputs in the given vector the interest points detected in the
 				// image, having only the location and scale information

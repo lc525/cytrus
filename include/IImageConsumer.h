@@ -33,8 +33,8 @@ namespace cytrus{
 			protected:
 				IImageSource* _imgSource;
 			public: 
-				
-				IImageConsumer(IImageSource* imgSource);
+				int consumerIndex; // for identifying multiple consumers
+				IImageConsumer(IImageSource* imgSource, int index);
 				virtual ~IImageConsumer();
 				//
 				// This function is called by the image source when the image data is ready
