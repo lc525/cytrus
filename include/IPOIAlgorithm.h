@@ -35,16 +35,18 @@ using namespace cytrus::alg;
 
 namespace cytrus{
 	namespace alg{
-		typedef void (__stdcall *POIAlgResult)(unsigned long dwSize, unsigned char* pbData);
+		typedef void (__stdcall *POIAlgResult)(unsigned long dwSize, unsigned char* pbData, int index);
 		class CYTRUSALGLIB_API IPOIAlgorithm : public IImageConsumer{
 			protected:
 				ILocator *_poiLoc;
 				IDescriptor *_poiDescr;
 				POIAlgResult _outputAlgResult;
+				std::vector<Poi> iPts;
+
 				std::list<std::pair<char*,int>*>* _outputModes;
 				volatile int _currentOutputMode;
 			public:
-				IPOIAlgorithm(IImageSource* imgSrc, ILocator* poiLocator, IDescriptor* poiDescriptor, POIAlgResult outputFunc);
+				IPOIAlgorithm(IImageSource* imgSrc, ILocator* poiLocator, IDescriptor* poiDescriptor, POIAlgResult outputFunc, int index);
 				virtual ~IPOIAlgorithm();
 
 				//This function should be overriden to process the image data from the source.
@@ -67,6 +69,8 @@ namespace cytrus{
 				
 				//Runs the POI Algorithm
 				void run();
+
+				std::vector<Poi> getPoiResult();
 		};
 	}
 }
