@@ -131,55 +131,6 @@ void FastHessianLocator<IntegralImageView>::locatePOIInImage(std::vector<Poi>& i
 	}
 
 }
-
-
-template <typename IntegralImageView>
-void FastHessianLocator<IntegralImageView>::buildDet(){
-	int l, w, b, border, samplingStep;
-	float Dxx, Dyy, Dxy, inverse_area;
-
-	for(int o=0; o<_octaves; o++) 
-	{
-		samplingStep = _sampling * (int)floor(pow(2.0f,o)+0.5f);
-		border = border_cache[o];
-
-		for(int i=0; i<_intervals; i++) {
-
-		  l = lobe_cache[o*_intervals + i]; 
-		  w = 3 * l;                      
-		  b = w / 2;        
-		  inverse_area = 1.0f/(w * w);     
-
-		  for(int r = border; r < i_height - border; r += samplingStep) 
-		  {
-			for(int c = border; c < i_width - border; c += samplingStep) 
-			{
-				Dxx = IntegralImageTransform::boxFilter(*_img, r - l + 1, c - b, 2*l - 1, w)
-					- IntegralImageTransform::boxFilter(*_img, r - l + 1, c - l / 2, 2*l - 1, l)*3;
-			    Dyy = IntegralImageTransform::boxFilter(*_img, r - b, c - l + 1, w, 2*l - 1)
-				    - IntegralImageTransform::boxFilter(*_img, r - l / 2, c - l + 1, l, 2*l - 1)*3;
-			    Dxy = + IntegralImageTransform::boxFilter(*_img, r - l, c + 1, l, l)
-				      + IntegralImageTransform::boxFilter(*_img, r + 1, c - l, l, l)
-					  - IntegralImageTransform::boxFilter(*_img, r - l, c - l, l, l)
-					  - IntegralImageTransform::boxFilter(*_img, r + 1, c + 1, l, l);
-
-			  // Normalise the filter responses with respect to their size
-			  Dxx *= inverse_area;
-			  Dyy *= inverse_area;
-			  Dxy *= inverse_area;
-
-			  // Get the sign of the laplacian
-			  int lap_sign = (Dxx+Dyy >= 0 ? 1 : -1);
-
-			  // Get the determinant of hessian response
-			  float determinant = (Dxx*Dyy - pow(0.91f*Dxy,2));
-
-			  hessianDet[(o*_intervals+i)*(i_width*i_height) + (r*i_width+c)] 
-			  = (determinant < 0 ? 0 : lap_sign * determinant);
-			}
-		  }
-		}
-	}
 	
 //! Interpolates a scale-space extremum's location and scale to subpixel
 //! accuracy to form an image feature.

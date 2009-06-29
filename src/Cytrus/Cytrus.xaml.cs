@@ -106,22 +106,22 @@ namespace cytrus.managed
 
                 //display poi's:
                 //int st = (int)Fps / 3+1;
-                //if (currentNoOfFrames % 5 == 0)
-                //{
-                //    foreach (PoiImageAnnotation p in _poiAnnotations)
-                //    {
-                //        p.Delete();
-                //    }
-                //    _poiAnnotations.Clear();
-                //    //foreach (Poi_m p in poiData)
-                //    //{
-                //    //    _poiAnnotations.Add(PoiImageAnnotation.Create(captureImg, p));
-                //    //}
-                //    for (int i = 0; i<poiData.Count; i++)
-                //    {
-                //        _poiAnnotations.Add(PoiImageAnnotation.Create(captureImg, poiData[i],imgSize));
-                //    }
-                //}
+                if (currentNoOfFrames % 5 == 0)
+                {
+                    foreach (PoiImageAnnotation p in _poiAnnotations)
+                    {
+                        p.Delete();
+                    }
+                    _poiAnnotations.Clear();
+                    //foreach (Poi_m p in poiData)
+                    //{
+                    //    _poiAnnotations.Add(PoiImageAnnotation.Create(captureImg, p));
+                    //}
+                    for (int i = 0; i<poiData.Count; i++)
+                    {
+                        _poiAnnotations.Add(PoiImageAnnotation.Create(captureImg, poiData[i], captureImg.RenderSize));
+                    }
+                }
 
 
             }));
@@ -148,7 +148,7 @@ namespace cytrus.managed
 
         private void StartCapture_Click(object sender, RoutedEventArgs e)
         {
-            imgSize = captureImg.RenderSize;
+            imgSize = captureImg.RenderSize; // fake call, this apparently returns {0,0}
             if (!isCapturing)
             {
                 isCapturing = true;

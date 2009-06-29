@@ -44,10 +44,6 @@ namespace cytrus{
 		class FastHessianLocator:public ILocator{
 
 			private:
-				void initSetup(const int octaves, 
-							   const int intervals, 
-							   const int sampling, 				
-							   const float threshold);
 
 				void buildDet(); // this fills the hessianDet with values calculated
 						 // for pixels in the image (sampled)
