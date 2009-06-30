@@ -92,7 +92,7 @@ void SurfAlg::processImage(unsigned long dwSize, unsigned char* pbData){
 	
 
 	FastHessianLocator<gray32_view_t>* locator=(FastHessianLocator<gray32_view_t>*)_poiLoc;
-	locator->setParameters(3,4,width/120>=2?width/120:2, 10.007f);
+	locator->setParameters(3,4,width/120>=2?width/120:2, 5.007f);
 	locator->setSourceIntegralImg(integralView);
 	iPts.clear();
 	locator->locatePOIInImage(iPts);

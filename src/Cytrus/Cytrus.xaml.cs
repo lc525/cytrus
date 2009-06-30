@@ -55,7 +55,8 @@ namespace cytrus.managed
         private int meanFrames;
         private int currentNoOfFrames;
         private Size imgSize;
-
+        private PoiAdorner prevAdorner = null;
+        AdornerLayer myAdornerLayer;
         
         public Window1()
         {
@@ -83,6 +84,7 @@ namespace cytrus.managed
             cameraManager.onImageAvailableForRendering += new ImageCaptureCallback(c_onNewImageAvailable);
             //cameraManager.onOutputModeChange += new OutputModeCallback(cameraManager_onOutputModeChange);
             isCapturing = false;
+            myAdornerLayer = AdornerLayer.GetAdornerLayer(captureImg);
         }
 
 
@@ -106,21 +108,27 @@ namespace cytrus.managed
 
                 //display poi's:
                 //int st = (int)Fps / 3+1;
-                if (currentNoOfFrames % 5 == 0)
+                if (currentNoOfFrames % 2 == 0)
                 {
-                    foreach (PoiImageAnnotation p in _poiAnnotations)
-                    {
-                        p.Delete();
-                    }
-                    _poiAnnotations.Clear();
-                    //foreach (Poi_m p in poiData)
+                    //foreach (PoiImageAnnotation p in _poiAnnotations)
                     //{
-                    //    _poiAnnotations.Add(PoiImageAnnotation.Create(captureImg, p));
+                    //    p.Delete();
                     //}
-                    for (int i = 0; i<poiData.Count; i++)
-                    {
-                        _poiAnnotations.Add(PoiImageAnnotation.Create(captureImg, poiData[i], captureImg.RenderSize));
-                    }
+                    //_poiAnnotations.Clear();
+                    ////foreach (Poi_m p in poiData)
+                    ////{
+                    ////    _poiAnnotations.Add(PoiImageAnnotation.Create(captureImg, p));
+                    ////}
+                    //for (int i = 0; i<poiData.Count; i++)
+                    //{
+                    //    _poiAnnotations.Add(PoiImageAnnotation.Create(captureImg, poiData[i], captureImg.RenderSize));
+                    //}
+
+                    if (prevAdorner != null) myAdornerLayer.Remove(prevAdorner);
+                    ImgSize sz = (ImgSize)imgSizeCombo.SelectedItem;
+                    PoiAdorner newAdorner = new PoiAdorner(captureImg, poiData, new Size((double)sz.width,(double)sz.height));
+                    myAdornerLayer.Add(newAdorner);
+                    prevAdorner = newAdorner;
                 }
 
 

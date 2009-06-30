@@ -79,6 +79,7 @@
   <ItemGroup>
     <Compile Include="BindableObject.cs" />
     <Compile Include="FrameRenderer.cs" />
+    <Compile Include="PoiAdorner.cs" />
     <Compile Include="PoiImageAnnotation.cs" />
     <Compile Include="PoiImageAnnotationAdorner.cs" />
     <Compile Include="PoiImageAnnotationControl.xaml.cs">

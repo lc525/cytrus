@@ -50,7 +50,7 @@ void CameraMgr::cameraNotifyConsumers(Object^ o){
 	//on a different thread:
 
 	int code=Thread::CurrentThread->GetHashCode();
-	int index2;
+	int index;
 	if(!threadIndexes->ContainsKey(code)){
 		threadIndexes->Add(code,thNr++);
 
@@ -61,10 +61,8 @@ void CameraMgr::cameraNotifyConsumers(Object^ o){
 			e->WriteEntry(u);
 		#endif
 	}
-	else
-		index2=threadIndexes[code];
-	
-	cs->notifyConsumer(index2);
+	index=threadIndexes[code];
+	cs->notifyConsumer(index);
 }
 
 
