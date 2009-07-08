@@ -1,5 +1,30 @@
 \begin{theindex}
 
-  \item text, \hyperpage{5}, \hyperpage{7}
+  \item blob, \hyperpage{6}
+
+  \indexspace
+
+  \item detector Harris, \hyperpage{7}, \hyperpage{10}
+  \item DOG, \hyperpage{10}
+
+  \indexspace
+
+  \item feature matching, \hyperpage{6}
+
+  \indexspace
+
+  \item nucleu gaussian, \hyperpage{10}
+
+  \indexspace
+
+  \item scale space, \hyperpage{10}
+  \item SIFT, \hyperpage{9}, \hyperpage{14}
+  \item spaţiul scalărilor, \hyperpage{10}
+  \item SURF, \hyperpage{14}
+
+  \indexspace
+
+  \item template matching, \hyperpage{5}
+  \item text, \hyperpage{15}
 
 \end{theindex}

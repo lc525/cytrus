@@ -1,13 +1,209 @@
+\XeTeXinputencoding cp1250
+
 % ********** Chapter 2 **********
-\chapter{Noþiuni teoretice, stadiul actual}
+\chapter{Noþiuni teoretice}
 \label{sec:chapter2}
 
-Detecþia obiectelor într-o serie de imagini
+\section{Abordãri ale temei în literatura de specialitate}
 
+În funcþie de restricþiile aplicaþiei practice în care este utilizatã, recunoaºterea obiectelor poate lua mai multe forme, de la simpla împãrþire a imaginii în zone ce pot reprezenta obiecte (segmentare pe bazã de culoare), la o recunoaºtere completã, ce implicã determinarea locaþiei $(x,y)$ a unui obiect, reconstituirea poziþionãrii sale în spaþiu (sau 2D în planul imaginii) ºi recunoaºterea denumirii obiectului respectiv pe baza unor cunoºtiinþe anterioare ale sistemului.
 
+Oricare ar fi gradul de complexitate, la modul general se pune problema ca pornind de la o matrice de pixeli (imaginea), sã fie determinatã o submulþime a acestora care reprezintã un obiect. Fãrã a scãdea din generalitate, considerãm cã obiectul este dat de o regiune contiguã de pixeli din imaginea originalã. 
 
-Some reference~\cite{Led2004}
+O abordare directã a problemei, presupunând cã deþinem o imagine a obiectului, ar fi cãutarea tuturor pixelilor sãi într-o altã imagine datã. Îmbunãtãþiri ale acestei metode, caracterizatã de potrivirea unor "tipare" reprezentând obiectul în scene care îl conþin, au reprezentat începutul cercetãrii în domeniu (Figura \ref{fig:chap2:templatematching}). Soluþia \marginpar{template matching}(template matching\index{template matching}), în forma ei iniþialã, este ineficientã computaþional ºi sensibilã atât la modificãri ale mediului în care dorim sã realizãm recunoaºterea (luminozitate, reflexii) cât ºi la ocluzionãri parþiale ale obiectelor. Pentru obþinerea unei oarecare invarianþe, a fost propusã corelarea nivelurilor de gri din diverse zone ale imaginii reprezentând obiectul, cu zone din imagini care se presupune cã îl conþin.~\cite{Ballard82, Goshtasby84} Aceste studii sunt fãcute în contextul sistemelor de stereo-vizualizare, unde scena este fotografiatã simultan din perspective diferite ºi se doreºte determinarea unor corespondenþe între imagini, evitând o calibrare anterioarã sau cunoaºterea geometriei epipolare a sistemului. Mai recent, existã variante care propun modificãri ale metodei pentru a o putea rula în timp real~\cite{Cole04visualobject}.
 
-Some symbols:\label{sym:SIFT} LZ77\label{sym:LZ77}, LZ78\label{sym:LZ78}.
+Pentru a depãºi o parte din problemele metodei anterioare, se pleacã de la observaþia cã pentru recunoaºterea unui obiect nu este nevoie de toþi pixelii sãi, ci doar de o parte din aceºtia, ce definesc forma specificã a obiectului sau caracteristici importante ale acestuia. Se realizeazã o sintetizare a informaþiei din imaginea originalã, fãcându-se primul pas înspre reprezentarea respectivului obiect într-un mod abstract. Abordarea recunoaºterii obiectelor prin potrivirea unor astfel de trãsãturi abstracte \marginpar{feature matching}(feature matching\index{feature matching}) este cea de-a doua direcþie de cercetare în domeniu. (Figura \ref{fig:chap2:featurematching})
 
-% ********** End of chapter **********
+Aplicarea algoritmilor de acest tip presupune macarea trãsãturilor din imagine ca puncte de interes, având ca informaþie minimalã locaþia, $(x_t,y_t)$. Existã desigur ºi posibilitatea stocãrii unor date suplimentare precum orientarea sau scala caracteristicii determinate. 
+
+În mod tradiþional, trãsãturile alese pentru identificare ºi potrivire sunt muchii, colþuri sau contururi~\cite{Cheng84, Ullman79}. În momentul de faþã, sunt propuºi algoritmi care realizeazã ºi identificarea unor alte structuri, precum petele luminoase sau întunecate (eng. blob)~\cite{Lowe03distinctiveimage,Bay06surf:speeded}\index{blob}.
+
+\begin{figure}[htbp]
+\numberwithin{figure}{chapter}
+\centering
+\subfloat[][]{
+\includegraphics[scale=0.5]{chap2/template_matching.png}
+\label{fig:chap2:templatematching}
+}
+\subfloat[][]{
+\includegraphics[scale=0.5]{chap2/feature_matching.png}
+\label{fig:chap2:featurematching}
+}
+\label{fig:chap2:matching}
+\caption{\subref{fig:chap2:templatematching}: Potrivire bazatã pe tipare (template matching),~\subref{fig:chap2:featurematching}: Potrivire bazatã pe trãsãturi (feature matching)}
+\end{figure}
+
+Avantajul acestei metode este cã necesitã mai puþinã putere de calcul (operând asupra unui numãr relativ restrâns de pixeli) ºi poate fi prin urmare aplicatã cu uºurinþã în timp real. În plus, datoritã faptului cã se lucreazã cu o reprezentare intermediarã a obiectului (trãsãturi), metodele pot fi proiectate pentru a obþine un grad ridicat de invarianþã la anumiþi parametrii de mediu sau la transformãri afine aplicate obiectului. Abordarea eºueazã însã dacã nu se reuºeºte o determinare repetabilã ºi consistentã a trãsãturilor unui obiect în imagini diferite. În acest caz, potrivirea nu are loc ºi obiectul nu este detectat.
+
+Datoritã flexibilitãþii crescute ºi a rezultatelor foarte bune obþinute în practicã de cãtre abordarea potrivirii bazate pe trãsãturi, lucrarea de faþã utilizeazã aceastã metodã pentru recunoaºterea obiectelor.
+
+\section{Identificarea trãsãturilor}
+
+În identificarea trãsãturilor, se disting 2 metode, utilizate, cu unele adaptãri, în cele mai multe dintre aplicaþiile practice curente: Detectorul Harris, ºi SIFT (Scale Invariant Feature Transform). Aplicaþia propusã în lucrare utilizeazã o variantã îmbunãtãþitã a algoritmului SIFT, adaptatã pentru procesarea fluxurilor de imagini, în timp real. O parte a ideilor propuse iniþial de Harris si Stephens pentru detectorul Harris sunt reluate în algoritmul SIFT, prin urmare considerãm utilã prezentarea ambelor metode.
+
+\subsection{Detectorul Harris}
+Prima abordare, propusã de Harris ºi Stephens\index{detector Harris}, identificã în imagine colþurile ºi muchiile~\cite{Harris88acombined}. Cei doi pornesc de la o observaþie anterioarã a lui Moravec, care defineºte un colþ ca fiind un pixel care nu se aseamãnã cu pixelii din vecinãtatea sa. Astfel, pe o suprafaþã uniformã, un pixel va avea valori apropiate de cele ale vecinilor sãi; pe o muchie, în vecinãtatea pixelului se vor identifica modificãri mari relativ la valorile vecinilor perpendiculari pe direcþia muchiei, dar modificãri mici în direcþia muchiei. Însã dacã pixelul aparþine unei trãsãturi cu variaþii în toate direcþiile (un colþ), atunci nici una dintre vecinãtãþi nu va fi similarã pixelului. În~\cite{Harris88acombined}, formalizând matematic aceste observaþii, se defineºte noþiunea de autocorelaþie. Funcþia de autocorelaþie mãsoarã modificãrile locale ale semnalului 2D (imaginea), folosind ferestre deplasate pe distanþe mici în vecinãtatea punctului considerat. Fiind datã o deplasare $(\Delta{}x, \Delta{}y)$ ºi un punct $(x,y)$, funcþia de autocorelaþie este 
+\begin{equation}
+E(\Delta{}x, \Delta{}y)=\sum_{x,y}w(x,y)[I(x+\Delta{}x,y+\Delta{}y)-I(x,y)]^2
+\label{eq:chap2:autocorelatie}
+\end{equation} 
+unde $w(x,y)$ reprezintã funcþia fereastrã (ºi poate fi aleasã ca fiind o funcþie nucelu rectangularã sau, pentru a reduce influenþa zgomotului, un nucleu Gaussian) iar $I(\cdot{},\cdot)$ este funcþia imagine.
+
+Imaginea din fereastra deplasatã este aproximatã prin dezvoltarea în serie Taylor, trunchiatã la primii termeni,
+\begin{equation}
+I(x+\Delta{}x,y+\Delta{}y)=I(x,y)+
+\left[ \begin{array}{cc}
+I_x & I_y \end{array}\right]
+\left[\begin{array}{c}
+\Delta{}x\\
+\Delta{}y \end{array}\right]
+\label{eq:chap2:taylorexp}
+\end{equation}
+$I_x$ ºi $I_y$ fiind derivatele parþiale pe direcþia x, respectiv y.
+
+Înlocuind \ref{eq:chap2:taylorexp} în \ref{eq:chap2:autocorelatie} ºi considerând $\Delta{}x$ ºi $\Delta{}y$ suficient de mici, obþinem o ecuaþie de forma:
+
+\begin{equation*}
+E(\Delta{}x, \Delta{}y) \cong
+\left[ \begin{array}{cc}
+\Delta{}x & \Delta{}y \end{array}\right]
+M
+\left[\begin{array}{c}
+\Delta{}x\\
+\Delta{}y \end{array}\right]
+\end{equation*}
+M fiind o matrice $2\times{}2$ calculatã din derivatele locale parþiale ale imaginii,
+\begin{equation*}
+M=\sum_{x,y}w(x,y)
+\left[ \begin{array}{cc}
+I_x^2     & I_x{}I_y\\
+ I_x{}I_y & I_y^2    \end{array}\right]
+\end{equation*}
+
+Matricea M descrie structura localã a imaginii în vecinãtatea pixelului considerat. Fie $\lambda_1, \lambda_2$ valorile proprii ale acestei matrici. Existã 3 cazuri care trebuie considerate:
+\begin{enumerate}
+\item Dacã atât $\lambda_1$ cât ºi $\lambda_2$ au valori mici, astfel încât funcþia de autocorelaþie este platã (schimbãri mici ale lui $E(\Delta{}x, \Delta{}y)$ în orice direcþie), zona din fereastra consideratã este aproximativ uniformã.
+\item Dacã o valoare proprie este mare iar cealaltã este micã, astfel încât funcþia de autocorelaþie are forma unei trepte, atunci deplasãrile ferestrei într-o direcþie (de-a lungul treptei) produc modificãri mici ale lui E, iar deplasãrile pe o direcþie ortogonalã primeia produc modificãri mari. Acest lucru indicã o muchie.
+\item Dacã valorile proprii sunt ambele mari, deplasãrile în orice direcþie vor produce modificãri mari ale lui E, indicând un colþ.
+
+\end{enumerate}
+
+\begin{figure}[htbp]
+\numberwithin{figure}{chapter}
+\centering
+\includegraphics[scale=0.7]{chap2/harris_detector.png}
+\caption{Detectorul Harris (muchii ºi colþuri)}
+\label{fig:chap2:harrisdetector}
+\end{figure}
+Intuitiv, modul de operare al detectorului Harris este prezentat în Figura~\ref{fig:chap2:harrisdetector}. Performanþele sale au fost analizate în detaliu \cite{Schmid00}. Concluzia studiului este cã detectorul Harris este unul robust, putând fi aplicat cu succes inclusiv pe imagini afectate de zgomot ºi fiind invariant la rotaþii sau schimbãri ale luminozitãþii ambientale. Totuºi, repetabilitatea rezultatelor sale scade drastic la schimbãri ale perspectivei. O altã problemã a detectorului este cã nu este invariant la modificãrile de scalã ale obiectelor considerate. Acest lucru poate fi observat cu uºurinþã în Figura~\ref{fig:chap2:harrisscale}.
+\begin{figure}[htbp]
+\numberwithin{figure}{chapter}
+\centering
+\includegraphics[scale=0.7]{chap2/harris_scale.png}
+\caption{Modificarea scalei imaginii poate duce la rezultate diferite în cazul detectorului Harris}
+\label{fig:chap2:harrisscale}
+\end{figure}
+
+Au fost propuse ºi variante care sã fie invariante la scalãri (Harris-Laplacian), acestea fiind similare ca abordare cu cel de-al doilea detector important, SIFT.
+
+\subsection{Detectorul SIFT}
+SIFT (Scale Invariant Feature Transform)\label{sym:SIFT}\index{SIFT} este un algoritm propus de Lowe \cite{Lowe03distinctiveimage}, care include ca pas intermediar detecþia unor puncte de interes asimilate unor trãsãturi de tip "zonã luminoasã" sau "zonã întunecatã". Prin construcþia algoritmului, aceste zone sunt determinate pentru a fi invariante la scalãri, rotaþii ºi parþial invariante la modificãri ale luminozitãþii ºi la transformãri afine. Metoda aplicã o filtrare în cascadã, pentru a asigura calitatea punctelor de interes determinate, dar ºi pentru a aplica operaþiile intensive computaþional doar acelor zone care trec unele teste iniþiale. Pe lângã determinarea locaþiei punctelor de interes, algoritmul SIFT propune ºi metode de descriere a acestora în mod individual, astfel încât sã poatã fi identificate cu probabilitate mare în imagini noi. Practic, fiecãrui punct de interes îi este asociat un descriptor (vector caracteristic), calculat pe baza informaþiilor imaginii în vecinãtatea punctului de interes. 
+
+Aceste caracteristici fac SIFT ideal pentru aplicarea în zona recunoaºterii obiectelor. Pentru aceasta, mai intâi se extrag trãsãturile SIFT pentru un set de imagini de referinþã ce reprezintã obiectele, stocând descriptorii rezultaþi \mbox{într-o} bazã de date. Unei imagini noi, în care se doreºte identificarea unuia dintre obiectele existente în baza de date, i se aplicã acelaºi algoritm, iar descriptorii punctelor de interes rezultate sunt comparaþi individual cu descriptorii din baza de date. Potrivirile între descriptori se fac pe baza distanþei Euclidiene între vectori (nu se cautã doar potriviri exacte). Totuºi, într-o imagine aglomeratã, multe trãsãturi din fundal nu vor avea corespondenþi în baza de date, dând potriviri false, pe lângã cele corecte. Potrivirile corecte pot fi însã filtrate prin identificarea unor submulþimi de puncte de interes care sunt consistente cu aceeaºi localizare, scalã ºi orientare a obiectului în noua imagine. Determinarea acestor clustere poate fi realizatã eficient folosind transformata Hough.
+
+\subsubsection{Localizarea punctelor de interes}
+Primul pas în determinarea punctelor de interes SIFT îl reprezintã detectarea locaþiilor din imagine care sunt invariante la scalãri, prin cãutarea trãsãturilor stabile, folosind o funcþie de scalã cunoscutã sub denumirea de spaþiu al scalãrilor (eng. scale space\index{scale space}\index{spaþiul scalãrilor}). Spaþiul scalãrilor pentru o imagine este definit de funcþia $L(x,y,\sigma)$, obþinutã prin convoluþia unui nucleu Gaussian $G(x,y,\sigma)$ cu imaginea, $I(x,y)$. Pentru a obþine scalãri diferite, se variazã $\sigma$:
+\begin{equation*}
+L(x,y,\sigma)=G(x,y,\sigma)*I(x,y),
+\end{equation*} 
+unde $*$ reprezintã operaþia de convoluþie, iar nucleul Gaussian G\index{nucleu gaussian} este dat de formula:
+\begin{equation*}
+G(x,y,\sigma)=\frac{1}{2\pi\sigma^2}e^{-\frac{x^2+y^2}{2\sigma^2}}
+\end{equation*} 
+
+Pentru a detecta punctele de interes stabile în spaþiul scalãrilor, Lowe propune determinarea extremelor locale ale funcþiei "diferenþã de nuclee Gauss cu scalãri diferite", în convoluþie cu imaginea, $D(x,y,\sigma)$. Aceasta poate fi calculatã din diferenþa a douã scalãri separate de un factor $k$:
+\begin{eqnarray*}
+D(x,y,\sigma)&=&(G(x,y,k\sigma)-G(x,y,\sigma))*I(x,y)\\
+             &=&L(x,y,k\sigma)-L(x,y,\sigma)
+\end{eqnarray*}
+
+Existã mai multe motive pentru care a fost aleasã aceastã funcþie în mod particular. În primul rând, imaginile pentru care se aplicã filtrul Gaussian (convoluþie), trebuie oricum calculate în procesul de creare al spaþiului scalãrilor, D calculându-se în mod eficient prin scãderea imaginilor din douã scale adiacente. În al doilea rând, diferenþa nucleelor Gauss (Difference of Gaussian, DOG\label{sym:DOG}\index{DOG}) aproximeazã foarte bine Laplacianul Gaussian-ului, $\sigma^2\nabla^2G$. S-a demonstrat cã extremele aceastei funcþii reprezintã trãsãturi foarte stabile ale imaginii, în comparaþie cu trãsãturile determinate cu alte funcþii precum gradientul, Hessian-ul sau detectorul Harris\index{detector Harris}.
+
+Pentru a detecta extremele locale ale lui D, se realizeazã o eºantionare a funcþiei atât spaþial $(x,y)$, cât ºi pentru parametrul de scalã $(\sigma)$. Frecvanþa aleasã pentru eºantionare reprezintã un compromis între precizia localizãrii extremelor ºi puterea de calcul necesarã pentru determinarea lor. Astfel, o eºantionare cu frecvenþã mare duce la costuri mari din punct de vedere computaþional, iar o frecvenþã micã duce la o precizie scãzutã a algoritmului.
+
+Fiecare punct eºantionat este comparat cu cei 8 vecini ai sãi din imaginea curentã, ºi cei 9 vecini din scalãrile adiacente celei curente (Figura~\ref{fig:chap2:siftscale}). Punctul este selectat doar dacã este mai mare sau mai mic comparativ cu toþi vecinii sãi. Aceastã abordare se dovedeºte eficientã pentru cã majoritatea punctelor sunt eliminate dupã doar câteva comparaþii.
+\begin{figure}[htbp]
+\numberwithin{figure}{chapter}
+\centering
+\includegraphics[scale=0.7]{chap2/sift_scale.png}
+\caption{{\em SIFT: Detectarea minimelor ºi maximelor locale;} punctul central este comparat cu toþi vecinii marcaþi (\cite{Lowe03distinctiveimage})}
+\label{fig:chap2:siftscale}
+\end{figure}
+
+O precizie crescutã a localizãrii punctelor de interes se poate obþine folosind o metodã de aproximare a poziþionãrii maximului, prin interpolare. Astfel, se încearcã aproximarea punctelor eºantionate cu o funcþie cuadricã, 3D. Practic, se realizeazã o dezvoltare în serie Taylor pânã la termenii de grad 2, a funcþiei $D(x,y,\sigma)$, translatã astfel încât punctul eºantionat sã fie în origine:
+\begin{equation}
+D({\mathbf x})=D+\frac{\partial D}{\partial{\mathbf x}}^T{\mathbf x}+
+\frac{1}{2}{\mathbf x^T}\frac{\partial^2 D}{\partial{\mathbf x^2}}{\mathbf x}
+\label{eq:chap2:sifttaylor}
+\end{equation}
+unde D ºi derivatele sale sunt evaluate în punctul de eºantionare iar ${\mathbf x}=(x,y,\sigma)^T$ este deplasarea faþã de acest punct. Localizarea precisã a extremului, $\hat{\mathbf x}$ este determinatã prin derivarea ecuaþiei \ref{eq:chap2:sifttaylor} în raport cu ${\mathbf x}$ ºi egalarea cu zero, rezultând
+\begin{equation}
+\hat{\mathbf x}=-\frac{\partial^2 D}{\partial{\mathbf x^2}}^{-1}
+\frac{\partial D}{\partial{\mathbf x}}
+\label{eq:chap2:siftinterpolatedextr}
+\end{equation}
+Pentru a elimina punctele care sunt maxime locale dar se aflã într-o regiune cu un contrast slab (fiind deci instabile), se vor reþine doar acelea pentru care $D(\hat{\mathbf x})$ este mai mare decât o valoare prag (Lowe alege valoarea de prag 0.03 pentru experimentele sale).
+
+Totuºi, pentru o stabilitate crescutã, nu e suficientã îndepãrtarea trãsãturilor cu un contrast slab. Funcþia "diferenþã de nuclee Gauss" va avea un rãspuns puternic de-a lungul muchiilor, chiar dacã locaþia respectivã este determinatã imprecis, sensibilã la zgomotele din imagine. Pentru eliminarea acestor rãspunsuri, se foloseºte o abordare bazatã pe o matrice Hessianã $2\times 2$, calculatã în poziþia ºi pentru scala punctului de interes:
+\begin{equation}
+{\mathbf H}=
+\left[ \begin{array}{cc}
+D_{xx} & D_{xy}\\
+D_{xy} & D_{yy}\end{array}\right]
+\label{eq:chap2:sifthessian}
+\end{equation}
+
+Derivatele se estimeazã prin diferenþele faþã de punctele eºantionate din vecinãtate. Pentru eliminarea rãspunsurilor de-a lungul muchiilor, se impune ca raportul valorilor proprii ale acestei matrici sã fie sub o valoare prag (Lowe alege valoarea 10). Pentru cã eliminarea se face în funcþie de raportul valorilor proprii, nu este necesarã calcularea individualã a acestora. În loc, se folosesc determinantul ºi urma matricii ${\mathbf H}$. Dacã notãm valorile proprii cu $\lambda_1$ ºi $\lambda_2$, atunci:
+\begin{eqnarray*}
+Tr({\mathbf H})  &=& D_{xx}+D_{yy} = \lambda_1+\lambda_2\\
+Det({\mathbf H}) &=& D_{xx}D_{yy}-(D_{xy})^2 = \lambda_1 \lambda_2
+\end{eqnarray*}
+Considerãm arbitrar $\lambda_1>\lambda_2$ ºi notãm raportul valorilor proprii cu $r$, astfel încât $\lambda_1=r\lambda_2$. Atunci, avem:
+\begin{equation}
+\frac{Tr({\mathbf H})^2}{Det({\mathbf H})}=
+\frac{(\lambda_1+\lambda_2)^2}{\lambda_1\lambda_2}=
+\frac{(r\lambda_2+\lambda_2)^2}{r\lambda_2^2}=
+\frac{(r+1)^2}{r}
+\label{eq:chap2:eigraport}
+\end{equation}
+Prin urmare, pentru a impune r ca valoare prag, trebuie verificatã doar condiþia:
+\begin{equation}
+\frac{Tr({\mathbf H})^2}{Det({\mathbf H})}<
+\frac{(r+1)^2}{r}
+\label{eq:chap2:eigthreshold}
+\end{equation}
+
+\subsubsection{Descrierea punctelor de interes}
+Dupã stabilirea precisã a locaþiei unei trãsãturi, se doreºte asocierea unui vector caracteristic (descriptor), astfel încât ea sã poatã fi identificatã ºi în alte imagini. 
+
+Primul pas constã în atribuirea unei orientãri fiecãrui punct de interes, astfel încât descriptorul sã poatã fi reprezentat relativ la orientarea sa localã. Pentru operaþiile care urmeazã, se alege imaginea filtratã cu nucleu Gaussian având scala cât mai apropiatã de cea determinatã prin interpolare pentru punctul de interes. Folosind aceastã imagine, se calculeazã norma ºi orientarea gradientului într-un numãr de puncte din vecinãtatea punctului de interes. Valorile obþinute sunt organizate într-o histogramã a orientãrilor, cu 36 de intervale. Fiecare vector gradient este adãugat în intervalul corespunzãtor orientãrii sale ºi ponderat cu valoarea normei. Vârfurile din histogramã corespund orientãrilor dominante ale gradienþilor locali. Cel mai mare vârf este ales ca orientare a punctului de interes. Dacã cel de-al doilea vârf al histogramei este comparabil ca mãrime, atunci în aceeaºi poziþie din imagine se va crea un al doilea punct de interes, care sã aibã orientarea acestui al doilea vârf.
+
+Parametrii de poziþie, scalã ºi orientare determinaþi pânã acum stabilesc un sistem de coordonate 2D, local punctului de interes, faþã de care se realizeazã descrierea acestuia.
+
+În vecinãtatea determinatã de sistemul local de coordonate al punctului de interes se realizeazã o eºantionare, iar în punctele alese se calculeazã norma ºi orientarea gradientului, relativ la orientarea punctului de interes (Figura~\ref{fig:chap2:sifthistogram}). Normele sunt ponderate de o funcþie Gaussianã, (cercul din figurã) cu $\sigma$ de 1.5 ori mai mare decât dimensiunea vecinãtãþii considerate (în experimente $16\times 16$ pixeli). Vecinãtatea este împãrþitã apoi într-un numãr de subregiuni care nu se suprapun (16 regiuni de $4\times 4$ pixeli). Pentru fiecare subregiune, valorile gradienþilor sunt acumulate într-o histogramã, similarã celei folosite anterior. Dacã o histogramã discretizeazã unghiurile de orientare în 8 valori posibile, descriptorul punctului de interes va conþine $4\times 4\times 8=128$ elemente, obþinute prin concatenarea valorilor din toate histogramele. (Figura~\ref{fig:chap2:sifthistogram}).
+
+\begin{figure}[htbp]
+\numberwithin{figure}{chapter}
+\centering
+\includegraphics[scale=0.7]{chap2/sift_histo.png}
+\caption{{\em SIFT: Procesul de determinare al descriptorului;} pentru claritatea reprezentãrii, a fost aleasã o vecinãtate 8x8 a punctului de interes. Algoritmul foloseºte vecinãtãþi 16x16.}
+\label{fig:chap2:sifthistogram}
+\end{figure}
+
+\section{Identificarea trãsãturilor în timp real}
+
+Dintre cele 2 metode prezentate, SIFT \index{SIFT} se remarcã datoritã invarianþei la un numãr mare de parametrii precum ºi datoritã stabilitãþii punctelor de interes determinate. Totuºi, este evident cã aplicarea algoritmului SIFT implicã un numãr mult mai mare de operaþii în comparaþie cu alþi detectori (Harris). Deoarece majoritatea aplicaþiilor îl vor utiliza doar ca pas intermediar, se pune problema unei post-procesãri a punctelor de interes (de exemplu, pentru a identifica obiecte) ºi se doreºte ca ansamblul algoritmilor de procesare sã ruleze în timp real. În forma prezentatã, SIFT poate prelucra în jur de 5 frame-uri (de dimensiune $650\times 315$) pe secundã. Prin urmare, se justificã o cãutare a unor îmbunãtãþiri care sã determine o scãdere a timpului de prelucrare, fãrã a afecta calitatea rezultatelor finale. 
+
+SURF (Speeded-Up Robust Features)\index{SURF}\label{sym:SURF} este una dintre soluþiile propuse în acest sens, fiind ºi metoda utilizatã de aplicaþia descrisã în aceastã lucrare. Deoarece majoritatea paºilor urmaþi sunt identici cu cei ai algoritmului SIFT, vom prezenta în continuare doar elementele noi pe care le aduce în comparaþie cu acesta.
+
+%********** End of chapter **********

@@ -1,12 +1,17 @@
 \BOOKMARK [0][-]{section*.1}{Cuprins}{}
-\BOOKMARK [0][-]{chapter.1}{Introducere}{}
-\BOOKMARK [1][-]{section.1.1}{Recunoaşterea automată a obiectelor}{chapter.1}
-\BOOKMARK [1][-]{section.1.2}{Formularea şi abordarea temei}{chapter.1}
-\BOOKMARK [0][-]{chapter.2}{Chapter's title}{}
-\BOOKMARK [0][-]{chapter.3}{Chapter's title}{}
-\BOOKMARK [0][-]{section*.3}{Bibliografie}{}
-\BOOKMARK [0][-]{appendix.A}{Anexa 1}{}
-\BOOKMARK [0][-]{appendix*.4}{Lista de simboluri şi prescurtări}{}
-\BOOKMARK [0][-]{section*.5}{Lista de figuri}{}
-\BOOKMARK [0][-]{section*.6}{Lista de tabele}{}
-\BOOKMARK [0][-]{section*.7}{Glosar}{}
+\BOOKMARK [0][-]{chapter.1}{1 Introducere}{}
+\BOOKMARK [1][-]{section.1.1}{1.1 Recunoaşterea automată a obiectelor}{chapter.1}
+\BOOKMARK [1][-]{section.1.2}{1.2 Formularea şi abordarea temei}{chapter.1}
+\BOOKMARK [0][-]{chapter.2}{2 Noţiuni teoretice}{}
+\BOOKMARK [1][-]{section.2.1}{2.1 Abordări ale temei în literatura de specialitate}{chapter.2}
+\BOOKMARK [1][-]{section.2.2}{2.2 Identificarea trăsăturilor}{chapter.2}
+\BOOKMARK [2][-]{subsection.2.2.1}{2.2.1 Detectorul Harris}{section.2.2}
+\BOOKMARK [2][-]{subsection.2.2.2}{2.2.2 Detectorul SIFT}{section.2.2}
+\BOOKMARK [1][-]{section.2.3}{2.3 Identificarea trăsăturilor în timp real}{chapter.2}
+\BOOKMARK [0][-]{chapter.3}{3 Chapter's title}{}
+\BOOKMARK [0][-]{section*.5}{Bibliografie}{}
+\BOOKMARK [0][-]{appendix.A}{A Anexa 1}{}
+\BOOKMARK [0][-]{appendix*.6}{Lista de simboluri şi prescurtări}{}
+\BOOKMARK [0][-]{section*.7}{Lista de figuri}{}
+\BOOKMARK [0][-]{section*.8}{Lista de tabele}{}
+\BOOKMARK [0][-]{section*.9}{Glosar}{}

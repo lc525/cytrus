@@ -3,6 +3,11 @@
 \contentsline {figure}{\numberline {1.1}{\ignorespaces {\em Localizarea punctelor de interes:} rulând în mod independent algoritmul pe două imagini ale aceluiaşi obiect în situaţii diferite, se doreşte ca punctele de interes să fie identificate în aceleaşi poziţii relativ la obiect}}{3}{figure.1.1}
 \contentsline {figure}{\numberline {1.2}{\ignorespaces {\em Descrierea punctelor de interes:} Asocierea de informaţii pentru identificare, considerând vecinătatea punctului de interes.}}{3}{figure.1.2}
 \addvspace {10pt}
+\contentsline {figure}{\numberline {2.1}{\ignorespaces \subref {fig:chap2:templatematching}: Potrivire bazată pe tipare (template matching),~\subref {fig:chap2:featurematching}: Potrivire bazată pe trăsături (feature matching)}}{6}{figure.2.1}
+\contentsline {figure}{\numberline {2.2}{\ignorespaces Detectorul Harris (muchii şi colţuri)}}{8}{figure.2.2}
+\contentsline {figure}{\numberline {2.3}{\ignorespaces Modificarea scalei imaginii poate duce la rezultate diferite în cazul detectorului Harris}}{9}{figure.2.3}
+\contentsline {figure}{\numberline {2.4}{\ignorespaces {\em SIFT: Detectarea minimelor şi maximelor locale;} punctul central este comparat cu toţi vecinii marcaţi (\cite {Lowe03distinctiveimage})}}{11}{figure.2.4}
+\contentsline {figure}{\numberline {2.5}{\ignorespaces {\em SIFT: Procesul de determinare al descriptorului;} pentru claritatea reprezentării, a fost aleasă o vecinătate 8x8 a punctului de interes. Algoritmul foloseşte vecinătăţi 16x16.}}{13}{figure.2.5}
 \addvspace {10pt}
 \addvspace {10pt}
 \addvspace {10pt}

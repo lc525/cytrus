@@ -16,7 +16,7 @@ Problemele cele mai mari în identificarea ºi recunoaºterea obiectelor apar dator
 
 Au fost gãsite mai multe abordãri pentru rezolvarea acestor probleme, majoritatea detectând în fiecare imagine anumite zone caracteristice, invariante la modificãri ale parametrilor de mediu/perspectivã. Se realizeazã apoi o potrivire între ele ºi o bazã de date în care au fost anterior reþinute caracteristicile obiectelor cãutate. Diferenþele între metode se referã la modalitatea de detecþie a zonelor, la forma lor (puncte, arii din imagine) ºi la informaþiile reþinute pentru fiecare zonã în parte astfel încât ea sã poatã fi regãsitã într-o nouã imagine ºi atribuitã ca aparþinând obiectului cãutat.  
 
-La momentul actual, tehnicile de recunoaºtere nededicate permit o detecþie cu un procentaj de reuºitã ºi repetabilitate a rezultatelor suficient de mare (tipic peste 80\%) pentru a fi considerate aplicabile cu succes în aplicaþii de orice tip. Totuºi, se pune problema selectãrii unor metode cât mai eficiente, care sã poatã fi aplicate "in timp real", folosind resurse de calcul reduse.
+La momentul actual, tehnicile de recunoaºtere nededicate permit o detecþie cu un procentaj de reuºitã ºi repetabilitate a rezultatelor suficient de mare (tipic peste 80\%) pentru a fi considerate aplicabile cu succes în aplicaþii de orice tip. Totuºi, se pune problema selectãrii unor metode cât mai eficiente, care sã poatã fi aplicate "in timp real". %, folosind resurse de calcul reduse.
 
 
 \section{Formularea ºi abordarea temei}
@@ -46,7 +46,7 @@ Dacã drept zone caracteristice se folosesc puncte de interes, existã 2 paºi gene
 
 Pentru fiecare dintre aceºti paºi, existã diferiþi algoritmi, unii asigurând o "acoperire" mai bunã a obiectelor cu puncte de interes, alþii concentrându-se pe stabilitatea trãsãturilor determinate sau pe eficienþa computaþionalã. Desigur, trebuie realizat un compromis astfel încât sã se ajungã la o soluþie acceptabilã pentru cât mai multe aplicaþii. De menþionat cã algoritmii de localizare ºi cei de descriere pot fi aleºi în mod independent, dar o analizã a performanþelor nu poate fi realizatã decât la nivelul efectului aplicãrii celor 2 paºi, în mod secvenþial.
 
-Metodele ce au la bazã trasãturi identificate prin puncte de interes pot fi folosite ºi în alte aplicaþii, nu doar cea a recunoaºterii. Astfel de algoritmi pot fi aplicaþi, de exemplu, ca prim pas în reconstruirea unor modele 3D ale obiectelor din imagini sau video, sau pentru calibrarea aparatelor foto digitale. Prin urmare, sunt de utilitate mare implementãrile cât mai generale, flexibile, care sã poatã fi utilizate într-o gamã largã de aplicaþii sau teste comparative. Lucrarea de faþã se referã la detaliile unei astfel de implementãri.
+Metodele ce au la bazã trasãturi identificate prin puncte de interes pot fi folosite ºi în alte aplicaþii, nu doar cea a recunoaºterii. Astfel de algoritmi pot fi aplicaþi, de exemplu, ca prim pas în reconstruirea unor modele 3D ale obiectelor din imagini sau video, pentru calibrarea aparatelor foto digitale sau pentru crearea de panorame din secvenþe de imagini. Prin urmare, sunt de utilitate mare implementãrile cât mai generale, flexibile, care sã poatã fi utilizate într-o gamã largã de aplicaþii sau teste comparative. Lucrarea de faþã se referã la detaliile unei astfel de implementãri.
 
 {\em Capitolul~\ref{sec:chapter2}} face o scurtã trecere în revistã a cercetãrilor realizate în domeniu, punând accentul pe descrierea noþiunilor teoretice ºi a algoritmilor folosiþi.
 

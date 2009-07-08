@@ -7,6 +7,7 @@
 % ******************************************************************
 
 % *************** Load packages ***************
+\usepackage{subfig}
 \usepackage{graphicx}
 \usepackage{import}
 \usepackage{marvosym}
@@ -113,6 +114,7 @@
         filecolor=maroon,%
         pagecolor=red,%
         urlcolor=sepia,%
+		  breaklinks=true,
         pdftex,%
         unicode]{hyperref} 
     \input supp-mis.tex
@@ -120,9 +122,23 @@
     \pdfimageresolution=600
     \usepackage{thumbpdf} 
 \else
-    \usepackage{hyperref}
+    %\usepackage{hyperref}
+        \usepackage[plainpages=false,pdfpagelabels,bookmarksnumbered,%
+        colorlinks=true,%
+        linkcolor=black,%
+        citecolor=blueviolet,%
+        filecolor=maroon,%
+        pagecolor=black,%
+        urlcolor=sepia,%
+		  breaklinks=true,%
+		]{hyperref}
 \fi
-
+\hypersetup{
+pdfauthor = {Lucian Carata},
+pdftitle = {Identificarea obiectelor bazata pe puncte de interes, in secvente video},
+pdfsubject = {Prelucrare grafica},
+pdfkeywords = {detectie de obiecte, puncte de interes, SURF }
+}
 \usepackage{memhfixc}
 
 % *************** Page layout ***************
@@ -189,5 +205,11 @@
 \renewcommand{\thefootnote}{\fnsymbol{footnote}}
 \renewcommand{\appendixtocname}{Anexe}
 \renewcommand{\appendixpagename}{Anexe}
+
+\setlength{\marginparwidth}{1.2in}
+\let\oldmarginpar\marginpar
+\renewcommand\marginpar[1]{\-\oldmarginpar[\raggedleft\footnotesize #1]%
+{\raggedright\footnotesize #1}}
+
 
 % *************** End of document style definition ***************

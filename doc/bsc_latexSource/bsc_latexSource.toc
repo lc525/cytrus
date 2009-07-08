@@ -5,11 +5,18 @@
 \contentsline {chapter}{\chapternumberline {1}Introducere}{1}{chapter.1}
 \contentsline {section}{\numberline {1.1}Recunoaşterea automată a obiectelor}{1}{section.1.1}
 \contentsline {section}{\numberline {1.2}Formularea şi abordarea temei}{2}{section.1.2}
-\contentsline {chapter}{\chapternumberline {2}Chapter's title}{5}{chapter.2}
-\contentsline {chapter}{\chapternumberline {3}Chapter's title}{7}{chapter.3}
-\contentsline {chapter}{Bibliografie}{9}{section*.3}
-\contentsline {appendix}{\chapternumberline {A}Anexa 1}{13}{appendix.A}
-\contentsline {chapter}{Lista de simboluri şi prescurtări}{15}{appendix*.4}
-\contentsline {chapter}{List\u {a} de figuri}{16}{section*.5}
-\contentsline {chapter}{List\u {a} de tabele}{17}{section*.6}
-\contentsline {chapter}{Glosar}{19}{section*.7}
+\contentsline {chapter}{\chapternumberline {2}Noţiuni teoretice}{5}{chapter.2}
+\contentsline {section}{\numberline {2.1}Abordări ale temei în literatura de specialitate}{5}{section.2.1}
+\contentsline {section}{\numberline {2.2}Identificarea trăsăturilor}{7}{section.2.2}
+\contentsline {subsection}{\numberline {2.2.1}Detectorul Harris}{7}{subsection.2.2.1}
+\contentsline {subsection}{\numberline {2.2.2}Detectorul SIFT}{9}{subsection.2.2.2}
+\contentsline {subsubsection}{Localizarea punctelor de interes}{10}{section*.2}
+\contentsline {subsubsection}{Descrierea punctelor de interes}{12}{section*.3}
+\contentsline {section}{\numberline {2.3}Identificarea trăsăturilor în timp real}{14}{section.2.3}
+\contentsline {chapter}{\chapternumberline {3}Chapter's title}{15}{chapter.3}
+\contentsline {chapter}{Bibliografie}{17}{section*.5}
+\contentsline {appendix}{\chapternumberline {A}Anexa 1}{21}{appendix.A}
+\contentsline {chapter}{Lista de simboluri şi prescurtări}{23}{appendix*.6}
+\contentsline {chapter}{List\u {a} de figuri}{24}{section*.7}
+\contentsline {chapter}{List\u {a} de tabele}{25}{section*.8}
+\contentsline {chapter}{Glosar}{27}{section*.9}

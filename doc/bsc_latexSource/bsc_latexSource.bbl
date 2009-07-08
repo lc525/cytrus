@@ -1,8 +1,49 @@
-\begin{thebibliography}{1}
+\begin{thebibliography}{}
 
-\bibitem{Led2004}
-S.~Deorowicz and A.~Sk\'orczy\'nski.
-\newblock {\em LEd documentation}.
-\newblock 2004.
+\bibitem[Ballard and Brown, 1982]{Ballard82}
+Ballard, D. and Brown, C. (1982).
+\newblock {\em Computer Vision}.
+\newblock Prentice-Hall, Englewood Cliffs.
+
+\bibitem[Bay et~al., 2006]{Bay06surf:speeded}
+Bay, H., Tuytelaars, T., and Gool, L.~V. (2006).
+\newblock Surf: Speeded-up robust features.
+\newblock In {\em ECCV}, pages 404--417.
+
+\bibitem[Cheng and Huang, 1984]{Cheng84}
+Cheng, J. and Huang, T. (1984).
+\newblock Image registration by matching relational structures.
+\newblock {\em Pattern Recognition}, 17(1):149--159.
+
+\bibitem[Cole et~al., 2004]{Cole04visualobject}
+Cole, L., Austin, D., and Cole, L. (2004).
+\newblock Visual object recognition using template matching.
+\newblock In {\em Proceedings of Australian Conference on Robotics and
+  Automation}.
+
+\bibitem[C.Schmid et~al., 2000]{Schmid00}
+C.Schmid, Mohr, R., and C.Bauckhage (2000).
+\newblock Evaluation of interest point detectors.
+\newblock {\em International Journal of Computer Vision}, 37(2):151--172.
+
+\bibitem[Goshtasby et~al., 1984]{Goshtasby84}
+Goshtasby, A., Gage, S., and Bartholic, J. (1984).
+\newblock A two-stage cross correlation approach to template matching.
+\newblock {\em IEEE Transactions, Pattern Analysis \& Machine Intelligence},
+  6(3):374--378.
+
+\bibitem[Harris and Stephens, 1988]{Harris88acombined}
+Harris, C. and Stephens, M. (1988).
+\newblock A combined corner and edge detection.
+\newblock In {\em 4th Alvey Vision Conference}, pages 147--151.
+
+\bibitem[Lowe, 2003]{Lowe03distinctiveimage}
+Lowe, D.~G. (2003).
+\newblock Distinctive image features from scale-invariant keypoints.
+
+\bibitem[Ullman, 1979]{Ullman79}
+Ullman, S. (1979).
+\newblock {\em The Interpretation of Visual Motion}.
+\newblock MIT Press, Cambridge, MA.
 
 \end{thebibliography}
