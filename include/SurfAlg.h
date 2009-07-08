@@ -16,11 +16,11 @@
 #define _SURFALG_H_
 
 #ifndef CYTRUSALGLIB_API
-	#ifdef CYTRUSALGLIB_EXPORTS
-		#define CYTRUSALGLIB_API __declspec(dllexport)
-	#else
-		#define CYTRUSALGLIB_API __declspec(dllimport)
-	#endif
+    #ifdef CYTRUSALGLIB_EXPORTS
+        #define CYTRUSALGLIB_API __declspec(dllexport)
+    #else
+        #define CYTRUSALGLIB_API __declspec(dllimport)
+    #endif
 #endif
 
 #include <vector>
@@ -33,24 +33,24 @@ using namespace cytrus::cameraHAL;
 using namespace cytrus::alg;
 
 namespace cytrus{
-	namespace alg{
-		class CYTRUSALGLIB_API SurfAlg : public IPOIAlgorithm{
-			private:
-				volatile int _pWidth, _pHeight;
-				volatile bool _isCustomPrelSize;
+    namespace alg{
+        class CYTRUSALGLIB_API SurfAlg : public IPOIAlgorithm{
+            private:
+                volatile int _pWidth, _pHeight;
+                volatile bool _isCustomPrelSize;
 
-			public:
-				SurfAlg(IImageSource* imgSrc, POIAlgResult outputFunc, int index);
-				~SurfAlg();
+            public:
+                SurfAlg(IImageSource* imgSrc, POIAlgResult outputFunc, int index);
+                ~SurfAlg();
 
-				virtual void processImage(unsigned long dwSize, unsigned char* pbData);
+                virtual void processImage(unsigned long dwSize, unsigned char* pbData);
 
-				virtual bool setProcessingSize(int newWidth, int newHeight);
-				
-				//Actions to take when the image from the source changes size
-				virtual void onSourceSizeChange();
-		};
-	}
+                virtual bool setProcessingSize(int newWidth, int newHeight);
+                
+                //Actions to take when the image from the source changes size
+                virtual void onSourceSizeChange();
+        };
+    }
 }
 
 #endif

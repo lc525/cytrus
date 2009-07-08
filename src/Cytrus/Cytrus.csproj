@@ -40,6 +40,7 @@
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
@@ -52,7 +53,6 @@
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Resource Include="res\world_edit.png" />
-    <Resource Include="yellow.jpg" />
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
@@ -60,10 +60,6 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Page Include="Cytrus.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="PoiImageAnnotationControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -80,11 +76,6 @@
     <Compile Include="BindableObject.cs" />
     <Compile Include="FrameRenderer.cs" />
     <Compile Include="PoiAdorner.cs" />
-    <Compile Include="PoiImageAnnotation.cs" />
-    <Compile Include="PoiImageAnnotationAdorner.cs" />
-    <Compile Include="PoiImageAnnotationControl.xaml.cs">
-      <DependentUpon>PoiImageAnnotationControl.xaml</DependentUpon>
-    </Compile>
     <Compile Include="ImageInterop.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>

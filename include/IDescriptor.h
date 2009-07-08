@@ -27,7 +27,8 @@
 namespace cytrus{
 	namespace alg{
 		class CYTRUSALGLIB_API IDescriptor{
-
+			public:
+			virtual ~IDescriptor(){}
 		};
 	}
 }

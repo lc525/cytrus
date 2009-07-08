@@ -29,109 +29,126 @@ static const int border_cache [] = {14,26,50,98};
 
 template <typename IntegralImageView>
 void FastHessianLocator<IntegralImageView>::
-	setParameters(const int octaves, 
-		      const int intervals, 
-		      const int sampling, 
-		      const float threshold){
+    setParameters(const int octaves, 
+              const int intervals, 
+              const int sampling, 
+              const float threshold){
 
-	_octaves=octaves;
-	_intervals=intervals;
-	_sampling=sampling;
-	_threshold=threshold;
+    _octaves=octaves;
+    _intervals=intervals;
+    _sampling=sampling;
+    _threshold=threshold;
 
 }
 
 template <typename IntegralImageView>
 FastHessianLocator<IntegralImageView>::
-	FastHessianLocator(IntegralImageView& intImg, 
-					   const int octaves, 
-					   const int intervals, 
-					   const int sampling, 
-					   const float threshold){
+    FastHessianLocator(IntegralImageView& intImg, 
+                       const int octaves, 
+                       const int intervals, 
+                       const int sampling, 
+                       const float threshold){
 
-	hessianDet=NULL;
-	setParameters(octaves,intervals,sampling,threshold);
-	setSourceIntegralImg(intImg);
+    hessianDet=NULL;
+    setParameters(octaves,intervals,sampling,threshold);
+    setSourceIntegralImg(intImg);
 }
 
 template <typename IntegralImageView>
 FastHessianLocator<IntegralImageView>::
-	FastHessianLocator(const int octaves, 
-					   const int intervals, 
-					   const int sampling, 
-					   const float threshold){
+    FastHessianLocator(const int octaves, 
+                       const int intervals, 
+                       const int sampling, 
+                       const float threshold){
 
-	_img=NULL;
-	hessianDet=NULL;
-	setParameters(octaves,intervals,sampling,threshold);
+    _img=NULL;
+    hessianDet=NULL;
+    setParameters(octaves,intervals,sampling,threshold);
 
+}
+
+template <typename IntegralImageView>
+FastHessianLocator<IntegralImageView>::~FastHessianLocator(){
+	if(hessianDet!=NULL){
+		delete []hessianDet;
+		hessianDet=0;
+	}
 }
 
 template <typename IntegralImageView>
 void FastHessianLocator<IntegralImageView>::setSourceIntegralImg(IntegralImageView& intImg){
-	_img=&intImg;
-	if(i_width!=_img->width() || i_height!=_img->height()){
-		i_width=_img->width();
-		i_height=_img->height();
-		
-		if(hessianDet!=NULL) delete []hessianDet;
-		hessianDet = new float [_octaves*_intervals*i_width*i_height];
-		memset(hessianDet,0,sizeof(hessianDet));
-	}
+    _img=&intImg;
+    if(i_width!=_img->width() || i_height!=_img->height()){
+        i_width=_img->width();
+        i_height=_img->height();
+        
+		try{
+			if(hessianDet!=NULL){
+				delete []hessianDet;
+				hessianDet=0;
+			}
+			unsigned long size=_octaves*_intervals*i_width*i_height;
+			hessianDet = new float[size];
+			memset(hessianDet,0,size*sizeof(float));
+		}
+		catch(char * str){
+			std::cerr<<"Not enough memory for computing SURF POI's"<<std::endl;
+		}
+    }
 }
 
 
 template <typename IntegralImageView>
 void FastHessianLocator<IntegralImageView>::locatePOIInImage(std::vector<Poi>& iPts_out){
-	
-	iPts_out.clear();
-	buildDet();
+    
+    iPts_out.clear();
+    buildDet();
 
-	for(int o=0; o < _octaves; o++) 
-	{
-		// For each octave double the sampling step of the previous
-		int step = _sampling * (int)floor(pow(2.0f,o)+0.5f);;
-		int border = border_cache[o];
+    for(int o=0; o < _octaves; o++) 
+    {
+        // For each octave double the sampling step of the previous
+        int step = _sampling * (int)floor(pow(2.0f,o)+0.5f);;
+        int border = border_cache[o];
 
-		// 3x3x3 non-max suppression over whole image
-		for(int i = 1; i < _intervals-1; i += 3) {
-		  for(int r = border; r < i_height - border; r += 3*step) {
-			for(int c = border; c < i_width - border; c += 3*step) {
+        // 3x3x3 non-max suppression over whole image
+        for(int i = 1; i < _intervals-1; i += 3) {
+          for(int r = border; r < i_height - border; r += 3*step) {
+            for(int c = border; c < i_width - border; c += 3*step) {
 
-			  int i_max = -1, r_max = -1, c_max = -1;
-			  float max_val = 0;
+              int i_max = -1, r_max = -1, c_max = -1;
+              float max_val = 0;
 
-			  // Scan the pixels in this block to find the local extremum.
-			  for (int ii = i; ii < min(i+3, _intervals-1); ii += 1) {
-				for (int rr = r; rr < min(r+3*step, i_height - border); rr += step) {
-				  for (int cc = c; cc < min(c +3*step, i_width - border); cc += step) {
+              // Scan the pixels in this block to find the local extremum.
+              for (int ii = i; ii < min(i+3, _intervals-1); ii += 1) {
+                for (int rr = r; rr < min(r+3*step, i_height - border); rr += step) {
+                  for (int cc = c; cc < min(c +3*step, i_width - border); cc += step) {
 
-					float val = getHessian(o, ii, cc, rr);
-		            
-					// record the max value and its location
-					if (val > max_val) 
-					{
-					  max_val = val;
-					  i_max = ii;
-					  r_max = rr;
-					  c_max = cc;
-					}
-				  }
-				}
-			  }  
-			  
-			  // Check the block extremum is an extremum across boundaries.
-			  if (max_val > _threshold && i_max != -1 && isExtremum(o, i_max, c_max, r_max)) 
-			  {
-				interpolateExtremum(iPts_out, o, i_max, r_max, c_max);
-			  }
-			}
-		  }
-		}
-	}
+                    float val = getHessian(o, ii, cc, rr);
+                    
+                    // record the max value and its location
+                    if (val > max_val) 
+                    {
+                      max_val = val;
+                      i_max = ii;
+                      r_max = rr;
+                      c_max = cc;
+                    }
+                  }
+                }
+              }  
+              
+              // Check the block extremum is an extremum across boundaries.
+              if (max_val > _threshold && i_max != -1 && isExtremum(o, i_max, c_max, r_max)) 
+              {
+                interpolateExtremum(iPts_out, o, i_max, r_max, c_max);
+              }
+            }
+          }
+        }
+    }
 
 }
-	
+    
 //! Interpolates a scale-space extremum's location and scale to subpixel
 //! accuracy to form an image feature.
 template <typename IntegralImageView>
@@ -169,26 +186,26 @@ void FastHessianLocator<IntegralImageView>::interpolateStep( int octv, int intvl
   H = hessian3D( octv, intvl, r, c );
 
   //invert H:
-	double det3H=(H[0]*(H[4]*H[8] - H[5]*H[7]) -  \
-				  H[1]*(H[3]*H[8] - H[5]*H[6]) +  \
-				  H[2]*(H[3]*H[7] - H[4]*H[6]));
+    double det3H=(H[0]*(H[4]*H[8] - H[5]*H[7]) -  \
+                  H[1]*(H[3]*H[8] - H[5]*H[6]) +  \
+                  H[2]*(H[3]*H[7] - H[4]*H[6]));
 
-	if( det3H != 0. )
-	{
-		det3H = 1./det3H;
+    if( det3H != 0. )
+    {
+        det3H = 1./det3H;
 
-		t[0] = (H[4] * H[8] - H[5] * H[7]) * det3H;
-		t[1] = (H[2] * H[7] - H[1] * H[8]) * det3H;
-		t[2] = (H[1] * H[5] - H[2] * H[4]) * det3H;
-	           
-		t[3] = (H[5] * H[6] - H[3] * H[8]) * det3H;
-		t[4] = (H[0] * H[8] - H[2] * H[6]) * det3H;
-		t[5] = (H[2] * H[3] - H[0] * H[5]) * det3H;
-	           
-		t[6] = (H[3] * H[7] - H[4] * H[6]) * det3H;
-		t[7] = (H[1] * H[6] - H[0] * H[7]) * det3H;
-		t[8] = (H[0] * H[4] - H[1] * H[3]) * det3H;
-	}
+        t[0] = (H[4] * H[8] - H[5] * H[7]) * det3H;
+        t[1] = (H[2] * H[7] - H[1] * H[8]) * det3H;
+        t[2] = (H[1] * H[5] - H[2] * H[4]) * det3H;
+               
+        t[3] = (H[5] * H[6] - H[3] * H[8]) * det3H;
+        t[4] = (H[0] * H[8] - H[2] * H[6]) * det3H;
+        t[5] = (H[2] * H[3] - H[0] * H[5]) * det3H;
+               
+        t[6] = (H[3] * H[7] - H[4] * H[6]) * det3H;
+        t[7] = (H[1] * H[6] - H[0] * H[7]) * det3H;
+        t[8] = (H[0] * H[4] - H[1] * H[3]) * det3H;
+    }
    // t now contains H^-1
 
 
@@ -219,23 +236,23 @@ inline float FastHessianLocator<IntegralImageView>::getHessian(int o, int i, int
 
 template <typename IntegralImageView>
 double* FastHessianLocator<IntegralImageView>::deriv3D( int octv, int intvl, int r, int c ){
-	double* dI;
-	double dx, dy, ds;
-	int step = _sampling * (int)floor(pow(2.0f,octv)+0.5f);
+    double* dI;
+    double dx, dy, ds;
+    int step = _sampling * (int)floor(pow(2.0f,octv)+0.5f);
 
-	dx = ( getHessian(octv,intvl, c+step, r ) -
-		getHessian( octv,intvl, c-step, r ) ) / 2.0;
-	dy = ( getHessian( octv,intvl, c, r+step ) -
-		getHessian( octv,intvl, c, r-step ) ) / 2.0;
-	ds = ( getHessian( octv,intvl+1, c, r ) -
-		getHessian( octv,intvl-1, c, r ) ) / 2.0;
+    dx = ( getHessian(octv,intvl, c+step, r ) -
+        getHessian( octv,intvl, c-step, r ) ) / 2.0;
+    dy = ( getHessian( octv,intvl, c, r+step ) -
+        getHessian( octv,intvl, c, r-step ) ) / 2.0;
+    ds = ( getHessian( octv,intvl+1, c, r ) -
+        getHessian( octv,intvl-1, c, r ) ) / 2.0;
 
-	dI=new double[3];
-	dI[0]=dx;
-	dI[1]=dy;
-	dI[2]=ds;
+    dI=new double[3];
+    dI[0]=dx;
+    dI[1]=dy;
+    dI[2]=ds;
 
-	return dI;
+    return dI;
 }
 
 template <typename IntegralImageView>
@@ -308,52 +325,52 @@ int FastHessianLocator<IntegralImageView>::isExtremum(int octv, int intvl, int c
 
 template <typename IntegralImageView>
 void FastHessianLocator<IntegralImageView>::buildDet(){
-	int l, w, b, border, samplingStep;
-	float Dxx, Dyy, Dxy, inverse_area;
+    int l, w, b, border, samplingStep;
+    float Dxx, Dyy, Dxy, inverse_area;
+	//unsigned long val=_octaves*_intervals*i_width*i_height;
+    for(int o=0; o<_octaves; o++) 
+    {
+        samplingStep = _sampling * (int)floor(pow(2.0f,o)+0.5f);
+        border = border_cache[o];
 
-	for(int o=0; o<_octaves; o++) 
-	{
-		samplingStep = _sampling * (int)floor(pow(2.0f,o)+0.5f);
-		border = border_cache[o];
+        for(int i=0; i<_intervals; i++) {
 
-		for(int i=0; i<_intervals; i++) {
+          l = lobe_cache[o*_intervals + i]; 
+          w = 3 * l;                      
+          b = w / 2;        
+          inverse_area = 1.0f/(w * w);     
 
-		  l = lobe_cache[o*_intervals + i]; 
-		  w = 3 * l;                      
-		  b = w / 2;        
-		  inverse_area = 1.0f/(w * w);     
+          for(int r = border; r < i_height - border; r += samplingStep) 
+          {
+            for(int c = border; c < i_width - border; c += samplingStep) 
+            {
+                Dxx = IntegralImageTransform::boxFilter(_img, r - l + 1, c - b, 2*l - 1, w)
+                    - IntegralImageTransform::boxFilter(_img, r - l + 1, c - l / 2, 2*l - 1, l)*3;
+                Dyy = IntegralImageTransform::boxFilter(_img, r - b, c - l + 1, w, 2*l - 1)
+                    - IntegralImageTransform::boxFilter(_img, r - l / 2, c - l + 1, l, 2*l - 1)*3;
+                Dxy = + IntegralImageTransform::boxFilter(_img, r - l, c + 1, l, l)
+                      + IntegralImageTransform::boxFilter(_img, r + 1, c - l, l, l)
+                      - IntegralImageTransform::boxFilter(_img, r - l, c - l, l, l)
+                      - IntegralImageTransform::boxFilter(_img, r + 1, c + 1, l, l);
+                //Dxx=0;
+                //Dyy=0;
+                //Dxy=0;
 
-		  for(int r = border; r < i_height - border; r += samplingStep) 
-		  {
-			for(int c = border; c < i_width - border; c += samplingStep) 
-			{
-				Dxx = IntegralImageTransform::boxFilter(_img, r - l + 1, c - b, 2*l - 1, w)
-					- IntegralImageTransform::boxFilter(_img, r - l + 1, c - l / 2, 2*l - 1, l)*3;
-			    Dyy = IntegralImageTransform::boxFilter(_img, r - b, c - l + 1, w, 2*l - 1)
-				    - IntegralImageTransform::boxFilter(_img, r - l / 2, c - l + 1, l, 2*l - 1)*3;
-			    Dxy = + IntegralImageTransform::boxFilter(_img, r - l, c + 1, l, l)
-				      + IntegralImageTransform::boxFilter(_img, r + 1, c - l, l, l)
-					  - IntegralImageTransform::boxFilter(_img, r - l, c - l, l, l)
-					  - IntegralImageTransform::boxFilter(_img, r + 1, c + 1, l, l);
-				//Dxx=0;
-				//Dyy=0;
-				//Dxy=0;
+              // Normalise the filter responses with respect to their size
+              Dxx *= inverse_area;
+              Dyy *= inverse_area;
+              Dxy *= inverse_area;
 
-			  // Normalise the filter responses with respect to their size
-			  Dxx *= inverse_area;
-			  Dyy *= inverse_area;
-			  Dxy *= inverse_area;
+              // Get the sign of the laplacian
+              int lap_sign = (Dxx+Dyy >= 0 ? 1 : -1);
 
-			  // Get the sign of the laplacian
-			  int lap_sign = (Dxx+Dyy >= 0 ? 1 : -1);
+              // Get the determinant of hessian response
+              float determinant = (Dxx*Dyy - pow(0.91f*Dxy,2));
 
-			  // Get the determinant of hessian response
-			  float determinant = (Dxx*Dyy - pow(0.91f*Dxy,2));
-
-			  hessianDet[(o*_intervals+i)*(i_width*i_height) + (r*i_width+c)] 
-			  = (determinant < 0 ? 0 : lap_sign * determinant);
-			}
-		  }
-		}
-	}
+			  unsigned long ind=(o*_intervals+i)*(i_width*i_height) + (r*i_width+c);
+			  hessianDet[ind] = (determinant < 0 ? 0 : lap_sign * determinant);
+            }
+          }
+        }
+    }
 }

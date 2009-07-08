@@ -1019,7 +1019,7 @@
 						<GradientStop Color="#528D8A8D" Offset="0.982"/>
 					</LinearGradientBrush>
 				</ToolBar.Background>
-				<Button Style="{DynamicResource ButtonStyle1}">
+				<Button Style="{DynamicResource ButtonStyle1}" x:Name="ldImage" Click="ldImage_Click">
 					<Image Source="res\world_edit.png"/>
 				</Button>
 			</ToolBar>
@@ -1095,7 +1095,7 @@
 				<Image x:Name="captureImg" Width="Auto" Height="Auto" Stretch="Fill" Margin="4,4,4,4" VerticalAlignment="Stretch" RenderTransformOrigin="0.5,0.5">
 					<Image.RenderTransform>
 						<TransformGroup>
-							<ScaleTransform ScaleX="1" ScaleY="-1"/>
+							<ScaleTransform ScaleX="-1" ScaleY="1"/>
 							<SkewTransform AngleX="0" AngleY="0"/>
 							<RotateTransform Angle="0"/>
 							<TranslateTransform X="0" Y="0"/>

@@ -12,43 +12,43 @@
 */
 
 namespace cytrus {
-	namespace managed{
+    namespace managed{
 
-		public ref class Poi_m
-		{
-		private:
-			int _x, _y;
-		public:
+        public ref class Poi_m
+        {
+        private:
+            int _x, _y;
+        public:
 
-			property int X
-			{
-				int get(){
-					return _x;
-				}
+            property int X
+            {
+                int get(){
+                    return _x;
+                }
 
-				void set(int val){
-					_x=val;
-				}
-			}
+                void set(int val){
+                    _x=val;
+                }
+            }
 
-			property int Y
-			{
-				int get(){
-					return _y;
-				}
+            property int Y
+            {
+                int get(){
+                    return _y;
+                }
 
-				void set(int val){
-					_y=val;
-				}
-			}
+                void set(int val){
+                    _y=val;
+                }
+            }
 
-			Poi_m(int x, int y){
-				_x=x;
-				_y=y;
-			}
+            Poi_m(int x, int y){
+                _x=x;
+                _y=y;
+            }
 
-			Poi_m(){}
-		};
+            Poi_m(){}
+        };
 
-	}
+    }
 }

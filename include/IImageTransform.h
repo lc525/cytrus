@@ -28,6 +28,8 @@ namespace cytrus{
 		public:
 			template <typename SrcView, typename DstView>
 			void applyTransform(SrcView& src, DstView& dst);
+
+			virtual ~IImageTransform(){}
 		};
 	}
 }

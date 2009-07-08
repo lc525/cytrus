@@ -7,6 +7,7 @@ using System.Windows;
 using cytrus.managed;
 using System.Windows.Media;
 using System.Windows.Controls;
+using System.Windows.Shapes;
 
 namespace cytrus.managed
 {
@@ -29,17 +30,30 @@ namespace cytrus.managed
             // Some arbitrary drawing implements.
             SolidColorBrush renderBrush = new SolidColorBrush(Colors.Black);
             renderBrush.Opacity = 0.7;
+            renderBrush.Freeze();
             Pen renderPen = new Pen(new SolidColorBrush(Colors.White), 1);
             double renderRadius = 2.0;
+            renderPen.Freeze();
 
-            foreach (Poi_m p in _poiList)
+            StreamGeometry geometry = new StreamGeometry();
+            geometry.FillRule = FillRule.EvenOdd;
+            Size mySize=new Size(renderRadius,renderRadius);
+
+            using (StreamGeometryContext ctx = geometry.Open())
             {
-                //Update pos
-                double relPosX = p.X * renderedImgSize.Width / _captureSize.Width;
-                double relPosY = p.Y * renderedImgSize.Height / _captureSize.Height;
-                Point pct = new Point(relPosX, relPosY);
-                drawingContext.DrawEllipse(renderBrush, renderPen, pct, renderRadius, renderRadius);
+                foreach (Poi_m p in _poiList)
+                {
+                    //Update pos
+                    double relPosX = p.X * renderedImgSize.Width / _captureSize.Width;
+                    double relPosY = p.Y * renderedImgSize.Height / _captureSize.Height;
+                    Point pct = new Point(relPosX-renderRadius, relPosY);
+                    ctx.BeginFigure(pct,true,true);
+                    ctx.ArcTo(new Point(relPosX+renderRadius,relPosY),mySize,0.0,false,SweepDirection.Clockwise,true,true);
+                    ctx.ArcTo(new Point(relPosX-renderRadius, relPosY), mySize, 0.0, false, SweepDirection.Clockwise, true, true);
+                }
             }
+            geometry.Freeze();
+            drawingContext.DrawGeometry(renderBrush, renderPen, geometry);
         }
 
     }

@@ -32,6 +32,7 @@ namespace cytrus{
 		class CYTRUSALGLIB_API ILocator{
 			public:
 				virtual void locatePOIInImage(std::vector<Poi>& iPts_out)=0;
+				virtual ~ILocator(){}
 		};
 	}
 }

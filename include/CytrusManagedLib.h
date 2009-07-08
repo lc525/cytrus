@@ -7,7 +7,7 @@
 ** License notice:  GNU GPL
 **
 ** -----------------------------------------------------------------
-** CytrusManagedLib.h Assures .NET managed wrappers for the unmanaged cytrus code
+** CytrusManagedLib.h Assures .NET managed camera wrappers for the unmanaged cytrus code
 **
 */
 
@@ -45,6 +45,11 @@ namespace cytrus {
 
 		//public delegate void OutputModeCallback(OutputMode^ newMode); // outputMode change events (not used)
 
+		// Managed class that is responsible for camera and capture management. It uses the unmanaged classes from cytrus::alg and cytrus::hal
+		// for running the SURF algorithm in real time on the captured video.
+		//
+		// This class also implements coarse-grained parallelism, dispatching work on multiple threads (there are multiple
+		// separate instances of the algorithm working in the same time)
 		public ref class CameraMgr
 		{	
 		private:

@@ -44,7 +44,7 @@ namespace cytrus.managed
         }
         
         private CameraMgr cameraManager;
-        readonly List<PoiImageAnnotation> _poiAnnotations = new List<PoiImageAnnotation>();
+        private ImageFileMgr pictureManager;
         static bool isCapturing;
         private FrameRenderer _frameRenderer = FrameRenderer.Null;
         private ObservableCollection<RecognisedObject> _rObj = new ObservableCollection<RecognisedObject>();
@@ -57,6 +57,7 @@ namespace cytrus.managed
         private Size imgSize;
         private PoiAdorner prevAdorner = null;
         AdornerLayer myAdornerLayer;
+        private ImageCaptureCallback staticImageCallback;
         
         public Window1()
         {
@@ -76,6 +77,7 @@ namespace cytrus.managed
 
         private void CytrusMain_Loaded(object sender, RoutedEventArgs e)
         {
+            RenderOptions.SetBitmapScalingMode(captureImg, BitmapScalingMode.LowQuality);
             cameraManager=new CameraMgr();
             cameraList.ItemsSource = cameraManager.getCameraList();
             outputM.ItemsSource = cameraManager.getOutputModesList();
@@ -85,6 +87,9 @@ namespace cytrus.managed
             //cameraManager.onOutputModeChange += new OutputModeCallback(cameraManager_onOutputModeChange);
             isCapturing = false;
             myAdornerLayer = AdornerLayer.GetAdornerLayer(captureImg);
+            staticImageCallback=new ImageCaptureCallback(c_onNewStaticImageAvailable);
+            pictureManager = new ImageFileMgr();
+            pictureManager.onImageAvailableForRendering += staticImageCallback;
         }
 
 
@@ -107,32 +112,49 @@ namespace cytrus.managed
                 _frameRenderer.RenderFrame(pbData);
 
                 //display poi's:
-                //int st = (int)Fps / 3+1;
-                if (currentNoOfFrames % 2 == 0)
+                int st = (int)Fps / 3 + 1;
+                if (currentNoOfFrames % st == 0)
                 {
-                    //foreach (PoiImageAnnotation p in _poiAnnotations)
-                    //{
-                    //    p.Delete();
-                    //}
-                    //_poiAnnotations.Clear();
-                    ////foreach (Poi_m p in poiData)
-                    ////{
-                    ////    _poiAnnotations.Add(PoiImageAnnotation.Create(captureImg, p));
-                    ////}
-                    //for (int i = 0; i<poiData.Count; i++)
-                    //{
-                    //    _poiAnnotations.Add(PoiImageAnnotation.Create(captureImg, poiData[i], captureImg.RenderSize));
-                    //}
 
                     if (prevAdorner != null) myAdornerLayer.Remove(prevAdorner);
                     ImgSize sz = (ImgSize)imgSizeCombo.SelectedItem;
                     PoiAdorner newAdorner = new PoiAdorner(captureImg, poiData, new Size((double)sz.width,(double)sz.height));
+                    newAdorner.IsHitTestVisible = false;
                     myAdornerLayer.Add(newAdorner);
                     prevAdorner = newAdorner;
                 }
 
 
             }));
+        }
+
+
+        void c_onNewStaticImageAvailable(byte[] pbData, List<Poi_m> poiData)
+        {
+            PixelFormat pixelFormat = PixelFormats.Rgb24;
+            // as an effect, alocates ImageInterop file mapping with sufficient space
+            // if you choose a pixelformat that uses less space than another one that you'll use later,
+            // this WILL fail (throws exception)!.
+            int width = pictureManager._imgWidth;
+            int height = pictureManager._imgHeight;
+            pictureManager.setProcessingSize(width, height);
+            _frameRenderer = new ImageInteropFrameRenderer(captureImg, width, height, pixelFormat);
+            // change back to current pixelformat
+            //OutputMode om = outputM.SelectedItem as OutputMode;
+            //_frameRenderer.ChangePixelFormat((PixelFormat)om.pixelFormat);
+            //captureImg.tra
+            this.Dispatcher.Invoke(DispatcherPriority.Normal, (Action)(() =>
+            {
+                _frameRenderer.RenderFrame(pbData);
+
+                if (prevAdorner != null) myAdornerLayer.Remove(prevAdorner);
+                PoiAdorner newAdorner = new PoiAdorner(captureImg, poiData, new Size(width, height));
+                newAdorner.IsHitTestVisible = false;
+                myAdornerLayer.Add(newAdorner);
+                prevAdorner = newAdorner;
+            }));
+
+
         }
 
         private void RefreshCameraList_Click(object sender, RoutedEventArgs e)
@@ -159,13 +181,14 @@ namespace cytrus.managed
             imgSize = captureImg.RenderSize; // fake call, this apparently returns {0,0}
             if (!isCapturing)
             {
+                pictureManager.freeResources();
                 isCapturing = true;
                 StartCapture.Content = "Stop Capture";
                 StartCapture.SetResourceReference(BackgroundProperty, "stopCaptureButtonBrush");
                 No_capture.Visibility = Visibility.Collapsed;
 
                 cameraManager.startCapture();
-
+                
                 Binding myBinding = new Binding("Fps");
                 myBinding.Source = this;
                 fpsDisplay.SetBinding(TextBlock.TextProperty, myBinding);
@@ -279,5 +302,24 @@ namespace cytrus.managed
         }
 
         #endregion
+
+        private void ldImage_Click(object sender, RoutedEventArgs e)
+        {
+            if (pictureManager == null)
+            {
+                pictureManager = new ImageFileMgr();
+                pictureManager.onImageAvailableForRendering += staticImageCallback;
+            }
+            System.Windows.Forms.OpenFileDialog ofd = new System.Windows.Forms.OpenFileDialog();
+            ofd.Filter = "JPEG Image Files(*.JPG)|*.JPG;*.JPEG;";
+            System.Windows.Forms.DialogResult result = ofd.ShowDialog();
+            if (result == System.Windows.Forms.DialogResult.OK)
+            {
+                string fn = ofd.FileName;
+                pictureManager.setImagePath(fn);
+                pictureManager.startImageProcessing();
+            }
+            ofd.Dispose();
+        }
     }
 }

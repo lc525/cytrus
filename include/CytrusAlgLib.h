@@ -33,6 +33,7 @@
 #include "IImageConsumer.h"
 #include "IImageSource.h"
 #include "DirectShowCameraSource.h"
+#include "FileImageSource.h"
 #include "SurfAlg.h"
 
 //EXPIMP_TEMPLATE template class CYTRUSALGLIB_API std::list<char*>;
