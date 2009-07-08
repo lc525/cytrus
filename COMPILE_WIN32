@@ -1,0 +1,22 @@
+/*
+ * Author: Lucian Carata, calucian[]yahoo.co.uk
+ *
+ * Automatic Control and Computer Engineering Faculty
+ * Techical University of Iasi, Romania
+ *
+ */
+
+
+-- Makefile not yet available, it is recommended that you build with Visual Studio until one is written --
+
+
+Prerequesites for compiling on Win32:
+
++ EXTERNAL
+
+Boost Libraries (add to include path for the CytrusAlgLib project) - used mainly for GIL Library
+Windows Platform SDK (add to include path for the WebCamLib project) - used for DirectShow camera capture
+
++ BUNDLED
+
+libjpeg - you can use the bundled library (includes & linking already set-up for the project), or you can link your own (latest version)
