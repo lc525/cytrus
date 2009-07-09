@@ -39,6 +39,11 @@ void FastHessianLocator<IntegralImageView>::
     _sampling=sampling;
     _threshold=threshold;
 
+	//if I don't initialise i_width and i_height, the program <<sometimes>> crashes in
+	//release mode. (spent 3 days to find this bug, and it was a no-brainer) 
+	i_width=0;  
+	i_height=0;
+
 }
 
 template <typename IntegralImageView>
@@ -80,8 +85,7 @@ void FastHessianLocator<IntegralImageView>::setSourceIntegralImg(IntegralImageVi
     _img=&intImg;
     if(i_width!=_img->width() || i_height!=_img->height()){
         i_width=_img->width();
-        i_height=_img->height();
-        
+        i_height=_img->height();  
 		try{
 			if(hessianDet!=NULL){
 				delete []hessianDet;
