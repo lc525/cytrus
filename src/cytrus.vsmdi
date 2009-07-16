@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<TestLists xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2006">
+  <TestList name="Initialisation Tests" id="3af47e86-3d25-4398-ba24-a57b98f9728d" parentListId="8c43106b-9dc1-4907-a29f-aa66a61bf5b6">
+    <TestLinks>
+      <TestLink id="98236cd9-bae3-cd3a-a165-7ebc35607352" name="CameraManagerInit" storage="cytrusmoduletesting\bin\release\cytrusmoduletesting.dll" type="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestElement, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.ObjectModel,   PublicKeyToken=b03f5f7f11d50a3a" />
+      <TestLink id="0207bbea-a9bd-6502-d7f6-90569ba6c1ff" name="FileManagerInit" storage="cytrusmoduletesting\bin\release\cytrusmoduletesting.dll" type="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestElement, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.ObjectModel,   PublicKeyToken=b03f5f7f11d50a3a" />
+    </TestLinks>
+  </TestList>
+  <TestList name="Basic Functionality and Performance" id="76a1851a-81dc-42eb-b0aa-ace32b80be16" parentListId="8c43106b-9dc1-4907-a29f-aa66a61bf5b6">
+    <TestLinks>
+      <TestLink id="2627ad0e-4efc-3474-508d-20833fd5b644" name="StaticImage_SurfRun_MemoryAlloc_Dealloc_Stress50" storage="cytrusmoduletesting\bin\release\cytrusmoduletesting.dll" type="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestElement, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.ObjectModel,   PublicKeyToken=b03f5f7f11d50a3a" />
+      <TestLink id="3350d095-8eb7-36d1-191c-578abe866059" name="FPSTestRun" storage="cytrusmoduletesting\bin\release\cytrusmoduletesting.dll" type="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestElement, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.ObjectModel,   PublicKeyToken=b03f5f7f11d50a3a" />
+      <TestLink id="876a8878-4ff9-d5a3-c8cc-e211557ab636" name="SURFRun_StaticImage_Lenna" storage="cytrusmoduletesting\bin\release\cytrusmoduletesting.dll" type="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestElement, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.ObjectModel,   PublicKeyToken=b03f5f7f11d50a3a" />
+      <TestLink id="737a36f2-79e2-69f4-c31f-cc6ad64d2711" name="StaticImage_ReadTest_Lenna" storage="cytrusmoduletesting\bin\release\cytrusmoduletesting.dll" type="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestElement, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.ObjectModel,   PublicKeyToken=b03f5f7f11d50a3a" />
+      <TestLink id="0016d7b3-6273-3db7-fa25-3203675c9ecf" name="SURFRun_StaticImage_Large" storage="cytrusmoduletesting\bin\release\cytrusmoduletesting.dll" type="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestElement, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.ObjectModel,   PublicKeyToken=b03f5f7f11d50a3a" />
+    </TestLinks>
+  </TestList>
+  <TestList name="Lists of Tests" id="8c43106b-9dc1-4907-a29f-aa66a61bf5b6">
+    <RunConfiguration id="9d25af87-5548-4534-a046-463fdeadd3aa" name="Local Test Run" storage="localtestrun.testrunconfig" type="Microsoft.VisualStudio.TestTools.Common.TestRunConfiguration, Microsoft.VisualStudio.QualityTools.Common,   PublicKeyToken=b03f5f7f11d50a3a" />
+  </TestList>
+</TestLists>
