@@ -14,6 +14,7 @@
 #include "SurfAlg.h"
 #include "IntegralImageTransform.h"
 #include "FastHessianLocator.h"
+#include "SurfDescriptor.h"
 #include <boost/gil/gil_all.hpp>
 #include <boost/gil/extension/numeric/sampler.hpp>
 #include <boost/gil/extension/numeric/resample.hpp>
@@ -35,7 +36,7 @@ using namespace boost::gil;
 SurfAlg::SurfAlg(IImageSource* imgSrc, POIAlgResult outputFunc, int index):
     IPOIAlgorithm(imgSrc,
                   new FastHessianLocator<gray32_view_t>,
-                  NULL,
+                  new SurfDescriptor<gray32_view_t>,
                   outputFunc, index){
     
     _pWidth=-1;
@@ -90,7 +91,7 @@ void SurfAlg::processImage(unsigned long dwSize, unsigned char* pbData){
     gray32_view_t integralView = view(integral);
     IntegralImageTransform::applyTransform(grView,integralView);
     
-
+	// get POI's location
     FastHessianLocator<gray32_view_t>* locator=static_cast<FastHessianLocator<gray32_view_t>*>(_poiLoc);
 	if(consumerIndex==-1){ // static image, determine objects
 		locator->setParameters(3,4,10,25.007f);
@@ -101,6 +102,11 @@ void SurfAlg::processImage(unsigned long dwSize, unsigned char* pbData){
     locator->setSourceIntegralImg(integralView);
     iPts.clear();
     locator->locatePOIInImage(iPts);
+
+	// get POI's descriptors
+	SurfDescriptor<gray32_view_t>* descriptor=static_cast<SurfDescriptor<gray32_view_t>*>(_poiDescr);
+	descriptor->setSourceIntegralImg(integralView);
+	descriptor->getDescriptorsFor(iPts);
 
     unsigned long nSize=width*height*3;
 

@@ -18,6 +18,7 @@ namespace cytrus {
         {
         private:
             int _x, _y;
+			float _orientation;
         public:
 
             property int X
@@ -39,6 +40,17 @@ namespace cytrus {
 
                 void set(int val){
                     _y=val;
+                }
+            }
+
+			property float Orientation
+            {
+                float get(){
+                    return _orientation;
+                }
+
+                void set(float val){
+                    _orientation=val;
                 }
             }
 

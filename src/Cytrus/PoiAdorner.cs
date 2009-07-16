@@ -50,6 +50,8 @@ namespace cytrus.managed
                     ctx.BeginFigure(pct,true,true);
                     ctx.ArcTo(new Point(relPosX+renderRadius,relPosY),mySize,0.0,false,SweepDirection.Clockwise,true,true);
                     ctx.ArcTo(new Point(relPosX-renderRadius, relPosY), mySize, 0.0, false, SweepDirection.Clockwise, true, true);
+                    ctx.LineTo(new Point(relPosX + renderRadius / 2, relPosY), false, false);
+                    ctx.LineTo(new Point(relPosX+ 10 * Math.Cos(p.Orientation), relPosY+ 10 * Math.Sin(p.Orientation)), true, false);
                 }
             }
             geometry.Freeze();

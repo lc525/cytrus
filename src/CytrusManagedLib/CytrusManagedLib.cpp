@@ -31,7 +31,9 @@ void CameraMgr::callImageCaptureEvent(int dwSize, unsigned char* pbData, int ind
     std::advance(it,index1);
     std::vector<Poi> pctLst=(*it)->getPoiResult();
     for(std::vector<Poi>::iterator it=pctLst.begin(); it!=pctLst.end(); it++){
-        poiArray->Add(gcnew Poi_m(it->x, it->y));
+        Poi_m^ iPt=gcnew Poi_m(it->x,it->y);
+		iPt->Orientation=it->orientation;
+		poiArray->Add(iPt);
     }
 
     onImageAvailableForRendering(byteArray, poiArray);
