@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.1415926-2.2-0.999.6 (MiKTeX 2.7) (preloaded format=xelatex 2009.7.2)  4 JUL 2009 00:02
+This is XeTeX, Version 3.1415926-2.2-0.999.6 (MiKTeX 2.7) (preloaded format=xelatex 2009.7.2)  15 JUL 2009 15:30
 entering extended mode
 **bsc_latexSource.tex
 (bsc_latexSource.tex
@@ -560,6 +560,31 @@ Package: a4wide 1994/08/30
 ("C:\Program Files\MiKTeX 2.7\tex\latex\ntgclass\a4.sty"
 Package: a4 2004/04/15 v1.2g A4 based page layout
 ))
+("C:\Program Files\MiKTeX 2.7\tex\latex\listings\listings.sty"
+\lst@mode=\count167
+\lst@gtempboxa=\box35
+\lst@token=\toks38
+\lst@length=\count168
+\lst@currlwidth=\dimen170
+\lst@column=\count169
+\lst@pos=\count170
+\lst@lostspace=\dimen171
+\lst@width=\dimen172
+\lst@newlines=\count171
+\lst@lineno=\count172
+\lst@maxwidth=\dimen173
+
+("C:\Program Files\MiKTeX 2.7\tex\latex\listings\lstmisc.sty"
+File: lstmisc.sty 2007/02/22 1.4 (Carsten Heinz)
+\c@lstnumber=\count173
+\lst@skipnumbers=\count174
+\lst@framebox=\box36
+)
+("C:\Program Files\MiKTeX 2.7\tex\latex\listings\listings.cfg"
+File: listings.cfg 2007/02/22 1.4 listings configuration
+))
+Package: listings 2007/02/22 1.4 (Carsten Heinz)
+
 ("C:\Program Files\MiKTeX 2.7\tex\generic\babel\babel.sty"
 Package: babel 2008/07/06 v3.8l The Babel package
 
@@ -574,8 +599,8 @@ Language: romanian 2005/03/31 v1.2l Romanian support from the babel system
 
 ("C:\Program Files\MiKTeX 2.7\tex\generic\babel\babel.def"
 File: babel.def 2008/07/06 v3.8l Babel common definitions
-\babel@savecnt=\count167
-\U@D=\dimen170
+\babel@savecnt=\count175
+\U@D=\dimen174
 )))
 \bsc_latexSource@idxfile=\write4
 
@@ -592,14 +617,14 @@ File: color.cfg 2007/01/18 v1.5 color configuration of teTeX/TeXLive
 )
 Package color Info: Driver file: xetex.def on input line 130.
 )
-Package color Info: Redefining color yellow on input line 39.
-Package color Info: Redefining color red on input line 53.
-Package color Info: Redefining color magenta on input line 59.
-Package color Info: Redefining color blue on input line 80.
-Package color Info: Redefining color cyan on input line 82.
-Package color Info: Redefining color green on input line 92.
-Package color Info: Redefining color black on input line 104.
-Package color Info: Redefining color white on input line 105.
+Package color Info: Redefining color yellow on input line 42.
+Package color Info: Redefining color red on input line 56.
+Package color Info: Redefining color magenta on input line 62.
+Package color Info: Redefining color blue on input line 83.
+Package color Info: Redefining color cyan on input line 85.
+Package color Info: Redefining color green on input line 95.
+Package color Info: Redefining color black on input line 107.
+Package color Info: Redefining color white on input line 108.
 
 ("C:\Program Files\MiKTeX 2.7\tex\latex\hyperref\hyperref.sty"
 Package: hyperref 2008/09/29 v6.78l Hypertext links for LaTeX
@@ -615,9 +640,9 @@ O)
 ("C:\Program Files\MiKTeX 2.7\tex\latex\oberdiek\xcolor-patch.sty"
 Package: xcolor-patch 2008/09/08 xcolor patch
 ))
-\@linkdim=\dimen171
-\Hy@linkcounter=\count168
-\Hy@pagecounter=\count169
+\@linkdim=\dimen175
+\Hy@linkcounter=\count176
+\Hy@pagecounter=\count177
 
 ("C:\Program Files\MiKTeX 2.7\tex\latex\hyperref\pd1enc.def"
 File: pd1enc.def 2008/09/29 v6.78l Hyperref: PDFDocEncoding definition (HO)
@@ -676,10 +701,10 @@ Package pdftexcmds Info: pdfTeX >= 1.30 not detected.
 Package: kvsetkeys 2007/09/29 v1.3 Key value parser with default handler suppor
 t (HO)
 )
-\Fld@menulength=\count170
-\Field@Width=\dimen172
-\Fld@charsize=\dimen173
-\Field@toks=\toks38
+\Fld@menulength=\count178
+\Field@Width=\dimen176
+\Fld@charsize=\dimen177
+\Field@toks=\toks39
 Package hyperref Info: Hyper figures OFF on input line 4268.
 Package hyperref Info: Link nesting OFF on input line 4273.
 Package hyperref Info: Hyper index ON on input line 4276.
@@ -691,20 +716,20 @@ Package hyperref Info: PDF/A mode OFF on input line 4298.
 ("C:\Program Files\MiKTeX 2.7\tex\generic\oberdiek\atbegshi.sty"
 Package: atbegshi 2008/07/31 v1.9 At begin shipout hook (HO)
 )
-\Hy@abspage=\count171
-\c@Item=\count172
+\Hy@abspage=\count179
+\c@Item=\count180
 )
 ("C:\Program Files\MiKTeX 2.7\tex\latex\memoir\memhfixc.sty"
 Package: memhfixc 2009/02/06 v1.12 nameref/hyperref package fixes for memoir cl
 ass
-\c@memhycontfloat=\count173
+\c@memhycontfloat=\count181
 )
 *hyperref using default driver hdvipdfm*
 ("C:\Program Files\MiKTeX 2.7\tex\latex\hyperref\hdvipdfm.def"
 File: hdvipdfm.def 2008/09/29 v6.78l Hyperref driver for dvipdfm
-\pdfm@box=\box35
-\HyField@AnnotCount=\count174
-\Fld@listcount=\count175
+\pdfm@box=\box37
+\HyField@AnnotCount=\count182
+\Fld@listcount=\count183
 )
 
 ******************************************************
@@ -760,6 +785,7 @@ Package caption Warning: \caption will not be redefined since it's already
 See the caption package documentation for explanation.
 
 Package caption Info: hyperref package is loaded.
+Package caption Info: listings package is loaded.
 Package caption Info: longtable package is loaded.
 ("C:\Program Files\MiKTeX 2.7\tex\latex\caption\ltcaption.sty"
 Package: ltcaption 2008/03/28 v1.2 longtable captions (AR)
@@ -824,6 +850,7 @@ LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `bold'
 (Font)                  OT1/cmss/bx/n --> EU1/lmss/bx/n on input line 7.
 LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `bold'
 (Font)                  OT1/cmtt/m/n --> EU1/lmtt/bx/n on input line 7.
+\c@lstlisting=\count184
 Package hyperref Info: Link coloring ON on input line 7.
 
 ("C:\Program Files\MiKTeX 2.7\tex\latex\hyperref\nameref.sty"
@@ -832,14 +859,14 @@ Package: nameref 2007/05/29 v2.31 Cross-referencing by name of section
 ("C:\Program Files\MiKTeX 2.7\tex\latex\oberdiek\refcount.sty"
 Package: refcount 2008/08/11 v3.1 Data extraction from references (HO)
 )
-\c@section@level=\count176
+\c@section@level=\count185
 )
 LaTeX Info: Redefining \ref on input line 7.
 LaTeX Info: Redefining \pageref on input line 7.
 
 (bsc_latexSource.out) (bsc_latexSource.out)
 \@outlinefile=\write5
-\AtBeginShipoutBox=\box36
+\AtBeginShipoutBox=\box38
 
 Redoing nameref's sectioning
 Redoing nameref's label
@@ -856,9 +883,9 @@ File: eu1lmss.fd 2007/01/14 v1.3 Font defs for Latin Modern
 
 ]
 LaTeX Font Info:    Font shape `EU1/lmss/m/it' in size <10.95> not available
-(Font)              Font shape `EU1/lmss/m/sl' tried instead on input line 62.
+(Font)              Font shape `EU1/lmss/m/sl' tried instead on input line 66.
 
-Underfull \hbox (badness 10000) in paragraph at lines 63--66
+Underfull \hbox (badness 10000) in paragraph at lines 67--70
 
  []
 
@@ -877,18 +904,16 @@ File: umsb.fd 2002/01/19 v2.2g AMS font definitions
 )
 LaTeX Font Info:    Try loading font information for U+stmry on input line 4.
 
-("C:\Program Files\MiKTeX 2.7\tex\latex\stmaryrd\ustmry.fd")
-LaTeX Font Info:    Try loading font information for OT1+lmr on input line 20.
+("C:\Program Files\MiKTeX 2.7\tex\latex\stmaryrd\ustmry.fd") [1]
+LaTeX Font Info:    Try loading font information for OT1+lmr on input line 58.
 
 ("C:\Program Files\MiKTeX 2.7\tex\latex\lm\ot1lmr.fd"
 File: ot1lmr.fd 2007/01/14 v1.3 Font defs for Latin Modern
-))) [1] [2
-
-]
-(chap1/chap1.tex
+))) [2] (chap1/chap1.tex
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [1
+
 
 ]
 File: chap1/localizare_poi.png Graphic file (type QTm)
@@ -931,61 +956,202 @@ File: chap2/sift_histo.png Graphic file (type QTm)
  <use  "chap2/sift_histo.png" >
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [13])
-(chap3/chap3.tex [14]) (bsc_latexSource.bbl [15
+ [13]
+File: chap2/surfBoxFilters.png Graphic file (type QTm)
 
-] [16
+<use  "chap2/surfBoxFilters.png" > [14]
+File: chap2/squareArea.png Graphic file (type QTm)
+ <use  "chap2/squareArea.png" > [15]
+File: chap2/scalespacecomp.png Graphic file (type QTm)
+
+<use  "chap2/scalespacecomp.png" > [16]
+File: chap2/haarWavelets.png Graphic file (type QTm)
+ <use  "chap2/haarWavelets.png" >
+File: chap2/surfOrientation.png Graphic file (type QTm)
+
+<use  "chap2/surfOrientation.png" >
+Overfull \hbox (18.50374pt too wide) in paragraph at lines 288--289
+ [][][] 
+ []
+
+
+Underfull \hbox (badness 2189) in paragraph at lines 289--289
+[]\EU1/lmr/m/n/10.95 Figura 2.10: |[]SURF: Determinarea orientării pentru un p
+unct de inte-
+ []
+
+[17]) (chap3/chap3.tex
+Underfull \hbox (badness 10000) in paragraph at lines 300--2
+
+ []
+
+[18]
+LaTeX Font Info:    Try loading font information for EU1+lmtt on input line 14.
+
+ ("C:\Program Files\MiKTeX 2.7\tex\xelatex\euenc\eu1lmtt.fd"
+File: eu1lmtt.fd 2007/01/14 v1.3 Font defs for Latin Modern
+) [19
+
+]
+LaTeX Font Info:    Try loading font information for OMS+lmr on input line 25.
+
+("C:\Program Files\MiKTeX 2.7\tex\latex\lm\omslmr.fd"
+File: omslmr.fd 2007/01/14 v1.3 Font defs for Latin Modern
+)
+LaTeX Font Info:    Try loading font information for OMS+lmsy on input line 25.
+
+
+("C:\Program Files\MiKTeX 2.7\tex\latex\lm\omslmsy.fd"
+File: omslmsy.fd 2007/01/14 v1.3 Font defs for Latin Modern
+)
+LaTeX Font Info:    Font shape `OMS/lmr/m/n' in size <10.95> not available
+(Font)              Font shape `OMS/lmsy/m/n' tried instead on input line 25.
+ [20]
+File: chap3/layers.png Graphic file (type QTm)
+
+<use  "chap3/layers.png" > [21]
+Underfull \vbox (badness 3068) has occurred while \output is active []
+
+ [22]
+File: chap3/aq_layer.png Graphic file (type QTm)
+
+<use  "chap3/aq_layer.png" >
+Overfull \hbox (28.94502pt too wide) in paragraph at lines 68--69
+ [][][] 
+ []
+
+
+Overfull \hbox (5.37103pt too wide) in paragraph at lines 75--76
+\EU1/lmr/m/n/10.95 tenească interfaţa IImageSource şi să implementeze minim
+al funcţiile startCapture,
+ []
+
+[23]
+File: chap3/proc_layer.png Graphic file (type QTm)
+ <use  "chap3/proc_layer.png" > [24]
+File: chap3/thread_layer.png Graphic file (type QTm)
+ <use  "chap3/thread_layer.png" >
+Overfull \hbox (28.94502pt too wide) in paragraph at lines 104--105
+ [][][] 
+ []
+
+[25]
+File: chap3/coarse_parallelism.png Graphic file (type QTm)
+ <use  "chap3/coarse_parallelism.png" > [26] [27]
+Underfull \hbox (badness 10000) in paragraph at lines 130--143
+
+ []
+
+
+Overfull \hbox (22.47836pt too wide) in paragraph at lines 130--143
+[] 
+ []
+
+) (chap4/chap4.tex [28]
+File: chap4/artifacts.png Graphic file (type QTm)
+ <use  "chap4/artifacts.png" >
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [29
+
+]
+[30] [31] ("C:\Program Files\MiKTeX 2.7\tex\latex\listings\lstlang1.sty"
+File: lstlang1.sty 2004/09/05 1.3 listings language file
+)
+("C:\Program Files\MiKTeX 2.7\tex\latex\listings\lstlang1.sty"
+File: lstlang1.sty 2004/09/05 1.3 listings language file
+)
+("C:\Program Files\MiKTeX 2.7\tex\latex\listings\lstmisc.sty"
+File: lstmisc.sty 2007/02/22 1.4 (Carsten Heinz)
+)
+LaTeX Font Info:    Font shape `OMS/lmr/m/n' in size <9> not available
+(Font)              Font shape `OMS/lmsy/m/n' tried instead on input line 48.
+ [32]
+LaTeX Font Info:    Try loading font information for OML+lmr on input line 79.
+
+("C:\Program Files\MiKTeX 2.7\tex\latex\lm\omllmr.fd"
+File: omllmr.fd 2007/01/14 v1.3 Font defs for Latin Modern
+)
+LaTeX Font Info:    Try loading font information for OML+lmm on input line 79.
+
+("C:\Program Files\MiKTeX 2.7\tex\latex\lm\omllmm.fd"
+File: omllmm.fd 2007/01/14 v1.3 Font defs for Latin Modern
+)
+LaTeX Font Info:    Font shape `OML/lmr/m/n' in size <9> not available
+(Font)              Font shape `OML/lmm/m/it' tried instead on input line 79.
+ [33] [34] [35] [36]
+Underfull \vbox (badness 7221) has occurred while \output is active []
+
+ [37]
+[38] [39] [40]
+File: chap4/interface1.png Graphic file (type QTm)
+ <use  "chap4/interface1.png" >
+Overfull \hbox (0.83513pt too wide) in paragraph at lines 287--288
+ [][][] 
+ []
+
+[41]
+File: chap4/interface2.png Graphic file (type QTm)
+ <use  "chap4/interface2.png" >
+Overfull \hbox (0.83513pt too wide) in paragraph at lines 305--306
+ [][][] 
+ []
+
+File: chap4/toolbar_ico2.png Graphic file (type QTm)
+<use  "chap4/toolbar_ico2.png" >) (chap5/chap5.tex [42] [43] [44
+
+] [45]
+Overfull \hbox (7.57196pt too wide) in paragraph at lines 32--33
+\EU1/lmr/m/n/10.95 sual Studio (Se folosesc clasele din namespace-ul \EU1/lmr/m
+/it/10.95 Microsoft.VisualStudio.TestTools.-
+ []
+
+[46]
+Overfull \hbox (20.14261pt too wide) in paragraph at lines 39--40
+[][]\EU1/lmr/m/it/10.95 StaticImage[]ReadTest[]Lenna \EU1/lmr/m/n/10.95 verific
+ă dacă citirea unei imagini de test (lenna.jpg,
+ []
+
+) (chap6/chap6.tex [47] [48
+
+]) (bsc_latexSource.bbl [49] [50
 
 ]
 bibitemlist
-) [17] [18
+) [51] [52
 
-] [19] [20] (app1/app1.tex) [21
+] [53] [54] (app1/app1.tex) [55
 
-] [22
+] [56
 
 ] (back.tex (symbols.tex)
-[23
+[57
 
 
 
 ]
-LaTeX Font Info:    Try loading font information for OT1+lmss on input line 16.
+LaTeX Font Info:    Try loading font information for OT1+lmss on input line 17.
 
  ("C:\Program Files\MiKTeX 2.7\tex\latex\lm\ot1lmss.fd"
 File: ot1lmss.fd 2007/01/14 v1.3 Font defs for Latin Modern
 )
 
 Package hyperref Warning: Glyph not defined in PD1 encoding,
-(hyperref)                removing `\u' on input line 16.
+(hyperref)                removing `\u' on input line 17.
 
-(bsc_latexSource.lof) [24
+(bsc_latexSource.lof) (bsc_latexSource.ind)) [58
 
 ]
-
-Package hyperref Warning: Glyph not defined in PD1 encoding,
-(hyperref)                removing `\u' on input line 19.
-
-(bsc_latexSource.lot) (bsc_latexSource.ind [25
-
-] [26
-
-] [27
-
-
-]))
 \tf@toc=\write6
 \tf@lof=\write7
-\tf@lot=\write8
-
-(bsc_latexSource.aux) ) 
+ (bsc_latexSource.aux) ) 
 Here is how much of TeX's memory you used:
- 11869 strings out of 30467
- 178747 string characters out of 1190985
- 329752 words of memory out of 1500000
- 14766 multiletter control sequences out of 110000
- 15101 words of font info for 67 fonts, out of 1200000 for 2000
- 14 hyphenation exceptions out of 8191
- 50i,12n,83p,1347b,467s stack positions out of 5000i,500n,10000p,200000b,5000s
+ 13817 strings out of 30467
+ 207643 string characters out of 1190985
+ 446326 words of memory out of 1500000
+ 16624 multiletter control sequences out of 110000
+ 18419 words of font info for 86 fonts, out of 1200000 for 2000
+ 17 hyphenation exceptions out of 8191
+ 50i,12n,97p,1347b,1234s stack positions out of 5000i,500n,10000p,200000b,5000s
 
-Output written on bsc_latexSource.pdf (33 pages).
+Output written on bsc_latexSource.pdf (64 pages).

@@ -1,3 +1,9 @@
 This is BibTeX, Version 0.99cThe top-level auxiliary file: bsc_latexSource.aux
 The style file: apalike.bst
 Database file #1: bsc_latexSource.bib
+You're missing a field name---line 106 of file bsc_latexSource.bib
+ :  title = {Fast scale invariant feature detection and matching on programmable graphics hardware},
+ :                                                                                                  ,
+I'm skipping whatever remains of this entry
+Warning--empty booktitle in Lowe99objectrecognition
+(There was 1 error message)

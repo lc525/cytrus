@@ -30,7 +30,7 @@ Aplicarea algoritmilor de acest tip presupune macarea trãsãturilor din imagine c
 \label{fig:chap2:featurematching}
 }
 \label{fig:chap2:matching}
-\caption{\subref{fig:chap2:templatematching}: Potrivire bazatã pe tipare (template matching),~\subref{fig:chap2:featurematching}: Potrivire bazatã pe trãsãturi (feature matching)}
+\caption[Potrivire bazatã pe tipare / Potrivire bazatã pe trãsãturi]{\subref{fig:chap2:templatematching}: Potrivire bazatã pe tipare (template matching),~\subref{fig:chap2:featurematching}: Potrivire bazatã pe trãsãturi (feature matching)}
 \end{figure}
 
 Avantajul acestei metode este cã necesitã mai puþinã putere de calcul (operând asupra unui numãr relativ restrâns de pixeli) ºi poate fi prin urmare aplicatã cu uºurinþã în timp real. În plus, datoritã faptului cã se lucreazã cu o reprezentare intermediarã a obiectului (trãsãturi), metodele pot fi proiectate pentru a obþine un grad ridicat de invarianþã la anumiþi parametrii de mediu sau la transformãri afine aplicate obiectului. Abordarea eºueazã însã dacã nu se reuºeºte o determinare repetabilã ºi consistentã a trãsãturilor unui obiect în imagini diferite. În acest caz, potrivirea nu are loc ºi obiectul nu este detectat.
@@ -100,7 +100,7 @@ Intuitiv, modul de operare al detectorului Harris este prezentat în Figura~\ref{
 \numberwithin{figure}{chapter}
 \centering
 \includegraphics[scale=0.7]{chap2/harris_scale.png}
-\caption{Modificarea scalei imaginii poate duce la rezultate diferite în cazul detectorului Harris}
+\caption[Variaþia rezultatelor detectorului Harris la scalãri]{{\em Variaþia rezultatelor detectorului Harris la scalãri:} modificarea scalei imaginii poate duce la clasificãri diferite}
 \label{fig:chap2:harrisscale}
 \end{figure}
 
@@ -109,7 +109,7 @@ Au fost propuse ºi variante care sã fie invariante la scalãri (Harris-Laplacian)
 \subsection{Detectorul SIFT}
 SIFT (Scale Invariant Feature Transform)\label{sym:SIFT}\index{SIFT} este un algoritm propus de Lowe \cite{Lowe03distinctiveimage}, care include ca pas intermediar detecþia unor puncte de interes asimilate unor trãsãturi de tip "zonã luminoasã" sau "zonã întunecatã". Prin construcþia algoritmului, aceste zone sunt determinate pentru a fi invariante la scalãri, rotaþii ºi parþial invariante la modificãri ale luminozitãþii ºi la transformãri afine. Metoda aplicã o filtrare în cascadã, pentru a asigura calitatea punctelor de interes determinate, dar ºi pentru a aplica operaþiile intensive computaþional doar acelor zone care trec unele teste iniþiale. Pe lângã determinarea locaþiei punctelor de interes, algoritmul SIFT propune ºi metode de descriere a acestora în mod individual, astfel încât sã poatã fi identificate cu probabilitate mare în imagini noi. Practic, fiecãrui punct de interes îi este asociat un descriptor (vector caracteristic), calculat pe baza informaþiilor imaginii în vecinãtatea punctului de interes. 
 
-Aceste caracteristici fac SIFT ideal pentru aplicarea în zona recunoaºterii obiectelor. Pentru aceasta, mai intâi se extrag trãsãturile SIFT pentru un set de imagini de referinþã ce reprezintã obiectele, stocând descriptorii rezultaþi \mbox{într-o} bazã de date. Unei imagini noi, în care se doreºte identificarea unuia dintre obiectele existente în baza de date, i se aplicã acelaºi algoritm, iar descriptorii punctelor de interes rezultate sunt comparaþi individual cu descriptorii din baza de date. Potrivirile între descriptori se fac pe baza distanþei Euclidiene între vectori (nu se cautã doar potriviri exacte). Totuºi, într-o imagine aglomeratã, multe trãsãturi din fundal nu vor avea corespondenþi în baza de date, dând potriviri false, pe lângã cele corecte. Potrivirile corecte pot fi însã filtrate prin identificarea unor submulþimi de puncte de interes care sunt consistente cu aceeaºi localizare, scalã ºi orientare a obiectului în noua imagine. Determinarea acestor clustere poate fi realizatã eficient folosind transformata Hough.
+Aceste caracteristici fac SIFT ideal pentru aplicarea în zona recunoaºterii obiectelor~\cite{Lowe99objectrecognition}. Pentru aceasta, mai intâi se extrag trãsãturile SIFT pentru un set de imagini de referinþã ce reprezintã obiectele, stocând descriptorii rezultaþi \mbox{într-o} bazã de date. Unei imagini noi, în care se doreºte identificarea unuia dintre obiectele existente în baza de date, i se aplicã acelaºi algoritm, iar descriptorii punctelor de interes rezultate sunt comparaþi individual cu descriptorii din baza de date. Potrivirile între descriptori se fac pe baza distanþei Euclidiene între vectori (nu se cautã doar potriviri exacte). Totuºi, într-o imagine aglomeratã, multe trãsãturi din fundal nu vor avea corespondenþi în baza de date, dând potriviri false, pe lângã cele corecte. Potrivirile corecte pot fi însã filtrate prin identificarea unor submulþimi de puncte de interes care sunt consistente cu aceeaºi localizare, scalã ºi orientare a obiectului în noua imagine. Determinarea acestor clustere poate fi realizatã eficient folosind transformata Hough.
 
 \subsubsection{Localizarea punctelor de interes}
 Primul pas în determinarea punctelor de interes SIFT îl reprezintã detectarea locaþiilor din imagine care sunt invariante la scalãri, prin cãutarea trãsãturilor stabile, folosind o funcþie de scalã cunoscutã sub denumirea de spaþiu al scalãrilor (eng. scale space\index{scale space}\index{spaþiul scalãrilor}). Spaþiul scalãrilor pentru o imagine este definit de funcþia $L(x,y,\sigma)$, obþinutã prin convoluþia unui nucleu Gaussian $G(x,y,\sigma)$ cu imaginea, $I(x,y)$. Pentru a obþine scalãri diferite, se variazã $\sigma$:
@@ -136,7 +136,7 @@ Fiecare punct eºantionat este comparat cu cei 8 vecini ai sãi din imaginea curen
 \numberwithin{figure}{chapter}
 \centering
 \includegraphics[scale=0.7]{chap2/sift_scale.png}
-\caption{{\em SIFT: Detectarea minimelor ºi maximelor locale;} punctul central este comparat cu toþi vecinii marcaþi (\cite{Lowe03distinctiveimage})}
+\caption[SIFT: Detectarea minimelor ºi maximelor locale]{{\em SIFT: Detectarea minimelor ºi maximelor locale;} punctul central este comparat cu toþi vecinii marcaþi (\cite{Lowe03distinctiveimage})}
 \label{fig:chap2:siftscale}
 \end{figure}
 
@@ -196,14 +196,114 @@ Parametrii de poziþie, scalã ºi orientare determinaþi pânã acum stabilesc un sis
 \numberwithin{figure}{chapter}
 \centering
 \includegraphics[scale=0.7]{chap2/sift_histo.png}
-\caption{{\em SIFT: Procesul de determinare al descriptorului;} pentru claritatea reprezentãrii, a fost aleasã o vecinãtate 8x8 a punctului de interes. Algoritmul foloseºte vecinãtãþi 16x16.}
+\caption[SIFT: Procesul de determinare al descriptorului]{{\em SIFT: Procesul de determinare al descriptorului;} pentru claritatea reprezentãrii, a fost aleasã o vecinãtate 8x8 a punctului de interes. Algoritmul foloseºte vecinãtãþi 16x16.}
 \label{fig:chap2:sifthistogram}
 \end{figure}
 
 \section{Identificarea trãsãturilor în timp real}
+\label{sec:chapter2:identificare_trasaturi_realtime}
 
 Dintre cele 2 metode prezentate, SIFT \index{SIFT} se remarcã datoritã invarianþei la un numãr mare de parametrii precum ºi datoritã stabilitãþii punctelor de interes determinate. Totuºi, este evident cã aplicarea algoritmului SIFT implicã un numãr mult mai mare de operaþii în comparaþie cu alþi detectori (Harris). Deoarece majoritatea aplicaþiilor îl vor utiliza doar ca pas intermediar, se pune problema unei post-procesãri a punctelor de interes (de exemplu, pentru a identifica obiecte) ºi se doreºte ca ansamblul algoritmilor de procesare sã ruleze în timp real. În forma prezentatã, SIFT poate prelucra în jur de 5 frame-uri (de dimensiune $650\times 315$) pe secundã. Prin urmare, se justificã o cãutare a unor îmbunãtãþiri care sã determine o scãdere a timpului de prelucrare, fãrã a afecta calitatea rezultatelor finale. 
 
+\subsection{Detectorul SURF}
 SURF (Speeded-Up Robust Features)\index{SURF}\label{sym:SURF} este una dintre soluþiile propuse în acest sens, fiind ºi metoda utilizatã de aplicaþia descrisã în aceastã lucrare. Deoarece majoritatea paºilor urmaþi sunt identici cu cei ai algoritmului SIFT, vom prezenta în continuare doar elementele noi pe care le aduce în comparaþie cu acesta.
 
+Principalul pas de procesare al algoritmului SIFT în determinarea punctelor de interes îl reprezintã crearea spaþiului scalãrilor ºi convoluþia imaginilor cu nuclee Gauss. Filtrarea ulterioarã a extremelor se bazeazã pe matricea Hessianã ºi pe impunerea unor condiþii asupra valorilor proprii ale acesteia (\ref{eq:chap2:sifthessian}, \ref{eq:chap2:eigthreshold}). Reamintim cã pentru construcþia matricii hessiene, Lowe \cite{Lowe03distinctiveimage} propune folosirea diferenþei de nuclee Gauss pentru a aproxima Laplacianul Gaussian-ului. 
+
+\begin{figure}[htbp]
+\numberwithin{figure}{chapter}
+\centering
+\includegraphics[scale=0.4]{chap2/surfBoxFilters.png}
+\caption[SURF: filtre de mediere în comparaþie cu filtrele obþinute prin derivarea de ordin 2 a nucleelor Gauss]{SURF: filtre de mediere în comparaþie cu filtrele obþinute prin derivarea de ordin 2 a nucleelor Gauss. Bay noteazã cu $D_{xx}$, $D_{yy}$ ºi $D_{xy}$ aproximãrile cu filtre de mediere.~\cite{CEvans09}}
+\label{fig:chap2:surfBoxFilters}
+\end{figure}
+Pentru a îmbunãtãþi performanþele acestor etape ale algoritmului, Bay propune \cite{Bay06surf:speeded} utilizarea unor filtre compuse din filtre de mediere (eng. box filter) care sã aproximeze tot Laplacianul Gaussian-ului, dar care sã poatã fi calculate mai eficient. O comparaþie între aceste filtre ºi cele originale propuse de Lowe poate fi observatã în Figura~\ref{fig:chap2:surfBoxFilters}. Calculul eficient al convoluþiei imaginii cu aceste filtre, este realizat prin folosirea imaginilor integrale.
+
+\subsubsection{Imagini Integrale}
+O imagine integralã reprezintã o prelucrare a unei imagini date ca intrare, pentru a permite calculul în timp constant al sumei pixelilor din orice regiune rectangularã. Fiind datã o imagine de intrare I ºi un punct $(x,y)$, imaginea integralã este calculatã cu formula:
+\begin{equation}
+I_\Sigma(x,y)=\sum_{i=0}^{i\leq x}\sum_{j=0}^{j\leq y}I(x,y)
+\label{eq:chap2:integralimg}
+\end{equation}
+Având la dispoziþie imaginea integralã, calculul sumei pixelilor dintr-o regiune oarecare se poate realiza doar prin 4 operaþii matematice. Dacã vom considera regiunea pentru care dorim sã calculãm suma ca fiind limitatã de colþurile A,B,C ºi D (precum în Figura~\ref{fig:chap2:squarearea}):
+\begin{equation}
+\sum=A+C-(B+D)
+\label{eq:chap2:sumintegral}
+\end{equation}
+unde am considerat prin abuz de notaþie A,B,C ºi D ca reprezentând intensitãþile pixelilor din imaginea integralã în punctul respectiv.
+\begin{figure}[htbp]
+\numberwithin{figure}{chapter}
+\centering
+\includegraphics[scale=0.5]{chap2/squareArea.png}
+\caption{Calculul sumei intensitãþii pixelilor folosind imagini integrale.}
+\label{fig:chap2:squarearea}
+\end{figure}
+\subsubsection{Construirea spaþiului scalãrilor}
+În cadrul algoritmului SIFT, imaginea era în mod repetat micºoratã, fiind în acelaºi timp implicatã în operaþii repetitive de convoluþie cu nuclee Gauss având scalãri diferite. Ineficienþa calculelor realizate astfel provine din necesitatea de a redimensiona imaginea, cât ºi datoritã faptului cã unele calcule nu pot fi realizate independent de calculele pentru nivelurile anterioare.
+
+SURF, fiind avantajat de lucrul cu imagini integrale (ºi putând aplica filtrãrile asupra imaginii în timp constant indiferent de mãrimea filtrului), alege soluþia inversã: în locul micºorãrii imaginii, va fi realizatã o mãrire progresivã a dimensiunii filtrelor. Aceastã idee simplã dã ºi posibilitatea calculãrii mai multor niveluri din spaþiul scalãrilor în mod simultan (calculele nu mai depind de valori obþinute pe niveluri inferioare). O imagine sugestivã care prezintã comparaþia dintre cele douã metode poate fi observatã în Figura~\ref{fig:chap2:scalespacecomp}
+\begin{figure}[htbp]
+\numberwithin{figure}{chapter}
+\centering
+\includegraphics[scale=0.3]{chap2/scalespacecomp.png}
+\caption{Construirea spaþiului scalãrilor, SURF/SIFT~\cite{CEvans09}}
+\label{fig:chap2:scalespacecomp}
+\end{figure}
+Spaþiul scalãrilor este divizat într-un numãr de octave, unde printr-o octavã se întelege secvenþa de imagini obþinute prin convoluþia cu filtre mediane care acoperã o dublare a scalei ($\sigma$). Dimensiunea primului filtru folosit este de $9\times 9$, iar acesta corespunde cu un filtru Gauss real cu $\sigma_b=1.2$~\cite{CEvans09}. Nivelurile succesive din spaþiul scalãrilor sunt obþinute prin redimensionarea filtrelor. Redimensionarea se face astfel încât filtrul sã-ºi pãstreze structura generalã, având un pixel central. Datoritã acestei redimensionãri proporþionale, se poate estima scala echivalentã a unui filtru Gaussian care ar produce acelaºi efect, folosind formula:
+\begin{equation}
+\sigma\approx\textrm{Dim. filtrului curent}\cdot\frac{\sigma_b}{\textrm{Dim. filtrului corespunzãtoare } \sigma_b}
+\label{eq:chap2:sigmaapprox}
+\end{equation}
+iar dupã înlocuirea cu valori,
+\begin{equation}
+\sigma\approx\textrm{Dim. filtrului curent}\cdot\frac{1.2}{9}
+\label{eq:chap2:sigmaapprox2}
+\end{equation}
+\subsubsection{Localizarea punctelor de interes}
+Asemãnãtor ecuaþiilor \ref{eq:chap2:sifttaylor} ºi \ref{eq:chap2:siftinterpolatedextr}, algoritmul SURF realizeazã o interpolare pentru determinarea cu precizie de subpixel a locaþiei extremelor locale. Diferenþa constã în faptul cã aplicarea acestor ecuaþii se face asupra determinantului Hessian-ului, nu asupra diferenþei de nuclee Gauss în convoluþie cu imaginea:
+\begin{equation}
+H({\mathbf x})=H+\frac{\partial H}{\partial{\mathbf x}}^T{\mathbf x}+
+\frac{1}{2}{\mathbf x^T}\frac{\partial^2 H}{\partial{\mathbf x^2}}{\mathbf x}
+\label{eq:chap2:surftaylor}
+\end{equation}
+Este important de menþionat faptul cã, din analiza realizatã de \cite{Bay06surf:speeded}, aproximãrile fãcute în scopul de a reduce din calculul necesar pentru determinarea punctelor de interes nu influenþeazã în mod semnificativ rezultatele, acestea fiind comparabile cu cele ale algoritmului SIFT.
+\subsubsection{Descrierea punctelor de interes}
+Vectorul caracteristic determinat de SURF pentru fiecare punct de interes mãsoarã modul în care este distribuitã intensitatea pixelilor într-o vecinãtate a punctului. Pentru determinarea gradienþilor locali în mod eficient, sunt folosite wavelet-uri Haar. Acestea sunt filtre extrem de simple, dupã cum se poate observa ºi în Figura \ref{fig:chap2:haarWavelets}
+\begin{figure}[htbp]
+\numberwithin{figure}{chapter}
+\centering
+\includegraphics[scale=0.5]{chap2/haarWavelets.png}
+\caption[Wavelet-uri Haar]{Wavelet-uri Haar, dintre care prima este utilizatã pentru determinarea gradienþilor pe direcþia x iar a doua pentru cei de pe direcþia y}
+\label{fig:chap2:haarWavelets}
+\end{figure}
+
+Desigur, descrierea punctului de interes se realizeazã tot în 2 etape (la fel ca în cazul algoritmului SIFT). Mai întâi, punctului de interes îi este atribuitã o orientare, bazatã pe orientarea dominantã a gradienþilor din vecinãtate, iar apoi, în funcþie de aceastã orientare se calculeazã un descriptor.
+
+Atribuirea orientãrii se realizeazã practic prin calculul rãspunsurilor unor filtre Haar de dimensiune $4\sigma$, într-o vecinãtate a punctului de interes de dimensiune $6\sigma$. Desigur, $\sigma$ reprezintã aici scala la care a fost determinat punctul de interes. Rãspunsurile sunt calculate în interiorul vecinãtãþii, folosind o eºantionare cu pas $\sigma$. Pentru a da o mai mare importanþã direcþiilor gradienþilor din puncte mai apropiate de punctul de interes, rezultatul este ponderat de o funcþie Gauss centratã pe punctul de inters. Nucleul Gaussian folosit este ales cu deviaþia standard egalã cu $2.5\sigma$.
+
+O datã ponderate, rãspunsurile în direcþia x ºi cele în direcþia y pentru fiecare locaþie eºantionatã sunt reprezentate ca puncte într-un spaþiu vectorial, cu x pe abscisã ºi y pe ordonatã. În acest spaþiu se realizeazã determinarea orientãrii dominante, prin rotirea unei ferestre ºi însumarea vectorilor din respectiva fereastrã, aºa cum este prezentat în Figura~\ref{fig:chap2:surfOrientation}.
+\begin{figure}[htbp]
+\numberwithin{figure}{chapter}
+\centering
+\includegraphics[scale=0.5]{chap2/surfOrientation.png}
+\caption{SURF: Determinarea orientãrii pentru un punct de interes~\cite{CEvans09}}
+\label{fig:chap2:surfOrientation}
+\end{figure}
+ 
+Pentru determinarea vectorului caracteristic, se alege o vecinãtate de dimensiune $20\sigma$ în jurul punctului de interes, orientatã conform orientãrii punctului. (Toate calculele sunt realizate relativ la aceastã direcþie, cu scopul de a obþine invarianþa la rotaþii). Spre deosebire de SIFT, în cazul SURF aceastã vecinãtate este împãrþitã în mai puþine subregiuni, formându-se o grilã de dimensiune $4\times 4$. În cadrul fiecãrei subregiuni, sunt alese 25 de puncte dispuse la rândul lor pe o grilã regulatã, iar în fiecare din aceste puncte sunt calculate rãspunsurile pe direcþiile x ºi y a filtrelor Haar. Pentru fiecare subregiune din cele 16, însumând rezultatele obþinute în respectiva zonã, rezultã un vector descriptor de tipul:
+\begin{equation}
+v_{subregiune}=\left[\sum dx,\sum dy,\sum\lvert dx \rvert,\sum\lvert dy \rvert \right] 
+\end{equation}
+,unde în prima jumãtate se reþin informaþii referitoare la direcþia vectorilor, iar în a doua jumptate informaþii legate de norma lor.
+Pentru cã pentru fiecare dintre cele 16 subregiuni rezultã un vector cu 4 componente, vectorul descriptor general va fi compus din $16\times 4=64$ componente.
+\subsection{Alegerea parametrilor de rulare ai algoritmilor}
+În general, algoritmii descriºi pânã acum folosesc o serie de parametrii care determinã în mod decisiv acurateþea rezultatelor ºi nivelul de acoperire al unui obiect dintr-o imagine cu puncte de interes. Trebuie realizat un compromis având în vedere dorinþa de a menþine durata rulãrii algoritmului în limite reduse (pentru prelucrarea în timp real). Astfel, parametrii de rulare de la care se pleacã în lucrarea de faþã sunt urmãtorii:
+\\
+\\
+\begin{tabular}{l|l}
+Numãr de octave calculate & 3\\
+Intervale/octavã          & 4\\
+Frecvenþã eºantionare pentru determinarea extremelor & variabilã \\
+Prag stabilitate (cf. ecuaþiei ~\ref{eq:chap2:eigthreshold}) & 5-25
+\end{tabular}
 %********** End of chapter **********

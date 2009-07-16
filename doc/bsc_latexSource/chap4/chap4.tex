@@ -1,0 +1,310 @@
+\XeTeXinputencoding cp1250
+
+% ********** Chapter 4 **********
+\chapter{Implementarea aplicaþiei}
+\label{sec:chapter4}
+\section{Descriere generalã}
+Având în vedere necesitatea prelucrãrii imaginilor într-un timp cât mai scurt, a fost aleasã pentru implementare o soluþie hibridã: cod unmanaged (C/C++) ºi cod managed (.NET C\# ºi C++/CLI). Astfel, modulele pentru care viteza de rulare este criticã au fost scrise în C++, iar restul modulelor, inclusiv partea graficã, au fost implementate folosind tehnologii .NET. 
+
+O asemenea abordare ar putea ridica semne de întrebare în privinþa portabilitãþii aplicaþiei pe sisteme de operare precum Linux. Totuºi, prin structurarea atentã a componentelor aplicaþiei, se reuºeºte ca o mare parte a codului sã poatã fi rulatã ºi pe alte sisteme de operare, în afarã de Windows. Alegerea bibliotecilor externe utilizate a þinut cont de aceste restricþii, fiind urmãrite soluþii care sã poatã fi portate pe un numãr cât mai mare de platforme. Pentru elementele C\# care nu apeleazã funcþionalitãþi specifice unui sistem de operare (DirectX), poate fi utilizatã platforma Mono.
+
+Împãrþirea pe niveluri este reflectatã în structura modularã a implementãrii, deºi corespondenþa nu este perfectã: existã niveluri (spre exemplu cel de achiziþie al imaginilor) care sunt împãrþite în mai multe biblioteci partajate (dll-uri); acest lucru este dictat în principal tot de portabilitate: pãrþile neportabile ale aplicaþiei sunt separate de cele care pot fi recompilate pe orice sistem de operare. Pentru a obþine o portare completã a aplicaþiei pe sisteme de operare GNU/Linux, este necesarã rescrierea (parþialã) a nivelului de achiziþie ºi a nivelului de administrare a resurselor (dacã se doreºte utilizarea firelor de execuþie native sistemului de operare), precum ºi a interfeþei grafice. (acestea sunt nivelurile care folosesc cod managed ºi funcþionalitãþi specifice sistemului de operare Windows). O imagine de ansamblu asupra modulelor rezultate în urma implementãrii poate fi analizatã în Figura \ref{fig:chap4:artifacts}
+\begin{figure}[htbp]
+\numberwithin{figure}{chapter}
+\centering
+\includegraphics[scale=0.55]{chap4/artifacts.png}
+\caption[Structura de implementare, prezentând modulele externe rezultate]{{\em Structura de implementare, prezentând modulele externe rezultate ºi nivelurile din proiectare}. Cu roºu sunt reprezentate modulele neportabile/care trebuiesc rescrise pentru sisteme te tip GNU/Linux. Cu albastru sunt modulele care ar putea avea nevoie de adaptãri pentru a rula cu performanþã maximã.}
+\label{fig:chap4:artifacts}
+\end{figure}
+
+În secþiunile urmãtoare, vor fi prezentate succint bibliotecile externe utilizate în aplicaþie, împreunã cu o motivaþie a alegerii lor. De asemenea, vor fi trecute în revistã fragmentele cele mai importante de cod ºi soluþiile tehnice gãsite pentru unele dintre problemele apãrute pe parcursul dezvoltãrii.
+\subsection{Identificarea provenienþei unui fragment de cod}
+Toate fiºierele care aparþin autorului sunt marcate explicit astfel, printr-un antet corespunzãtor. Dacã fiºierul nu a fost dezvoltat în cadrul acestei lucrãri ci de cãtre o persoanã terþã, acest lucru este marcat în antet. De asemenea, fiºierele aparþinând unor biblioteci externe care nu au antet nu reprezintã cod scris de cãtre autor. O serie de fragmente de cod (în special legate de interfaþa graficã) au fost preluate în mod legitim din cadrul unor tutoriale existente pe net. Acestea pot fi recunoscute în general prin apartenenþa lor la namespace-uri diferite de ierarhia \texttt{cytrus::...}, precum ºi prin antetele ce pãstreazã informaþiile legate de autori.
+
+\section{Biblioteci externe utilizate}
+\subsection{Motivaþie}
+Multitudinea formatelor grafice existente la momentul actual, precum ºi numãrul mare de echipamente de achiziþie disponibile, fac greoaie dezvoltarea de la zero a codului care sã realizeze interfaþarea cu acestea. Prin urmare, au fost alese ºi utilizate douã biblioteci grafice externe, care sã furnizeze facilitãþi de bazã în lucrul cu imagini ºi camere digitale. Este important de menþionat faptul cã aceste biblioteci nu conþin rutine care sã realizeze recunoaºterea obiectelor, sau care sã reprezinte subpaºi ai algoritmului implementat (SURF).
+\subsection{Biblioteci externe}
+\begin{itemize}
+\item \textbf{WebCamLib} este o bibliotecã C++ de dimensiuni reduse care realizeazã preluarea de imagini de la dispozitive video compatibile DirectShow/DirectX. A fost dezvoltatã în cadrul unui proiect de cercetare al Microsoft, denumit Touchless\footnote{\texttt{http://touchless.codeplex.com/}}. Avantajul acestei biblioteci (utilizabilã doar în cadrul sistemului de operare Windows) în detrimentul unor biblioteci portabile care implementeazã ºi aceastã funcþionalitate (OpenCV) este numãrul mare de echipamente ºi interfeþe suportate. În mod particular, este posibilã achiziþionarea de imagini atât de la dispozitive conectate prin USB cât ºi de la cele conectate prin firewire (camere digitale de rezoluþie înaltã). Biblioteca este disponibilã sub o licenþã open-source (Microsoft Public License).
+
+Fiind disponibilã sub formã de cod sursã, biblioteca este inclusã în proiectul aplicaþiei ºi compilatã ca dll separat, utilizat de modulul în care este inclus nivelul de achiziþie a imaginilor (CytrusAlgLib). Au fost realizate o serie de modificãri faþã de versiunea disponibilã pe internet, legate de eliberarea corectã a memoriei.
+\item \textbf{gil}\footnote{\texttt{http://opensource.adobe.com/wiki/display/gil/Generic+Image+Library}} este o bibliotecã C++ dezvoltatã de cãtre cei de la Adobe în cadrul proiectelor open-source (dar utilizatã inclusiv în proiecte comerciale precum Photoshop). Ea a fost aleasã pentru includere în setul de biblioteci boost\footnote{\texttt{http://www.boost.org/}}. Acesta conþine un numãr semnificativ de funcþionalitãþi, fiind una dintre bibliotecile recunoscute pentru portabilitate ºi calitatea crescutã a codului. Boost nu este inclusã în proiectul Visual Studio, fiind una dintre cerinþele externe pentru compilarea codului.
+
+Gil este puternic abstractizatã, folosind în mod avansat template-urile C++ pentru a obþine o performanþã crescutã (o parte dintre calcule/instanþieri sunt realizate la compilare). Biblioteca permite accesul la pixelii unei imaginii într-un mod care nu depinde de formatul concret al acesteia. În plus, sunt asigurate structuri de acces (iteratori) care sã utilizeze în mod eficient cache-ul procesorului (procesoarelor), astfel încât prelucrarea datelor sã fie realizatã cât mai rapid. 
+
+Gil este folositã în cadrul nivelului de procesare a imaginilor, în algoritmii de prelucrare ºi detectare a punctelor de interes. Accesul la pixelii imaginilor furnizate de cãtre sursele de date se face cu ajutorul structurilor definite de gil, la fel ºi conversia între diversele formate de pixeli (rgb32, gra{}y).
+
+Gil nu implementeazã algoritmi de nivel înalt asupra pixelilor (convoluþii, trasãri de figuri, recunoaºteri de obiecte etc), ci doar primitive de acces la date. 
+
+În alegerea unei biblioteci care sã furnizeze funcþionalitãþi similare au mai fost considerate încã douã posibilitãþi, Vigra\footnote{\texttt{http://hci.iwr.uni-heidelberg.de/vigra/}} ºi CImg\footnote{\texttt{http://cimg.sourceforge.net/}}. Vigra este similarã gil din multe puncte de vedere, însã implementeazã ºi structuri de nivel înalt, algoritmi de detecþie a colþurilor sau segmentãri. Multe dintre aceste funcþionalitãþi nu ar fi fost folosite în aplicaþie. CImg furnizeazã interfeþe care nu sunt la fel de bine organizate sau abstractizate în comparaþie cu Vigra sau gil. 
+\end{itemize}
+\lstset{language=C++, basicstyle=\footnotesize, numbers=left, breaklines=true, stepnumber=5, tabsize=2, numbersep=12pt}
+\section{Soluþii de implementare}
+\subsection{Tipuri utilizate de algoritmul SURF}
+Aceste tipuri de date sunt definite în aplicaþie ºi folosite de cãtre algoritmul de prelucrare a imaginilor. Clasa Poi defineºte un punct de interes, informaþiile fiind completate progresiv, pe mãsurã ce algoritmul trece prin toate etapele sale (iniþial, se va realiza doar localizarea punctului, iar mai apoi descrierea acestuia):
+\begin{framed}
+\begin{lstlisting}
+class CYTRUSALGLIB_API Poi{
+public:
+	float x, y;
+	float scale;
+	float orientation;
+	int laplacianSign;
+	int descriptorSize;
+	float* descriptor;
+	float dx, dy;
+	int clusterIndex;
+
+	Poi(int descrSize=64) : orientation(0), descriptorSize(descrSize)
+	{
+		descriptor=new float[descriptorSize];
+	}
+};
+\end{lstlisting}
+\end{framed}
+POIAlgResult reprezintã pointer-ul cãtre funcþia care va fi apelatã dupã ce rezultatul algoritmului este disponibil. Prototipul funcþiei are ca prim parametru dimensiunea imaginii; al doilea parametru reprezintã imaginea propriu-zisã, iar ultimul parametru serveºte la identificarea unitãþii de procesare care a generat rezultatul:
+\begin{framed}
+\begin{lstlisting}
+typedef void (__stdcall *POIAlgResult)(unsigned long dwSize, unsigned char* pbData, int index);
+\end{lstlisting}
+\end{framed}
+
+\subsection{Imagini Integrale}
+Obþinerea unei imagini integrale din imaginea originalã este un exemplu sugestiv al utilizãrii bibliotecii gil pentru definirea abstractã a algoritmilor. Codul începe prin a defini condiþiile care trebuie respectate de cãtre parametrii furnizaþi pentru template-uri. Dacã în momentul instanþierii clasei IntegralImageTransform aceasta va fi particularizatã cu tipuri invalide, erorile vor fi anunþate la compilare.
+
+Pentru cã în cadrul codului vom realiza mereu accesul asupra unor vecinãtãþi ale pixelului curent clar stabilite (vecinul din stanga ºi cel de sus), aceste locaþii vor fi stocate într-un cache (deplasãrile nu vor fi recalculate de fiecare datã). Se parcurg liniile imaginii, iar pixelului curent îi este atribuitã suma dintre valoarea sa din imaginea sursã, suma pixelilor de pe rândul curent ºi cea a pixelilor de deasupra. (cu observaþia cã ultimele douã valori sunt deja calculate în locaþiile vecine - stanga ºi sus - din imaginea destinaþie, datoritã iteraþiilor anterioare ale buclei). Pentru prima linie (pentru care nu existã vecinul de sus), se foloseºte doar suma pixelilor de pe rând, pânã la pixelul curent.
+\begin{framed}
+\begin{lstlisting}
+template <typename SrcView, typename DstView>
+void IntegralImageTransform::applyTransform(SrcView& src, DstView& dst){
+	gil_function_requires<ImageViewConcept<SrcView> >();
+	gil_function_requires<MutableImageViewConcept<DstView> >();
+	gil_function_requires<ColorSpacesCompatibleConcept<
+							typename color_space_type<SrcView>::type, 
+							typename color_space_type<DstView>::type> >();
+
+	DstView::xy_locator dst_loc = dst.xy_at(0,1);
+	DstView::xy_locator::cached_location_t above = dst_loc.cache_location(0,-1);
+
+   //se itereaza peste pixelii din imagine, considerând fiecare rand al imaginii
+	for (int y=0; y<src.height(); ++y) {
+		typename SrcView::x_iterator src_it = src.row_begin(y);
+		typename DstView::x_iterator dst_it = dst.row_begin(y);
+
+		unsigned int rowSum=0;
+		for (int x=0; x<src.width(); ++x) {
+			rowSum+=src_it[x];
+
+			if(y>0){
+				(*dst_it) = rowSum+dst_loc[above];
+				//[...] cod de debugging, omis
+				++dst_loc.x();
+			}
+			else{
+				(*dst_it) = rowSum;
+			}
+			++dst_it;             
+		}
+		if(y>0){
+			//locatia curenta pentru imaginea destinatie este actualizata
+			//(se trece la inceputul urmatoarei linii)
+			dst_loc+=point2<std::ptrdiff_t>(-dst.width(),1);
+		}
+	}
+}
+\end{lstlisting}
+\end{framed}
+Deºi se poate observa cã implementarea folosind primitivele gil nu este una neapãrat uºor de înþeles la prima vedere, o datã ce sunt cunoscute câteva funcþii de bazã, citirea algoritmului devine mult mai uºoarã. Avantajul principal este însã descrierea extrem de generalã a operaþiilor. Practic, formatul imaginii nu a fost precizat nicãieri în cadrul algoritmului.
+
+\subsection{Implementarea algoritmului SURF}
+Codul prezentat mai jos compune elementele descrise anterior pentru a descrie structura generalã a algoritmului de detecþie a punctelor de interes. La început, informaþiile de culoare din imaginea iniþialã sunt folosite pentru a obþine o imagine cu niveluri de gri. Aceastã imagine este transformatã în imaginea integralã (preprocesarea de care are nevoie algoritmul pentru eficienþã). Apoi, urmeazã localizarea punctelor de interes. 
+
+Aici este propusã o soluþie nouã relativ la parametrii pentru localizare. În articolul în care este descris algoritmul SURF~\cite{Bay06surf:speeded}, sunt sugeraþi anumiþi parametrii, determinaþi ca fiind optimi. Totuºi, testele din articol au fost realizate pe imagini de dimensiuni relativ mici. Pentru imagini mari, a fost determinat experimental cã frecvenþa de eºantionare spaþialã ºi în spaþiul scalãrilor este prea mare (se determinã prea multe puncte de interes, iar viteza algoritmului este prea micã). Pentru imaginile statice prelucrate iniþial, acest lucru nu influenþeazã negativ, o bunã acoperire cu puncte de interes a obiectelor memorate fiind esenþialã. Pentru imaginile preluate în timp real însã, se propune o frecvenþã de eºantionare care sã varieze liniar cu dimensiunea imaginii, asigurãnd o matrice de $120\times 120$ puncte de eºantionare. Aceastã îmbunãtãþire duce la o creºtere a vitezei algoritmului, deoarece se analizeazã mai puþine locaþii pentru a determina dacã sunt poziþii de extrem. 
+\begin{framed}
+\begin{lstlisting}
+void SurfAlg::processImage(unsigned long dwSize, unsigned char* pbData){
+	 //[...]initializari omise
+	 //crearea view-ului gil din datele obtinute de la sursã
+    rgb8c_view_t myView=interleaved_view(width,height,(const rgb8_pixel_t*)pbData,myVal);
+
+	 //[...]
+
+    //convertirea imaginii la grayscale
+    gray8_image_t grImg(width,height);
+    gray8_view_t grView=view(grImg);
+    copy_pixels(color_converted_view<gray8_pixel_t>(*prelView), grView);
+    
+    //calculul imaginii integrale
+    gray32_image_t integral(width,height);
+    gray32_view_t integralView = view(integral);
+    IntegralImageTransform::applyTransform(grView,integralView);
+    
+	 //localizarea punctelor de interes
+    FastHessianLocator<gray32_view_t>* locator=static_cast<FastHessianLocator<gray32_view_t>*>(_poiLoc);
+	if(consumerIndex==-1){ //imagine statica, foloseste parametrii speciali
+		locator->setParameters(3,4,10,25.007f);
+	}
+	else{
+		locator->setParameters(3,4,width/120>=2?width/120:2, 5.007f);
+	}
+    locator->setSourceIntegralImg(integralView);
+    iPts.clear();
+    locator->locatePOIInImage(iPts);
+
+    unsigned long nSize=width*height*3;
+
+    switch(_currentOutputMode){
+        case 0:
+            _outputAlgResult(nSize,(unsigned char*)interleaved_view_get_raw_data(*prelView), consumerIndex); break;
+        case 1:
+				//[...] restul modurilor de iesire omise
+        default:
+            _outputAlgResult(dwSize,pbData,consumerIndex);
+    }
+}
+\end{lstlisting}
+\end{framed}
+
+Implementarea noþiunilor teoretice prezentate în Capitolul~\ref{sec:chapter2}, în secþiunea ce descrie algoritmul SURF (secþiunea~\ref{sec:chapter2:identificare_trasaturi_realtime}) este descrisã în secvenþele de cod care urmeazã.
+
+
+\subsection{Paralelizarea procesãrii}
+Distribuþia sarcinilor de lucru pe mai multe fire de execuþie se realizeazã în cadrul codului managed, pe nivelul de administrare a resurselor de procesare. Aici, este preluatã instanþa unei surse de date ºi configuratã astfel încât în momentul în care o nouã imagine este disponibilã, sã fie rulatã o funcþie care sã realizeze trimiterea acestei imagini cãtre o resursã de prelucrare disponibilã:
+\begin{framed}
+\begin{lstlisting}
+	 newImage= gcnew NewImageCallback(this, &CameraMgr::newImageAvailableEvent);
+    nigch = GCHandle::Alloc(newImage);
+    IntPtr ipni = Marshal::GetFunctionPointerForDelegate(newImage);
+    newImageAvailable = static_cast<NewImageAvailableCallback>(ipni.ToPointer());
+    cs=DirectShowCameraSource::getCameraInstance(newImageAvailable);
+\end{lstlisting}
+\end{framed}
+Funcþia CameraMgr::newImageAvailableEvent consultã dacã existã fire de execuþie libere (dintr-un numãr de fire de execuþie iniþializate la început). Practic, soluþia .NET foloseºte un ThreadPool pentru administrarea procesãrii concurente:
+\begin{framed}
+\begin{lstlisting}
+void CameraMgr::newImageAvailableEvent(){
+    //rulare asincrona:
+    int workerThreads;
+    int completionPortThreads;
+    ThreadPool::GetAvailableThreads(workerThreads,completionPortThreads);
+    if(workerThreads>0) //renunta la frame daca nu exista fire de executie disponibile, pentru a asigura un timp de raspuns mic (si a nu forma o coada de asteptare care sa introduca intarzieri
+        ThreadPool::QueueUserWorkItem(gcnew WaitCallback(this, &CameraMgr::cameraNotifyConsumers));
+}
+\end{lstlisting}
+\end{framed}
+
+În continuare, atunci când va fi rulatã (asincron), funcþia cameraNotifyConsumers va apela pentru sursa de date curentã funcþia notifyConsumer(index) (pentru cã sursa are ataºaþi ca observatori toate firele de execuþie care realizeazã procesarea, nu trebuie anunþat de prezenþa unei noi imagini decât acel fir de execuþie care a fost identificat ca fiind liber). Soluþia tehnicã de implementare menþine un dicþionar în care au fost trecute intrãri de forma <identificator thread -> index consumator>, maparea thread/algoritm de procesare fiind de 1 la 1.
+
+Apelul notifyConsumer(index) va declanºa mai apoi prelucrarea propriu-zisã a imaginii. (ºi execuþia algoritmului SURF).
+
+Aceastã soluþie a fost aleasã pentru folosirea thread-urilor native Win32 (ºi asigurarea performanþei). Codul din zona de administrare a resurselor de procesare este unul foarte important în funcþionarea corectã (multi-threading) a aplicaþiei. În plus, la acest nivel se realizeazã ºi interoperabilitatea dintre diversele limbaje de programare utilizate (fiind scrise în cod managed, clasele trebuie sã preia ºi sã trimitã informaþii de la/cãtre funcþii sau clase din codul unmanaged). Ca limbaj de programare .NET este folosit C++/CLI, care este un limbaj dezvoltat de cãtre cei de la Microsoft exact în scopul de a facilita o interoperabilitate COM(C++)/C\#(sau VB) cât mai bunã. C++/CLI permite utilizarea tuturor tipurilor C++ (inclusiv a bibliotecii STL), dar ºi a tipurilor platformei .NET. Totuºi, transferul de date între modulele managed ºi cele native se realizeazã cu o penalizare de performanþã. De aceea, soluþia gãsitã minimizeazã numãrul de treceri managed/nativ necesare pentru o imagine datã (o singurã trecere; procesul de transfer al datelor managed/nativ poartã numele de Marshalling).
+
+\section{Probleme apãrute în dezvoltare. Soluþii propuse}
+Majoritatea problemelor apãrute în dezvoltarea aplicaþiei þin de faptul cã este necesarã prelucrarea ºi afiºarea rezultatelor în timp real. Astfel, unele zone din cod trebuie optimizate sau uneori trebuie alese abordãri care nu sunt evidente iniþial.
+
+\subsection{Rularea pe mai multe fire de execuþie, fãrã a utiliza primitive de sincronizare}
+În general, atunci când se lucreazã cu mai multe fire de execuþie care ruleazã în paralel, este necesarã folosirea unor primitive de sincronizare (semafoare, mutex-uri) pentru a asigura corectitudinea rezultatelor. Totuºi, folosirea acestori primitive introduce zone de cod (zone critice), care nu pot fi rulate decât secvenþial. Astfel, rezultã o scãdere a performanþelor algoritmului.
+
+Iniþial, soluþia aleasã pentru rularea algoritmului implica existenþa unei singure instanþe a algoritmului (SurfAlg), care era rulatã pe mai multe fire de execuþie simultan. Datele fiind partajate între thread-uri, exista nevoia folosirii de mutex-uri în momentul accesului unei funcþii la buffer-ul imagine. Totuºi, accesul la imagine se realizeazã pe tot parcursul algoritmului, în foarte multe zone de cod. Definirea de regiuni critice pentru toate aceste zone ar fi dus chiar la o scãdere a performanþelor comparativ cu rularea secvenþialã.
+
+Rezolvarea problemei s-a realizat printr-un compromis de memorie: se vor utiliza mai multe instanþe ale algoritmului (fiecare cu zona proprie de memorie), iar la rularea aplicaþiei, se va atribui procesarea primei instanþe libere dintre cele iniþializate. Astfel, este eliminatã complet necesitatea folosirii regiunilor critice pentru algoritm (datele nu mai sunt partajate).
+
+Desigur, regiuni critice sunt totuºi folosite în program, în special în zona de afiºare a rezultatelor, unde sunt primite rãspunsurile de la toate instanþele de procesare. (într-o singurã zonã de memorie).
+
+\subsection{Afiºarea în interfaþa graficã a unui numãr foarte mare de obiecte}
+La construirea interfeþei grafice a fost folositã tehnologia Microsoft WPF (Windows Presentation Foundation). Deºi aceastã tehnologie permite folosirea posibilitãþilor plãcii grafice în interfaþã (accelerare graficã pentru animaþii de exemplu), existã unele probleme de performanþã atunci când pe suprafaþa vizibilã a ferestrei trebuie desenate foarte multe elemente.
+
+Acesta este ºi cazul aplicaþiei prezentate în lucrare, deoarece se doreºte afiºarea punctelor de interes pentru fiecare imagine. Pentru o imagine de dimensiuni $320\times 240$ sunt identificate în mod tipic în jur de 2000 de puncte de interes. Afiºarea acestora în mod clasic (prin crearea de obiecte în interfaþã), duce la un consum mare de memorie, o vitezã scãzutã sau chiar blocarea aplicaþiei (din cauza timpului mare petrecut pentru randarea rezultatelor).
+
+Au fost luate în calcul mai multe soluþii, iar cea la care s-a ajuns constã în definirea unui singur obiect (de tip grafic), pentru toate punctele de interes, urmatã de desenarea în cadrul acestui obiect a unor elipse, la coordonatele determinate prin algoritm. Obiectul folosit, StreamGeometry, este optimizat în scopul randãrii rapide a unui numãr mare de obiecte. Pentru cã nu mai este creat în memorie câte un obiect separat pentru fiecare element grafic, viteza de randare creºte. De asemenea, este invalidatã prin cod procesarea evenimentelor pentru punctele de interes afiºate (acest lucru îmbunãtãþeºte în mod semnificativ performanþa):
+\begin{framed}
+\begin{lstlisting}
+protected override void OnRender(DrawingContext drawingContext)
+        {
+            Rect adornedElementRect = new Rect(this.AdornedElement.DesiredSize);
+            Size renderedImgSize=((Image)base.AdornedElement).RenderSize;
+            SolidColorBrush renderBrush = new SolidColorBrush(Colors.Black);
+            renderBrush.Opacity = 0.7;
+            renderBrush.Freeze();
+            Pen renderPen = new Pen(new SolidColorBrush(Colors.White), 1);
+            double renderRadius = 2.0;
+            renderPen.Freeze();
+
+            StreamGeometry geometry = new StreamGeometry();
+            geometry.FillRule = FillRule.EvenOdd;
+            Size mySize=new Size(renderRadius,renderRadius);
+
+            using (StreamGeometryContext ctx = geometry.Open())
+            {
+                foreach (Poi_m p in _poiList)
+                {
+                    //actualizarea pozitiei
+                    double relPosX = p.X * renderedImgSize.Width / _captureSize.Width;
+                    double relPosY = p.Y * renderedImgSize.Height / _captureSize.Height;
+                    Point pct = new Point(relPosX-renderRadius, relPosY);
+                    ctx.BeginFigure(pct,true,true);
+                    ctx.ArcTo(new Point(relPosX+renderRadius,relPosY),mySize,0.0,false,SweepDirection.Clockwise,true,true);
+                    ctx.ArcTo(new Point(relPosX-renderRadius, relPosY), mySize, 0.0, false, SweepDirection.Clockwise, true, true);
+                }
+            }
+            geometry.Freeze(); // se precizeaza ca nu vor mai fi fãcute modificari asupra geometriei
+            drawingContext.DrawGeometry(renderBrush, renderPen, geometry);
+        }
+\end{lstlisting}
+\end{framed}
+\subsection{Deadlock-uri în codul DirectShow}
+Iniþial, procesarea imaginii era realizatã sincron, în cadrul funcþiei de callback definite de DirectShow (funcþia este apelatã automat de cãtre DirectShow în momentul în care o nouã imagine este disponibilã). Acest lucru presupune o duratã destul de mare a callback-ului, lucru care luat individual nu produce probleme. Acestea apar însã dacã în cadrul callback-ului (sau a funcþiilor apelate succesiv din el), se folosesc instrucþiuni/funcþii DirectShow. Documentaþia Microsoft atenþioneazã cã, mai ales dacã respectivul cod conþine regiuni critice, existã posibilitatea apariþiei unor deadlock-uri (interblocarea firelor de execuþie), ducând la blocarea completã a aplicaþiei.
+
+Deºi codul scris explicit nu apela ºi alte instrucþiuni DirectShow în cadrul callback-ului, tehnologia WPF foloseºte primitivele DirectShow în cadrul randãrii. Prin urmare, aplicaþia avea momente în care apãreau blocaje (deadlock-uri)
+
+Pentru a rezolva aceastã problemã (dupã ce a fost identificatã cauza), a fost modificatã funcþia de callback din sursa de imagini DirectShowCameraSource. Astfel, buffer-ul DirectShow este copiat local, iar procesarea suplimentarã este atribuitã unui nou thread, nu tot aceluia de pe care s-a realizat apelul callback-ului. Astfel, se permite terminarea foarte rapidã a funcþiei callback, ºi se eliminã deadlock-urile ce apar colateral în codul DirectShow:
+\begin{framed}
+\begin{lstlisting}
+void __stdcall DirectShowCameraSource::callbackFunc(DWORD dwSize, BYTE* pbData){
+	if(imageDataSize!=dwSize){
+		imageDataSize=dwSize;
+			imageData=(BYTE*)realloc((void*)imageData, sizeof(BYTE)*dwSize);
+			if(imageData==NULL) exit(1);
+	}
+	memcpy_s((void*)imageData, sizeof(BYTE)*dwSize, pbData, sizeof(BYTE)*dwSize);
+	signalNewImageAvailable();
+}
+\end{lstlisting}
+\end{framed}
+\subsection{Ordinea obþinerii rezultatelor procesãrii}
+Având în vedere cã se lucreazã pe mai multe fire de execuþie, se pune în mod natural intrebarea legatã de ordinea în care vor fi afiºate rezultatele procesãrii. O ordonare precisã a frame-urilor ar presupune menþinerea pentru fiecare frame a unui timp al apariþiei în sistemul de prelucrare ºi afiºarea rezultatelor pe baza acestui timp. Nici aceastã soluþie nu este una perfectã, deoarece frame-uri apãrute anterior în sistem pot sã fie terminate de procesat dupã ce un alt frame (apãrut dupã ele) a fost deja prelucrat ºi afiºat. De asemenea, ar fi necesare o serie de regiuni critice, care ar scãdea din performanþa algoritmului. 
+
+Datoritã faptului cã ordinea de afiºare nu este un element foarte important în rularea aplicaþiei, a fost acceptatã prin implementare posibilitatea ca frame-urile sã nu fie afiºate cãtre utilizator exact în ordinea în care ele au fost capturate de cãtre camerã. Totuºi, chiar dacã acest eveniment are loc, rularea algoritmului ºi recunoaºterea obiectelor nu au de suferit. În practicã, datoritã duratei aproximativ constante de prelucrare a fiecãrui frame (obþinutã de algoritm), nu apar inversiuni ale ordinii de afiºare.
+%\section{Salvarea datelor obþinute din procesare}
+\section{Interfaþa cu utilizatorul}
+Interfaþa graficã este implementatã folosind tehnologia WPF ºi permite accesul facil la toate funcþiile aplicaþiei. Astfel, utilizatorul poate modifica parametrii de rulare ai algoritmului, poate modifica sursa de unde sunt achiziþionate imaginile în timp real ºi poate defini interactiv obiecte pe imagini statice, încãrcate de pe disc.
+
+Existã 3 zone mai importante în interfaþã, ele putând fi observate în Figura~\ref{fig:chap4:interface1}. 
+\begin{figure}[htbp]
+\numberwithin{figure}{chapter}
+\centering
+\includegraphics[scale=0.45]{chap4/interface1.png}
+\caption[Interfaþa graficã]{Interfaþa graficã, la pornirea aplicaþiei}
+\label{fig:chap4:interface1}
+\end{figure}
+
+\textbf{Zona 1} conþine controale care permit utilizatorului sã realizeze configurarea sursei de la care se va realiza captura imaginii. Zona de selecþie "Source" conþine o listã a dispozitivelor disponibile în sistem (recunoscute de cãtre sistemul de operare). Butonul "Driver Options" afiºeazã fereastra de configurare specificã fiecãrui dispozitiv (implementatã de cãtre driver). Opþiunea "Resize" devine activã dupã ce începe captura imaginilor, dând posibilitatea efectuãrii procesãrilor pe versiuni redimensionate ale imaginii capturate. Folositã corect, aceastã opþiune permite obþinerea unor viteze mari de prelucrare. Totuºi, redimensionarea unei imagini mari dureazã timp ºi presupune o parcurgere a imaginii originale pixel cu pixel. Prin urmare, dacã dupã reducerea dimensiunii imaginea nu este suficient de micã, costul suplimentar al redimensionãrii va avea efectul contrar al încetinirii algoritmului. 
+
+\textbf{Zona 2} are rolul afiºãrii imaginilor capturate ºi a rezultatelor rulãrii algoritmului. O mãsurã a performanþelor obþinute este datã de indicatorul FPS (care afiºeazã o medie a numãrului de frame-uri care au fost procesate pe secundã). "Output Mode" permite selectarea modului de operare al algoritmului. Dacã algoritmul implementeazã funcþionalitatea afiºãrii unor rezultate intermediare, atunci rezultatele etapelor intermediare vor putea fi selectate ºi vizualizate aici). În funcþie de algoritmul care ruleazã, este posibil ca aceastã selecþie sã afecteze modul de operare al algoritmului, sau doar imaginile trimise de acesta la ieºire. În cazul algoritmului SURF implementat, existã 3 opþiuni:
+\begin{enumerate}
+\item Normal - Imaginea capturatã este afiºatã nemodificatã, iar peste ea se realizeazã suprapunerea unui strat transparent, care conþine punctele de interes detectate.
+\item Grayscale - Zona de afiºare conþine imaginea în niveluri de gri, obþinutã de algoritm ca pas intermediar al preprocesãrii. Punctele de interes sunt în continuare suprapuse pe imagine.
+\item Integral - Se afiºeazã imaginea integralã calculatã, iar valorile intensitãþilor pixelilor sunt scalate în intervalul [0 255].
+\end{enumerate}
+
+\textbf{Zona 3} conþine o barã de instrumente, permiþând trecerea între cele douã moduri ale aplicaþiei: Capture Mode, în care interacþiunea cu utilizatorul dupã pornirea capturii este minimala, ºi Object Mode, în care utilizatorului îi sunt puse la dispoziþie controale pentru definirea de obiecte. Modul în care se pot defini obiectele poate fi analizat în Figura~\ref{fig:chap4:interface2}.
+\begin{figure}[htbp]
+\numberwithin{figure}{chapter}
+\centering
+\includegraphics[scale=0.45]{chap4/interface2.png}
+\caption[Interfaþa graficã, definirea de obiecte]{Interfaþa graficã, modul de definire al obiectelor}
+\label{fig:chap4:interface2}
+\end{figure}
+Pentru definirea unui obiect, dupã ce imaginea staticã a fost încãrcatã, se selecteazã din bara de instrumente butonul "Define Objects" (~\includegraphics[scale=0.5]{chap4/toolbar_ico2.png}~) ºi se marcheazã o zonã rectangularã care încadreazã obiectul. Pentru a memora respectivul obiect, se dã click dreapta pe zona rectangularã, selectând apoi "Define as object". În fereastra care apare dupã aceastã acþiune, se va introduce numele obiectului ºi se va apãsa butonul "Add object".
+% ********** End of chapter **********

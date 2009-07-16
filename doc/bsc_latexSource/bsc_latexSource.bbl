@@ -26,6 +26,16 @@ C.Schmid, Mohr, R., and C.Bauckhage (2000).
 \newblock Evaluation of interest point detectors.
 \newblock {\em International Journal of Computer Vision}, 37(2):151--172.
 
+\bibitem[Evans, 2009]{CEvans09}
+Evans, C. (2009).
+\newblock Notes on the opensurf library.
+\newblock Technical Report CSTR-09-001, University of Bristol.
+
+\bibitem[Gamma et~al., 1995]{Gamma:1995:DPE}
+Gamma, E., Helm, R., Johnson, R., and Vlissides, J. (1995).
+\newblock {\em Design patterns: elements of reusable object-oriented software}.
+\newblock Addison-Wesley Professional.
+
 \bibitem[Goshtasby et~al., 1984]{Goshtasby84}
 Goshtasby, A., Gage, S., and Bartholic, J. (1984).
 \newblock A two-stage cross correlation approach to template matching.
@@ -36,6 +46,11 @@ Goshtasby, A., Gage, S., and Bartholic, J. (1984).
 Harris, C. and Stephens, M. (1988).
 \newblock A combined corner and edge detection.
 \newblock In {\em 4th Alvey Vision Conference}, pages 147--151.
+
+\bibitem[Lowe, 1999]{Lowe99objectrecognition}
+Lowe, D. (1999).
+\newblock Object recognition from local scale-invariant features.
+\newblock pages 1150--1157.
 
 \bibitem[Lowe, 2003]{Lowe03distinctiveimage}
 Lowe, D.~G. (2003).

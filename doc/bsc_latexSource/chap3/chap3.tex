@@ -1,10 +1,145 @@
+\XeTeXinputencoding cp1250
+
 % ********** Chapter 3 **********
-\chapter{Chapter's title}
+\chapter{Proiectarea aplicaþiei}
 \label{sec:chapter3}
+\hyphenation{startCapture in-te-rac-þi-u-ne in-stan-þi-e-rea}
 
-... some text\index{text} ...
+\section{Descrierea aplicaþiei}
+Aplicaþia dezvoltatã permite selecþia unei surse de date, (aparat foto, camera web, un fiºier imagine de pe disc) ºi realizarea unor prelucrãri asupra datelor furnizate de cãtre aceasta. Algoritmii aplicaþi în cazul de faþã realizeazã recunoaºterea obiectelor. Parametrii de rulare ai algoritmului, precum ºi formatul rezultatelor întoarse de acesta pot fi controlate dintr-o interfaþã graficã. Îniþial, utilizatorul foloseºte o serie de imagini statice pentru a defini care sunt obiectele pe care doreºte sã le identifice; apoi, aplicaþia poate realiza recunoaºterea acestor obiecte în datele furnizate de cãtre o altã sursã de date, chiar dacã în noile imagini obiectele sunt ocluzionate, rotite, sau privite dintr-o altã poziþie (între anumite limite).
 
-Some reference
+Proiectul descris are la bazã o proiectare detaliatã, urmãrindu-se o interacþiune corectã a modulelor aplicaþiei, dar ºi o cuplare slabã între acestea. O astfel de abordare asigurã o extensibilitate sporitã, sau, în funcþie de cerinþe, posibilitatea reutilizãrii diverselor componente în alte aplicaþii. 
+
+\section{Obiective}
+Necesitatea unei noi implementãri pentru algoritmi precum SIFT \index{SIFT} sau SURF \index{SURF} rezultã din faptul cã arhitectura variantelor open-source existente este una destul de greu extensibilã. Chiar ºi abordãrile care folosesc biblioteci portabile precum OpenCV\footnote{\texttt{http://sourceforge.net/projects/opencvlibrary/}} (una dintre implementãri este OpenSURF\footnote{\texttt{http://code.google.com/p/opensurf1/}}) sunt greu de adaptat cerinþelor unei aplicaþii industriale sau desktop. Majoritatea implementãrilor de pânã acum au fost realizate în scop academic, urmãrindu-se cu precãdere testarea performanþelor algoritmilor sau obþinerea de informaþii privind comportarea lor pe seturi de date de intrare diverse. De aici, optimizãrile au fost realizate în cadrul unor proiecte comerciale. Spre deosebire de acestea, implementarea propusã este open-source, bazatã pe o arhitecturã uºor extensibilã, modularã, care urmãreºte sporirea performanþelor ºi abstractizarea. 
+
+Rezultatul este o platformã de prelucrare a imaginilor ºi a fluxurilor de imagini achiziþionate în timp real, care poate fi utilizatã ºi adaptatã cerinþelor unui numãr mare de probleme. Arhitectura propusã pentru aceastã platformã este validatã prin implementarea eficientã a unei metode clasice de detecþie a obiectelor pe baza punctelor de interes (algoritmul, SURF, a fost prezentat din punct de vedere teoretic în Capitolul \ref{sec:chapter2}).
+
+Având în vedere gama largã de aplicaþii în care o astfel de platformã poate fi utilizatã, se doreºte asigurarea unei portabilitãþi cât mai bune ºi a unei flexibilitãþi crescute, astfel încât adaptarea la cerinþe sau algoritmi noi sã poatã fi realizatã cât mai uºor. De asemenea, arhitectura aplicaþiei trebuie sã permitã implementarea eficientã pe arhitecturi multiprocesor sau la nivelul procesoarelor grafice (GPU), prin paralelism de tip SIMD (Single Instruction, Multiple Data: o singurã instrucþiune este rulatã în paralel pe date diferite). Se urmãreºte atât paralelismul de granularitate micã (paralelizarea algoritmului), cât ºi cel de granularitate mare (algoritmul secvenþial sã poatã folosit în mai multe instanþe ce ruleazã în paralel pe date diferite).
+
+\section{Constrângeri}
+În alegerea arhitecturii generale a aplicaþiei, au fost luate în calcul o serie de constrângeri, prezentate în cele ce urmeazã, grupate în funcþie de natura lor:
+\begin{enumerate}
+\item  Constrângeri specifice sistemelor de prelucrare în timp real:
+	\begin{itemize}
+	\item Prin proiectarea aplicaþiei, trebuie facilitatã o latenþã micã a sistemului de prelucrare în ansamblul sãu. Structura generalã a claselor ºi interacþiunile dintre ele (într-o abordare orientatã obiect) nu trebuie sã introducã timpi de întârziere semnificativi.
+	\item Având în vedere prima constrângere, se doreºte o izolare a procesãrilor care au loc asupra unei imagini în cadrul unui singur modul, care sã poatã fi optimizat din punct de vedere al implementãrii.
+	\item În funcþie de performanþele sistemului final, se admite ca prezentarea rezultatelor algoritmului aplicat sã nu fie realizatã tot în timp real. Prin urmare, în mãsura în care afiºarea informaþiilor obþinute dureazã prea mult, se poate renunþa la o parte din ele, sau afiºarea se poate realiza cu o frecvenþã mai redusã.
+	\end{itemize}
+\item Constrângeri legate de formatul datelor de intrare ºi al datelor de ieºire
+	\begin{itemize}
+	\item În general, trebuie urmãritã o decuplare a algoritmului propriu-zis de structura ºi formatul particular al datelor de intrare. Spre exemplu, forma algoritmului nu trebuie sã depindã de sursa datelor (fiºier de pe disc, date preluate de la o camera web sau o camerã digitalã firewire), sau de formatul în care acestea sunt codate (bmp, jpeg, tiff etc).
+	\item Datele de ieºire trebuie furnizate într-un format care sã poatã fi afiºat sau stocat pe disc. De asemenea, trebuie asiguratã posibilitatea prelucrãrii suplimentare a rezultatelor, de cãtre alþi algoritmi.
+	\end{itemize}
+\end{enumerate}
+
+\section{Arhitectura generalã a proiectului software}
+Având în vedere obiectivele ºi constrângerile prezentate, a fost aleasã o arhitecturã pe 4 niveluri, fiecare dintre acestea putând fi dezvoltat sau extins în mod independent de celelalte. 
+
+\textbf{Primul nivel} asigurã abstractizarea sursei imaginilor ºi a formatului acestora. În acest mod, nivelurile superioare pot avea o perspectivã uniformã asupra datelor de intrare. 
+
+Cel de-\textbf{al doilea nivel} este destinat procesãrii imaginilor. Pentru acest nivel a fost aleasã o structurã de tip pipeline, astfel încât mai mulþi algoritmi sã poatã fi înlãnþuiþi, ieºirea unuia fiind "conectatã" cu intrarea urmãtorului. La acest nivel este izolatã partea de procesare propriu-zisã a imaginilor, fiind fãcute optimizãri ale implementãrii pentru obþinerea unor performanþe crescute.
+
+\textbf{Al treilea nivel} este responsabil cu administrarea resurselor de procesare, realizând legãtura dintre interfaþa graficã (acþiunile utilizatorului) ºi nivelul de procesare. Aici se poate realiza implementarea paralelismului de granularitate mare (pot fi create mai multe instanþe de procesare, care sã ruleze în paralel).
+
+\textbf{Ultimul nivel} asigurã prezentarea rezultatelor algoritmilor ºi interfaþa cu utilizatorul (GUI - Graphical User Interface).
+
+O imagine de ansamblu asupra celor 4 niveluri poate fi consultatã în Figura \ref{fig:chap3:layers}. 
+\begin{figure}[htbp]
+\numberwithin{figure}{chapter}
+\centering
+\includegraphics[scale=0.55]{chap3/layers.png}
+\caption{Arhitectura generalã a aplicaþiei}
+\label{fig:chap3:layers}
+\end{figure}
+
+În cadrul fiecãrui nivel, este urmãritã o coeziune ridicatã a modulelor ce îl compun, acestea fiind organizate funcþional (urmãresc îndeplinirea un scop comun) ºi operând asupra aceluiaºi tip de date de intrare. De asemenea, comunicarea între niveluri respectã stratificarea acestora. Fiecare nivel comunicã predominant cu modulele adiacente lui, prin interfeþe bine specificate. Aceste tehnici de proiectare sunt folosite pentru a asigura localizarea modificãrilor ce trebuiesc fãcute la apariþia unor cerinþe noi în aplicaþie, dar ºi pentru a obþine o structurã generalã extensibilã ºi flexibilã. Utilizarea la nivel de modul a unor ºabloane de proiectare (eng. design patterns\index{design patterns}\index{ºablon de proiectare}) asigurã aceleaºi proprietãþi ºi pentru structura detaliatã a claselor \cite{Gamma:1995:DPE}.
+
+\section{Descrierea detaliatã a componentelor}
+\subsection{Nivelul de abstractizare a achiziþiei imaginilor}
+Acest nivel are ca funcþie principalã preluarea datelor (a imaginilor) din surse externe ºi furnizarea cãtre aplicaþie a unui format uniform (un ºir de biþi reprezentând pixelii). Datoritã numãrului mare de surse ºi formate de encodare posibile, arhitectura acestui nivel defineºte 2 interfeþe de uz general, {\em IImageSource} ºi {\em IImageConsumer}. Acestea formeazã o structurã clasicã producãtor consumator, proiectatã pe baza ºablonului Observator (eng. Observer, design pattern). La o sursã de date, se pot asocia un numãr de consumatori (algoritmi de prelucrare, în cazul de faþã), fiecare dintre aceºtia fiind "anunþaþi" atunci când o imagine nouã este disponibilã. O datã anunþaþi, algoritmii pot copia în bufferele proprii imaginea, urmând sã realizeze prelucrãrile specifice.
+
+Pentru aplicaþia curentã, sunt propuse douã specializãri pentru interfaþa IImageSource, ºi anume {\em DirectShowCameraSource} ºi {\em FileImageSource}. Prima dintre ele realizeazã achiziþia de la dispozitivele compatibile DirectX (aparate foto, camere web, camere digitale), iar cea de-a doua preia imaginile din fiºiere stocate pe disc. Prin modul de proiectare, clasa DirectShowCameraSource este definitã ca singleton (se poate instanþia un singur obiect din aceastã clasã). Aceastã soluþie arhitecturalã este folositã pentru cã în aplicaþie se doreºte achiziþionarea de imagini de la o singurã sursã video la un moment dat.
+
+Structura detaliatã a nivelului de achiziþie al imaginilor poate fi observatã în Figura \ref{fig:chap3:HAL_layer}. De asemenea, pentru a vedea cum se integreazã acest nivel cu restul modulelor aplicaþiei, puteþi consulta Anexa \ref{sec:appendix1}. Nivelul a fost creat ca un pachet separat, denumit cameraHAL (Hardware Abstraction Layer).
+\begin{figure}[htbp]
+\numberwithin{figure}{chapter}
+\centering
+\includegraphics[scale=0.55]{chap3/aq_layer.png}
+\caption{Structura nivelului de achiziþie a imaginilor}
+\label{fig:chap3:HAL_layer}
+\end{figure}
+
+Implementarea interfeþei IImageConsumer este realizatã de cãtre obiecte din nivelul de procesare al imaginilor. Practic, datele sunt transferate între module prin intermediul funcþiei \textbf{IImageConsumer::processImage}, apelatã în mod automat de sursã în cadrul procesului de notificare al consumatorilor. Funcþia processImage îndeplineºte astfel rolul funcþiei cu denumirea clasicã "notify" ("anunþã") din ºablonul de proiectare Observer.
+
+Pentru adãugarea de funcþionalitãþi noi la acest nivel (de exemplu, preluarea imaginilor dintr-o bazã de date), este necesarã construirea unei clase care sã moºteneascã interfaþa IImageSource ºi sã implementeze minimal funcþiile startCapture, stopCapture ºi getImageSize.
+
+\subsection{Nivelul de prelucrare a imaginilor}
+Acesta este nivelul care asigurã procesarea efectivã a imaginilor, preluând datele de la una din sursele configurate ºi trimiþând rezultatele prelucrãrii cãtre nivelurile superioare. 
+
+Proiectarea la acest nivel se concentreazã pe definirea unei structuri care sã descrie în mod flexibil algoritmii de detecþie a obiectelor pe baza punctelor de interes, însã, în mod similar, pot fi create clase pentru alþi algoritmi de prelucrare a imaginilor. Descrierea succintã a ierarhiei de clase poate fi observatã în Figura \ref{fig:chap3:proc_layer}. Pentru a vedea cum se integreazã acest nivel cu restul modulelor aplicaþiei, puteþi consulta Anexa \ref{sec:appendix1}.
+\begin{figure}[htbp]
+\numberwithin{figure}{chapter}
+\centering
+\includegraphics[scale=0.55]{chap3/proc_layer.png}
+\caption{Structura nivelului de prelucrare a imaginilor}
+\label{fig:chap3:proc_layer}
+\end{figure}
+
+Algoritmul este definit pornind de la interfaþa {\em IPOIAlgorithm}, care descrie elementele comune pentru toþi algoritmii care folosesc puncte de interes (POI - eng. Point of Interest). Interfaþa moºteneºte IImageConsumer din nivelul anterior (pentru a putea interacþiona cu sursele de date). În plus, ea utilizeazã ºablonul de proiectare Strategie (eng. Strategy, design pattern). Folosind aceastã structurã, este permisã modificarea uºoarã a douã etape importante ale algoritmilor ºi anume procedura de detecþie a punctelor de interes (descrisã de interfaþa {\em ILocator}) ºi modalitatea de descriere a acestora (descrisã de interfaþa {\em IDescriptor}). Se pot realiza astfel comparaþii de performanþã între diverse metode (spre exemplu, între detectorul Harris ºi detectarea punctelor de interes cu SIFT), prin simpla schimbare a obiectelor ce aparþin de clase care implementeazã cele douã interfeþe. De asemenea, se obþine o descriere abstractã a algoritmului, idependentã de etapele sale.
+
+Algoritmul utilizat în aceastã lucrare va fi implementat în clasa SurfAlg, care implementeazã IPOIAlgorithm ºi instanþiazã pentru etapele intermediare ale algoritmului obiecte de tipul FastHessianLocator (detecþia punctelor de interes pe baza calculului rapid al determinantului Hessian-ului) ºi SurfLocator (descrierea punctelor de interes specificã algoritmului SURF).
+
+Pe mãsurã ce informaþiile legate de punctele de interes sunt calculate, ele sunt stocate în instanþe ale clasei Poi, iar lista acestora poate fi consultatã dupã terminarea rulãrii algoritmului. Formatul datelor de ieºire poate fi controlat prin ºi apeluri ale funcþiei \textbf{IPOIAlgorithm::setOutputMode}. Iniþial, fiecare algoritm defineºte o listã a modurilor de ieºire suportate (în mod implicit, este definit modul "Normal"). Clasa care implementeazã propriu-zis algoritmul asigurã logica necesarã de modificare a ieºirii în funcþie de modul de operare activ, selectat de utilizator.
+
+Tot la nivelul de procesare a imaginilor este creatã ºi interfaþa {\em IImageTransform}, cu scopul de a organiza ierarhic ºi a descrie abstract o serie de transformãri sau prelucrãri ce se aplicã imaginii de intrare. Algoritmii pot mai apoi folosi aceste transformãri în cadrul operaþiilor curente. Algoritmul SURF (de exemplu) utilizeazã ca pas de preprocesare (pentru reducerea calculelor necesare) transformarea imaginii capturate într-o imagine integralã (pentru care intensitatea unui pixel este egalã cu suma intensitãþilor pixelilor din regiunea dreptunghiularã definitã de originea imaginii ºi pixelul respectiv). Aceastã prelucrare este descrisã de clasa IntegralImageTransform.
+
+\subsection{Nivelul de administrare a resurselor de procesare}
+Acest nivel realizeazã o legãturã dintre componentele descrise pânã acum (surse de imagini, algoritmi de procesare) ºi interfaþa cu utilizatorul.
+
+Aici, denumirea de resursã de procesare nu face referire la o componentã hardware (procesor), ci la secvenþe de cod care pot realiza procesarea imaginilor (algoritmi de procesare). Prin urmare, clasele descrise au rolul de a partiþiona activitãþile existente în sistem ºi de a le distribui cãtre alte clase, care realizeazã procesarea propriu zisã. Apoi, se doreºte colectarea rezultatelor ºi trimiterea lor pentru afiºare sau stocare, cãtre nivelul superior (interfaþa graficã). Structura generalã poate fi observatã în Figura \ref{fig:chap3:thread_layer}, iar interacþiunea cu restul modulelor aplicaþiei poate fi gãsitã în Anexa \ref{sec:appendix1}.
+\begin{figure}[htbp]
+\numberwithin{figure}{chapter}
+\centering
+\includegraphics[scale=0.55]{chap3/thread_layer.png}
+\caption{Structura nivelului de administrare a resurselor de procesare}
+\label{fig:chap3:thread_layer}
+\end{figure}
+Existã 2 clase principale, asociate celor 2 tipuri de surse existente în aplicaþie: CameraMgr realizeazã administrarea imaginilor provenite de la DirectShowCameraSource, iniþializând procesarea datelor de la aceastã sursã ºi trimiterea rezultatelor cãtre interfaþa graficã. În mod asemãnãtor, ImageFileMgr administreazã imaginile provenite de la FileImageSource.
+
+Asigurarea unui paralelism de granularitate mare poate fi realizatã prin instanþierea pe fire de execuþie diferite a unui numãr de algoritmi (identici) ºi direcþionarea imaginilor venite de la sursa de date cãtre prima instanþã liberã (dacã ea existã), sau formarea unei cozi de aºteptare daca toate resursele de procesare sunt ocupate. Pentru procesarea în timp real, existã ºi posibilitatea de a renunþa la procesarea unei imagini dacã toate resursele sunt ocupate, cu scopul de a pãstra timpul de rãspuns între anumite limite. Practic, pentru o sursã care furnizeazã un flux de date (precum DirectShowCameraSource), ar trebui implementatã o structurã asemãnãtoare cu cea din Figura \ref{fig:chap3:parallelism}
+\begin{figure}[htbp]
+\numberwithin{figure}{chapter}
+\centering
+\includegraphics[scale=0.7]{chap3/coarse_parallelism.png}
+\caption{Modelul de paralelizare al activitãþilor}
+\label{fig:chap3:parallelism}
+\end{figure}
+
+\subsection{Interfaþa graficã}
+Acest nivel realizeazã interacþiunea cu utilizatorul. Din punct de vedere funcþional, trebuie asigurate: controlul asupra diverºilor parametrii de rulare ai algoritmului, posibilitatea de alegere a unei surse de imagini ºi afiºarea rezultatelor. De asemenea, în contextul recunoaºterii obiectelor, utilizatorului i se va cere sã încarce o imagine staticã a obiectului ºi sã realizeze (interactiv) o selecþie a punctelor de interes ce definesc obiectul din respectiva imagine. Apoi, o datã pornitã achiziþia în timp real, se vor afiºa obiectele recunoscute din fiecare frame, precum ºi punctele de interes care nu aparþin unor obiecte cunoscute.
+
+Comunicarea cu nivelurile inferioare se realizeazã prin apel de funcþii, declanºate de acþiuni ale utilizatorului. 
+Se urmãreºte dezvoltarea unui mediu grafic intuitiv, uºor de folosit. Pentru aceasta, vor exista 2 moduri de lucru: unul "live", în care utilizatorul va controla parametrii surselor de date care furnizeazã un flux de imagini ºi unul "off-line", în care utlizatorul va putea încãrca imagini statice ºi defini obiecte. 
+
+\section{Metrici de proiectare}
+Pentru codul managed (primele douã niveluri), aceste metrici sunt obþinute în mod automat de cãtre mediul de dezvoltare (Visual Studio) pe baza implementãrii efective a arhitecturii prezentate. Pentru restul nivelurilor, metricile au fost calculate cu ajutorul aplicaþiei Source Monitor\footnote{\texttt{http://www.campwoodsw.com/sourcemonitor.html}}
+
+Complexitatea ciclomaticã este o mãsurã a numãrului de cãi liniar independente posibile în cod. Pentru un program structurat, complexitatea ciclomaticã se calculeazã dupã formula $M=e-n+2p$ unde e este numãrul de muchii din graful asociat structurilor de control din cod, n este numãrul de noduri ale acestui graf, iar p este numãrul componentelor conexe. Numere mari indicã o complexitate ridicatã ºi deci posibilitatea apariþiei unor erori. Pentru un modul, se calculeazã suma metricilor pentru fiecare clasã componentã.
+
+Cuplarea claselor se defineºte ca numãrul total de dependenþe pe care o anumitã clasã le are faþã de alte tipuri/clase. Pentru un modul, se calculeazã suma acestor metrici pentru fiecare clasã care îi aparþine. În general, un numãr mic indicã candidaþi pentru reutilizarea codului.
+\\
+\\
+\begin{tabular}{|l|c|c|l|}
+\hline
+Modul & \multicolumn{2}{|c|}{Complexitate Ciclomaticã}  & Cuplarea claselor  \\ \hline
+      & sumã & maxim & \\ \hline
+Interfaþã graficã & 115 & 34 & 102 \\
+Nivel de administrare a resurselor & 96 & 8 & 21 \\
+Nivel de procesare a imaginilor & 90 & 14 & 8 \\
+Nivel de achiziþie a imaginilor & 93 & 30 & 4 \\
+\hline
+\end{tabular}
 
 
 % ********** End of chapter **********

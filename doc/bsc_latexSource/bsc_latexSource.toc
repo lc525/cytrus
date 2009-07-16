@@ -13,10 +13,46 @@
 \contentsline {subsubsection}{Localizarea punctelor de interes}{10}{section*.2}
 \contentsline {subsubsection}{Descrierea punctelor de interes}{12}{section*.3}
 \contentsline {section}{\numberline {2.3}Identificarea trăsăturilor în timp real}{14}{section.2.3}
-\contentsline {chapter}{\chapternumberline {3}Chapter's title}{15}{chapter.3}
-\contentsline {chapter}{Bibliografie}{17}{section*.5}
-\contentsline {appendix}{\chapternumberline {A}Anexa 1}{21}{appendix.A}
-\contentsline {chapter}{Lista de simboluri şi prescurtări}{23}{appendix*.6}
-\contentsline {chapter}{List\u {a} de figuri}{24}{section*.7}
-\contentsline {chapter}{List\u {a} de tabele}{25}{section*.8}
-\contentsline {chapter}{Glosar}{27}{section*.9}
+\contentsline {subsection}{\numberline {2.3.1}Detectorul SURF}{14}{subsection.2.3.1}
+\contentsline {subsubsection}{Imagini Integrale}{14}{section*.4}
+\contentsline {subsubsection}{Construirea spaţiului scalărilor}{16}{section*.5}
+\contentsline {subsubsection}{Localizarea punctelor de interes}{16}{section*.6}
+\contentsline {subsubsection}{Descrierea punctelor de interes}{17}{section*.7}
+\contentsline {subsection}{\numberline {2.3.2}Alegerea parametrilor de rulare ai algoritmilor}{18}{subsection.2.3.2}
+\contentsline {chapter}{\chapternumberline {3}Proiectarea aplicaţiei}{19}{chapter.3}
+\contentsline {section}{\numberline {3.1}Descrierea aplicaţiei}{19}{section.3.1}
+\contentsline {section}{\numberline {3.2}Obiective}{19}{section.3.2}
+\contentsline {section}{\numberline {3.3}Constrângeri}{20}{section.3.3}
+\contentsline {section}{\numberline {3.4}Arhitectura generală a proiectului software}{21}{section.3.4}
+\contentsline {section}{\numberline {3.5}Descrierea detaliată a componentelor}{22}{section.3.5}
+\contentsline {subsection}{\numberline {3.5.1}Nivelul de abstractizare a achiziţiei imaginilor}{22}{subsection.3.5.1}
+\contentsline {subsection}{\numberline {3.5.2}Nivelul de prelucrare a imaginilor}{24}{subsection.3.5.2}
+\contentsline {subsection}{\numberline {3.5.3}Nivelul de administrare a resurselor de procesare}{25}{subsection.3.5.3}
+\contentsline {subsection}{\numberline {3.5.4}Interfaţa grafică}{27}{subsection.3.5.4}
+\contentsline {section}{\numberline {3.6}Metrici de proiectare}{27}{section.3.6}
+\contentsline {chapter}{\chapternumberline {4}Implementarea aplicaţiei}{29}{chapter.4}
+\contentsline {section}{\numberline {4.1}Descriere generală}{29}{section.4.1}
+\contentsline {subsection}{\numberline {4.1.1}Identificarea provenienţei unui fragment de cod}{30}{subsection.4.1.1}
+\contentsline {section}{\numberline {4.2}Biblioteci externe utilizate}{31}{section.4.2}
+\contentsline {subsection}{\numberline {4.2.1}Motivaţie}{31}{subsection.4.2.1}
+\contentsline {subsection}{\numberline {4.2.2}Biblioteci externe}{31}{subsection.4.2.2}
+\contentsline {section}{\numberline {4.3}Soluţii de implementare}{32}{section.4.3}
+\contentsline {subsection}{\numberline {4.3.1}Tipuri utilizate de algoritmul SURF}{32}{subsection.4.3.1}
+\contentsline {subsection}{\numberline {4.3.2}Imagini Integrale}{33}{subsection.4.3.2}
+\contentsline {subsection}{\numberline {4.3.3}Implementarea algoritmului SURF}{34}{subsection.4.3.3}
+\contentsline {subsection}{\numberline {4.3.4}Paralelizarea procesării}{36}{subsection.4.3.4}
+\contentsline {section}{\numberline {4.4}Probleme apărute în dezvoltare. Soluţii propuse}{38}{section.4.4}
+\contentsline {subsection}{\numberline {4.4.1}Rularea pe mai multe fire de execuţie, fără a utiliza primitive de sincronizare}{38}{subsection.4.4.1}
+\contentsline {subsection}{\numberline {4.4.2}Afişarea în interfaţa grafică a unui număr foarte mare de obiecte}{38}{subsection.4.4.2}
+\contentsline {subsection}{\numberline {4.4.3}Deadlock-uri în codul DirectShow}{40}{subsection.4.4.3}
+\contentsline {subsection}{\numberline {4.4.4}Ordinea obţinerii rezultatelor procesării}{41}{subsection.4.4.4}
+\contentsline {section}{\numberline {4.5}Interfaţa cu utilizatorul}{41}{section.4.5}
+\contentsline {chapter}{\chapternumberline {5}Instalarea şi testarea aplicaţiei}{45}{chapter.5}
+\contentsline {section}{\numberline {5.1}Compilarea aplicaţiei}{45}{section.5.1}
+\contentsline {subsection}{\numberline {5.1.1}Dependenţe}{45}{subsection.5.1.1}
+\contentsline {section}{\numberline {5.2}Testarea unităţilor}{46}{section.5.2}
+\contentsline {chapter}{\chapternumberline {6}Concluzii}{49}{chapter.6}
+\contentsline {chapter}{Bibliografie}{51}{section*.9}
+\contentsline {appendix}{\chapternumberline {A}Anexa 1}{55}{appendix.A}
+\contentsline {chapter}{Lista de simboluri şi prescurtări}{57}{appendix*.10}
+\contentsline {chapter}{List\u {a} de figuri}{58}{section*.11}

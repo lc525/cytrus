@@ -1,0 +1,46 @@
+\XeTeXinputencoding cp1250
+
+% ********** Chapter 5 **********
+\chapter{Instalarea ºi testarea aplicaþiei}
+\label{sec:chapter5}
+Deoarece singura dependenþã pentru rularea cu succes a aplicaþiei pe sistemul de operare Microsoft Windows este legatã de prezenþa versiunii 3.5 a platformei .NET (.NET Framework 3.5), s-a considerat cã nu este necesar un program de instalare separat. Aplicaþia poate fi lansatã în execuþie folosind fiºierele existente în directorul \slash bin. Totuºi, pentru a folosi ultima versiune a programului ºi pentru a obþine performanþe maxime, este recomandatã compilarea din codul sursã.
+
+Codul aplicaþiei este pus la dispoziþie sub licenþa GNU GPL v3, prin urmare modificarea ºi redistribuirea sa este posibilã în condiþiile în care sunt pãstrate toate informaþiile legate de autor ºi copyright\footnote{\texttt{http://www.gnu.org/licenses/gpl-3.0.txt}}
+
+Biblioteca WebCamLib (WebCamLib.dll) conþine cod sub licenþa Microsoft Public License (Ms-PL), incompatibilã GPL v3. Având în vedere cã aceastã componentã este de sine stãtãtoare, linkeditatã dinamic (dll) ºi înlocuibilã ca modul cu alte biblioteci care oferã funcþionalitãþi identice, ea nu va fi consideratã ca fãcând parte din aplicaþie.
+
+Ultima versiune a aplicaþiei poate fi descãrcatã utilizând un browser web de la adresa \texttt{http://github.com/luciancarata/b.sc-work/tree/master}, sau utilizând git, un sistem distribuit de control al versiunilor, de la adresa \\
+\texttt{git://github.com/luciancarata/b.sc-work.git}.
+
+\section{Compilarea aplicaþiei}
+\subsection{Dependenþe}
+Exitstã douã librãrii externe (neincluse în ierarhia directoarelor proiectului), care trebuie sã fie prezente pentru a putea compila aplicaþia cu succes:
+\begin{itemize}
+\item Windows Platform SDK - conþine fiºierele antet pentru funcþiile DirectShow utilizate de cãtre modulul de capturã a imaginilor; este disponibil pentru descãrcare ºi instalare la adresa \texttt{http://www.microsoft.com/downloads/}
+\item Boost - este utilizat în special modulul GIL, pentru accesul uniform ºi eficient al algoritmilor de procesare la pixelii unei imagini. Calea cãtre aceste librãrii trebuie modificatã pentru proiectul Visual Studio denumit CytrusAlgLib. La directoarele în care compilatorul va cãuta fiºiere de tip include, trebuie adãugatã ºi calea cãtre librãriile Boost. Boost poate fi descãrcat de la adresa \texttt{http://www.boost.org/}.
+\end{itemize}
+
+De asemenea, pãrþi ale codului sursã depind de biblioteca jpeglib, care este inclusã în structura directoarelor proiectului, pentru linkeditare staticã. Fiºierele header utilizate în proiect se gãsesc în \slash include\slash jpeglib iar librãria precompilatã se gãseºte în \slash lib. Acestea sunt prezente doar pentru a limita numãrul dependenþelor externe. Este recomandatã utilizarea ultimei versiuni a bibliotecii, disponibilã la adresa: \texttt{ftp://ftp.uu.net/graphics/jpeg/}.
+
+Compilarea aplicaþiei a fost testatã cu succes în mediul de dezvoltare Visual Studio 2008 SP2, o soluþie având majoritatea setãrilor ºi dependenþelor între proiecte setate fiind disponibilã în directorul \slash src.
+
+\section{Testarea unitãþilor}
+Testarea unitãþilor este una dintre cele mai importante metode de asigurare a calitãþii codului unei aplicaþii. Pentru codul prezentat în aceastã lucrare, au fost considerate o serie de teste de tip cutie neagrã (eng. blac{}k-box), cu scopul de a identifica eventualele probleme ce pot apãrea în cadrul nivelului de administrare a resurselor de procesare, precum ºi în cadrul procesului de achiziþie ºi prelucrare a imaginilor în general. 
+
+Testarea de tip cutie neagrã presupune o evaluare a modulelor prin prisma rezultatelor pe care le oferã la anumite tipuri de intrãri. Cu alte cuvinte, un modul este considerat acceptat dacã pentru un numãr de intrãri (de test), se obþin date de ieºire corecte. Testele verificã o serie de funcþionalitãþi de bazã, iar, prin rularea lor dupã fiecare compilare a programului, se poate detecta dacã modificãrile aduse codului sursã au dus la pierderea de funcþionalitãþi sau nu. Trecerea tuturor testelor nu implicã faptul cã programul nu conþine erori, ci doar faptul cã într-un numãr de situaþii standard el se comportã aºa cum este aºteptat.
+
+Testele sunt grupate într-un proiect separat al soluþiei Visual Studio, denumit CytrusModuleTesting, fiind scrise utilizând platforma de testare a mediului Visual Studio (Se folosesc clasele din namespace-ul {\em Microsoft.VisualStudio.TestTools.\-UnitTesting}. Sunt implementate douã tipuri de teste: de iniþializare ºi de verificare a funcþionalitãþilor. 
+
+Cele de iniþializare urmãresc instanþierea corectã a obiectelor din cadrul nivelului de administrare a resurselor, verificând dacã starea obiectelor dupã iniþializare este cea aºteptatã. Existã douã astfel de teste, unul pentru clasa CameraMgr ºi unul pentru ImageFileMgr. Pentru ca testele care se referã la surse live sã fie trecute cu succes, pe calculatorul pe care se ruleazã testele trebuie sã fie conectat un dispozitiv de capturã (camerã web, camerã digitalã). 
+
+Testarea funcþionalitãþilor de bazã este realizatã cu ajutorul a 5 teste:
+\begin{itemize}
+\item {\em FPSTestRun} realizeazã procesarea cu algoritmul SURF a unui flux de imagini provenit de la o sursã live de imagini. Se verificã parametrii de performanþã ai acestei procesãri, realizându-se o mediere a numãrului de frame-uri procesate în fiecare secundã, pe o perioadã de 10 secunde. Dacã algoritmul nu reuºeºte procesarea a mãcar 10 frame-uri pe secundã, acest test va eºua. 
+\item {\em StaticImage\_ReadTest\_Lenna} verificã dacã citirea unei imagini de test (lenna.jpg, prezentã în directorul proiectului de testare) se realizeazã în mod corect de cãtre sursa staticã implementatã în aplicaþie prin FileImageSource.
+\item {\em SURFRun\_StaticImage\_Lenna} ruleazã algoritmul SURF pe o imagine de test, de dimensiuni mici. Se verificã comportamentul adecvat al algoritmului ºi detecþia unui numãr suficient de mare de puncte de interes (peste 50) 
+\item {\em SURFRun\_StaticImage\_Large} ruleazã algoritmul SURF pe o imagine de dimensiune foarte mare, stocatã pe disc. Se doreºte testarea parcurgerilor de vectori din cadrul algoritmului. Dacã existã zone în care algoritmul acceseazã zone de memorie nealocate (greºeli de index în vector), este foarte probabil ca acest test sã eºueze.
+\item {\em StaticImage\_SurfRun\_MemoryAlloc\_Dealloc\_Stress50} realizeazã de 50 de ori alocarea memoriei pentru citirea unei imagini mari de pe disc, rularea algoritmului SURF ºi dealocarea memoriei. Se urmãreºte dacã în procesul de dealocare al memoriei sunt eliberate toate obiectele alocate, verificându-se astfel exitenþa unor erori în dealocarea memoriei. (eng. leaks).  
+
+\end{itemize}
+Se recomandã rularea acestor teste dupã compilarea soluþiei Visual Studio, pentru a verifica dacã toate modulele au fost construite ºi linkeditate corect. Se verificã astfel ºi îndeplinirea tuturor dependenþelor externe necesare pentru rularea aplicaþiei.  
+% ********** End of chapter **********

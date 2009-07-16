@@ -8,10 +8,42 @@
 \BOOKMARK [2][-]{subsection.2.2.1}{2.2.1 Detectorul Harris}{section.2.2}
 \BOOKMARK [2][-]{subsection.2.2.2}{2.2.2 Detectorul SIFT}{section.2.2}
 \BOOKMARK [1][-]{section.2.3}{2.3 Identificarea trăsăturilor în timp real}{chapter.2}
-\BOOKMARK [0][-]{chapter.3}{3 Chapter's title}{}
-\BOOKMARK [0][-]{section*.5}{Bibliografie}{}
+\BOOKMARK [2][-]{subsection.2.3.1}{2.3.1 Detectorul SURF}{section.2.3}
+\BOOKMARK [2][-]{subsection.2.3.2}{2.3.2 Alegerea parametrilor de rulare ai algoritmilor}{section.2.3}
+\BOOKMARK [0][-]{chapter.3}{3 Proiectarea aplicaţiei}{}
+\BOOKMARK [1][-]{section.3.1}{3.1 Descrierea aplicaţiei}{chapter.3}
+\BOOKMARK [1][-]{section.3.2}{3.2 Obiective}{chapter.3}
+\BOOKMARK [1][-]{section.3.3}{3.3 Constrângeri}{chapter.3}
+\BOOKMARK [1][-]{section.3.4}{3.4 Arhitectura generală a proiectului software}{chapter.3}
+\BOOKMARK [1][-]{section.3.5}{3.5 Descrierea detaliată a componentelor}{chapter.3}
+\BOOKMARK [2][-]{subsection.3.5.1}{3.5.1 Nivelul de abstractizare a achiziţiei imaginilor}{section.3.5}
+\BOOKMARK [2][-]{subsection.3.5.2}{3.5.2 Nivelul de prelucrare a imaginilor}{section.3.5}
+\BOOKMARK [2][-]{subsection.3.5.3}{3.5.3 Nivelul de administrare a resurselor de procesare}{section.3.5}
+\BOOKMARK [2][-]{subsection.3.5.4}{3.5.4 Interfaţa grafică}{section.3.5}
+\BOOKMARK [1][-]{section.3.6}{3.6 Metrici de proiectare}{chapter.3}
+\BOOKMARK [0][-]{chapter.4}{4 Implementarea aplicaţiei}{}
+\BOOKMARK [1][-]{section.4.1}{4.1 Descriere generală}{chapter.4}
+\BOOKMARK [2][-]{subsection.4.1.1}{4.1.1 Identificarea provenienţei unui fragment de cod}{section.4.1}
+\BOOKMARK [1][-]{section.4.2}{4.2 Biblioteci externe utilizate}{chapter.4}
+\BOOKMARK [2][-]{subsection.4.2.1}{4.2.1 Motivaţie}{section.4.2}
+\BOOKMARK [2][-]{subsection.4.2.2}{4.2.2 Biblioteci externe}{section.4.2}
+\BOOKMARK [1][-]{section.4.3}{4.3 Soluţii de implementare}{chapter.4}
+\BOOKMARK [2][-]{subsection.4.3.1}{4.3.1 Tipuri utilizate de algoritmul SURF}{section.4.3}
+\BOOKMARK [2][-]{subsection.4.3.2}{4.3.2 Imagini Integrale}{section.4.3}
+\BOOKMARK [2][-]{subsection.4.3.3}{4.3.3 Implementarea algoritmului SURF}{section.4.3}
+\BOOKMARK [2][-]{subsection.4.3.4}{4.3.4 Paralelizarea procesării}{section.4.3}
+\BOOKMARK [1][-]{section.4.4}{4.4 Probleme apărute în dezvoltare. Soluţii propuse}{chapter.4}
+\BOOKMARK [2][-]{subsection.4.4.1}{4.4.1 Rularea pe mai multe fire de execuţie, fără a utiliza primitive de sincronizare}{section.4.4}
+\BOOKMARK [2][-]{subsection.4.4.2}{4.4.2 Afişarea în interfaţa grafică a unui număr foarte mare de obiecte}{section.4.4}
+\BOOKMARK [2][-]{subsection.4.4.3}{4.4.3 Deadlock-uri în codul DirectShow}{section.4.4}
+\BOOKMARK [2][-]{subsection.4.4.4}{4.4.4 Ordinea obţinerii rezultatelor procesării}{section.4.4}
+\BOOKMARK [1][-]{section.4.5}{4.5 Interfaţa cu utilizatorul}{chapter.4}
+\BOOKMARK [0][-]{chapter.5}{5 Instalarea şi testarea aplicaţiei}{}
+\BOOKMARK [1][-]{section.5.1}{5.1 Compilarea aplicaţiei}{chapter.5}
+\BOOKMARK [2][-]{subsection.5.1.1}{5.1.1 Dependenţe}{section.5.1}
+\BOOKMARK [1][-]{section.5.2}{5.2 Testarea unităţilor}{chapter.5}
+\BOOKMARK [0][-]{chapter.6}{6 Concluzii}{}
+\BOOKMARK [0][-]{section*.9}{Bibliografie}{}
 \BOOKMARK [0][-]{appendix.A}{A Anexa 1}{}
-\BOOKMARK [0][-]{appendix*.6}{Lista de simboluri şi prescurtări}{}
-\BOOKMARK [0][-]{section*.7}{Lista de figuri}{}
-\BOOKMARK [0][-]{section*.8}{Lista de tabele}{}
-\BOOKMARK [0][-]{section*.9}{Glosar}{}
+\BOOKMARK [0][-]{appendix*.10}{Lista de simboluri şi prescurtări}{}
+\BOOKMARK [0][-]{section*.11}{Lista de figuri}{}
