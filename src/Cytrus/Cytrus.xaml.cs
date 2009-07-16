@@ -19,6 +19,7 @@ using System.Windows.Threading;
 using Tomers.WPF.Imaging.Demo;
 using System.ComponentModel;
 using ImageAnnotationDemo;
+using System.Reflection;
 
 namespace cytrus.managed
 {
@@ -55,9 +56,15 @@ namespace cytrus.managed
         private int meanFrames;
         private int currentNoOfFrames;
         private Size imgSize;
+        private double selRectTL_x, selRectTL_y;
         private PoiAdorner prevAdorner = null;
         AdornerLayer myAdornerLayer;
         private ImageCaptureCallback staticImageCallback;
+        private Point startDrag;
+        BitmapImage bpCM, bpOM;
+        bool imageLoaded;
+        MouseButtonEventHandler md, mu;
+        MouseEventHandler mm;
         
         public Window1()
         {
@@ -70,6 +77,115 @@ namespace cytrus.managed
             currentNoOfFrames = 0;
             InitializeComponent();
             sizeChangeHandler = new SelectionChangedEventHandler(imgSizeCombo_SelectionChanged);
+            bpCM = new BitmapImage(new Uri(@"res\switch_to_camera_mode.png", UriKind.Relative));
+            bpOM = new BitmapImage(new Uri(@"res\webcam.png", UriKind.Relative));
+
+            md = new MouseButtonEventHandler(image_MouseDown);
+            mu = new MouseButtonEventHandler(image_MouseUp);
+            mm = new MouseEventHandler(image_MouseMove);
+
+            selRectTL_x = 0;
+            selRectTL_y = 0;
+            imageLoaded = false;
+
+
+            InitializeComponent();
+            ContextMenu myMenu = new ContextMenu();
+            MenuItem objItem = new MenuItem();
+            objItem.Header = "Define as object";
+            objItem.Click += new RoutedEventHandler(objItem_Click);
+            myMenu.Items.Add(objItem);
+
+            rectangle.ContextMenu = myMenu;
+
+
+        }
+
+        void objItem_Click(object sender, RoutedEventArgs e)
+        {
+            objNamePopup.IsOpen = true;
+        }
+
+        private void image_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            //Set the start point
+            startDrag = e.GetPosition(captureImg);
+            //Move the selection marquee on top of all other objects in canvas
+            Canvas.SetZIndex(rectangle, imgGrid.Children.Count);
+            //Capture the mouse
+            if (!captureImg.IsMouseCaptured)
+                captureImg.CaptureMouse();
+            //captureImg.Cursor = Cursors.Cross;
+            rectangle.Visibility = Visibility.Hidden;
+        }
+
+        private void image_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            //Release the mouse
+            if (captureImg.IsMouseCaptured)
+                captureImg.ReleaseMouseCapture();
+            //captureImg.Cursor = Cursors.Arrow;
+        }
+
+        private void image_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (captureImg.IsMouseCaptured)
+            {
+                Point currentPoint = e.GetPosition(captureImg);
+
+                //Calculate the top left corner of the rectangle 
+                //regardless of drag direction
+                double x = startDrag.X < currentPoint.X ? startDrag.X : currentPoint.X;
+                double y = startDrag.Y < currentPoint.Y ? startDrag.Y : currentPoint.Y;
+
+                if (x < 0) x = 0;
+                if (y < 0) y = 0;
+                selRectTL_x = x;
+                selRectTL_y = y;
+                //if (x > captureImg.ActualWidth) x = captureImg.ActualWidth;
+                //if (y > captureImg.ActualHeight) y = captureImg.ActualHeight;
+
+                if (rectangle.Visibility == Visibility.Hidden)
+                    rectangle.Visibility = Visibility.Visible;
+
+                //Move the rectangle to proper place
+                rectangle.RenderTransform = new TranslateTransform(x, y);
+                //Set its size
+
+                double xC, yC;
+
+                if (e.GetPosition(captureImg).X < 0) xC = 0;
+                else if (e.GetPosition(captureImg).X > captureImg.ActualWidth) xC = captureImg.ActualWidth;
+                else xC = e.GetPosition(captureImg).X;
+
+                if (e.GetPosition(captureImg).Y < 0) yC = 0;
+                else if (e.GetPosition(captureImg).Y > captureImg.ActualHeight) yC = captureImg.ActualHeight;
+                else yC = e.GetPosition(captureImg).Y;
+
+                //rectangle.Width = Math.Abs(e.GetPosition(captureImg).X - startDrag.X);
+                //rectangle.Height = Math.Abs(e.GetPosition(captureImg).Y - startDrag.Y);
+
+                rectangle.Width = Math.Abs(xC - startDrag.X);
+                rectangle.Height = Math.Abs(yC - startDrag.Y);
+            }
+        }
+
+        private void captureImg_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            if (rectangle.Visibility == Visibility.Visible)
+            {
+                double nX, nY;
+                nX = selRectTL_x * e.NewSize.Width / e.PreviousSize.Width;
+                nY = selRectTL_y * e.NewSize.Height / e.PreviousSize.Height;
+                
+                rectangle.RenderTransform = new TranslateTransform(nX, nY);
+                selRectTL_x = nX;
+                selRectTL_y = nY;
+
+                rectangle.Width = rectangle.Width * e.NewSize.Width / e.PreviousSize.Width;
+                rectangle.Height = rectangle.Height * e.NewSize.Height / e.PreviousSize.Height;
+
+            }
         }
 
         public ObservableCollection<RecognisedObject> RecognisedObjects
@@ -182,6 +298,7 @@ namespace cytrus.managed
             if (!isCapturing)
             {
                 pictureManager.freeResources();
+                //pictureManager = null;
                 isCapturing = true;
                 StartCapture.Content = "Stop Capture";
                 StartCapture.SetResourceReference(BackgroundProperty, "stopCaptureButtonBrush");
@@ -320,6 +437,102 @@ namespace cytrus.managed
                 pictureManager.startImageProcessing();
             }
             ofd.Dispose();
+            imageLoaded = true;
+            pick.IsEnabled = true;
+            pick.OpacityMask = Brushes.Black;
         }
+
+        private void modeSw_Click(object sender, RoutedEventArgs e)
+        {
+
+            if (modeSw.IsChecked==true)
+            {
+                if (isCapturing == true)
+                {
+                    StartCapture_Click(null, null); 
+                }
+                objectToolbar.Visibility = Visibility.Visible;
+                currentMode.Content = "Object Mode";
+                modeSwImg.Source = bpOM;
+
+                No_capture.Visibility = Visibility.Hidden;
+                ImageSetup.Visibility = Visibility.Collapsed;
+
+                fps_bar.Visibility = Visibility.Hidden;
+                fps_text.Visibility = Visibility.Hidden;
+                fpsDisplay.Visibility = Visibility.Hidden;
+                viewbox.Visibility = Visibility.Hidden;
+            }
+            else
+            {
+                objectToolbar.Visibility = Visibility.Hidden;
+                currentMode.Content = "Capture Mode";
+                modeSwImg.Source = bpCM;
+
+                No_capture.Visibility = Visibility.Visible;
+                ImageSetup.Visibility = Visibility.Visible;
+                if (prevAdorner != null) myAdornerLayer.Remove(prevAdorner);
+                captureImg.Source = null;
+                imageLoaded = false;
+                pick.IsChecked = false;
+
+                captureImg.Cursor = Cursors.Arrow;
+                captureImg.MouseDown -= md;
+                captureImg.MouseUp -= mu;
+                captureImg.MouseMove -= mm;
+
+                rectangle.Visibility = Visibility.Hidden;
+
+                fps_bar.Visibility = Visibility.Visible;
+                fps_text.Visibility = Visibility.Visible;
+                fpsDisplay.Visibility = Visibility.Visible;
+                viewbox.Visibility = Visibility.Visible;
+
+                pick.IsEnabled = false;
+                Color p=new Color();
+                p.A=126;
+                SolidColorBrush opM = new SolidColorBrush(p);
+                pick.OpacityMask = opM;
+
+                pictureManager.freeResources();
+                //pictureManager = null;
+            }
+        }
+
+        private void pick_Click(object sender, RoutedEventArgs e)
+        {
+            if (pick.IsChecked == true)
+            {
+                if (imageLoaded == true)
+                {
+                    captureImg.Cursor = Cursors.Cross;
+                    captureImg.MouseDown += md;
+                    captureImg.MouseUp += mu;
+                    captureImg.MouseMove += mm;
+                }
+            }
+            else
+            {
+                captureImg.Cursor = Cursors.Arrow;
+
+                captureImg.MouseDown -= md;
+                captureImg.MouseUp -= mu;
+                captureImg.MouseMove -= mm;
+                rectangle.Visibility = Visibility.Hidden;
+            }
+        }
+
+        private void exitMenu_Click(object sender, RoutedEventArgs e)
+        {
+            Application.Current.Shutdown(0);
+        }
+
+        private void objName_Cancel_Click(object sender, RoutedEventArgs e)
+        {
+            objNamePopup.IsOpen = false;
+            TextBox tb=(TextBox)objNamePopup.FindName("objName");
+            tb.Text = "";
+        }
+
     }
 }

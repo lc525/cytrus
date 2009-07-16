@@ -35,22 +35,6 @@ FileImageSource::~FileImageSource(){
 	if(imageFile!=NULL) delete imageFile;
 }
 
-void FileImageSource::notifyConsumers(){
-	if(_sourceIsStarted==true){
-		for(std::set<IImageConsumer*>::iterator cIt=consumers.begin(); cIt!=consumers.end(); cIt++){
-			(*cIt)->processImage(imageDataSize,(unsigned char*)imageData);
-		}
-	}
-}
-
-void FileImageSource::notifyConsumer(int consumerIndex){
-	if(consumerIndex<consumers.size() && _sourceIsStarted==true){
-		std::set<IImageConsumer*>::iterator cIt=consumers.begin();
-		std::advance(cIt,consumerIndex);
-		(*cIt)->processImage(imageDataSize,(unsigned char*)imageData);
-	}
-}
-
 void FileImageSource::startCapture(){
 	try{
 		jpeg_read_image(_path,*imageFile);
@@ -69,6 +53,23 @@ void FileImageSource::startCapture(){
 
 void FileImageSource::setPath(const char* path){
 	_path=path;
+}
+
+
+void FileImageSource::notifyConsumers(){
+	if(_sourceIsStarted==true){
+		for(std::set<IImageConsumer*>::iterator cIt=consumers.begin(); cIt!=consumers.end(); cIt++){
+			(*cIt)->processImage(imageDataSize,(unsigned char*)imageData);
+		}
+	}
+}
+
+void FileImageSource::notifyConsumer(int consumerIndex){
+	if(consumerIndex<consumers.size() && _sourceIsStarted==true){
+		std::set<IImageConsumer*>::iterator cIt=consumers.begin();
+		std::advance(cIt,consumerIndex);
+		(*cIt)->processImage(imageDataSize,(unsigned char*)imageData);
+	}
 }
 
 void FileImageSource::stopCapture(){

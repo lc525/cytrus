@@ -77,22 +77,27 @@ ImageFileMgr::~ImageFileMgr(){
 }
 
 void ImageFileMgr::freeResources(){
-	if(gch.IsAllocated) gch.Free();
-	fs->stopCapture();
-	if(alg!=NULL){
-		delete alg;
-		alg=NULL;
-	}
+	if(isInvalid==false){
+		fs->stopCapture();
+		if(alg!=NULL){
+			delete alg;
+			alg=NULL;
+		}
 
-	Marshal::FreeHGlobal((IntPtr)filePath);
-	isInvalid=true;
+		Marshal::FreeHGlobal((IntPtr)filePath);
+		isInvalid=true;
+	}
 }
 
 ImageFileMgr::!ImageFileMgr(){
 	if(gch.IsAllocated) gch.Free();
+	fs->stopCapture();
 	if(fs!=NULL){
 		delete fs;
 		fs=NULL;
+	}
+	if(isInvalid==false){
+		Marshal::FreeHGlobal((IntPtr)filePath);
 	}
 }
 

@@ -36,9 +36,9 @@ namespace cytrus{
 		//
 		class CYTRUSALGLIB_API FileImageSource: public IImageSource{
 			private:
-
 				unsigned long imageDataSize;
 				unsigned char* imageData;
+
 				const char* _path;
 				boost::gil::rgb8_image_t* imageFile;
 				boost::gil::rgb8_view_t* imageFileView;
@@ -50,9 +50,10 @@ namespace cytrus{
 				FileImageSource();
 				virtual ~FileImageSource();
 
+				virtual void notifySizeChange(){};
 				virtual void notifyConsumers();
 				virtual void notifyConsumer(int consumerIndex);
-				virtual void notifySizeChange(){};
+
 
 				virtual void startCapture();
 				virtual void stopCapture();

@@ -5,6 +5,16 @@
 	DataContext="{Binding RelativeSource={RelativeSource Self}}" 
 	Height="502" Width="849.046" x:Name="CytrusMain" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" Loaded="CytrusMain_Loaded" WindowStyle="SingleBorderWindow" xmlns:Microsoft_Windows_Themes="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero" >
 	<Window.Resources>
+	        <Storyboard x:Key="MarchingAnts">
+            <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" 
+                               Storyboard.TargetName="rectangle" 
+                               Storyboard.TargetProperty="(Shape.StrokeDashOffset)" 
+                               RepeatBehavior="Forever">
+                <SplineDoubleKeyFrame KeyTime="00:00:00" Value="0"/>
+                <SplineDoubleKeyFrame KeyTime="00:00:00.5000000"
+                               Value="10"/>
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
 		<LinearGradientBrush x:Key="ExpanderArrowHoverFill" EndPoint="0,1" StartPoint="0,0">
 			<GradientStop Color="#FFF0F8FE" Offset="0"/>
 			<GradientStop Color="#FFE0F3FE" Offset="0.3"/>
@@ -900,7 +910,87 @@
 		<SolidColorBrush x:Key="ToolBarButtonHoverBorder" Color="#3399FF"/>
 		<SolidColorBrush x:Key="ToolBarButtonPressedBorder" Color="#3399FF"/>
 		<SolidColorBrush x:Key="ToolBarButtonPressed" Color="#99CCFF"/>
-		<Style x:Key="ButtonStyle1" TargetType="{x:Type Button}">
+		<Style x:Key="ButtonStyle1" TargetType="{x:Type ToggleButton}">
+			<Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+			<Setter Property="Padding" Value="2"/>
+			<Setter Property="BorderThickness" Value="1"/>
+			<Setter Property="Background" Value="Transparent"/>
+			<Setter Property="BorderBrush" Value="Transparent"/>
+			<Setter Property="HorizontalAlignment" Value="Center"/>
+			<Setter Property="VerticalAlignment" Value="Center"/>
+			<Setter Property="HorizontalContentAlignment" Value="Center"/>
+			<Setter Property="VerticalContentAlignment" Value="Center"/>
+			<Setter Property="Template">
+				<Setter.Value>
+					<ControlTemplate TargetType="{x:Type ToggleButton}">
+						<Border x:Name="Bd" SnapsToDevicePixels="true" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Padding="{TemplateBinding Padding}">
+							<ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+						</Border>
+						<ControlTemplate.Triggers>
+							<Trigger Property="IsMouseOver" Value="true">
+								<Setter Property="Opacity" TargetName="Bd" Value="1"/>
+								<Setter Property="Background" TargetName="Bd" Value="#4BC2E0FF"/>
+								<Setter Property="BorderBrush" TargetName="Bd" Value="#023399FF"/>
+							</Trigger>
+							<Trigger Property="IsChecked" Value="true">
+								<Setter Property="BorderBrush" TargetName="Bd" Value="{StaticResource ToolBarButtonHoverBorder}"/>
+								<Setter Property="Background" TargetName="Bd" Value="{StaticResource ToolBarButtonHover}"/>
+							</Trigger>
+							<Trigger Property="IsKeyboardFocused" Value="true">
+								<Setter Property="BorderBrush" TargetName="Bd" Value="{StaticResource ToolBarButtonHoverBorder}"/>
+								<Setter Property="Background" TargetName="Bd" Value="{StaticResource ToolBarButtonHover}"/>
+							</Trigger>
+							<Trigger Property="IsPressed" Value="true">
+								<Setter Property="BorderBrush" TargetName="Bd" Value="{StaticResource ToolBarButtonPressedBorder}"/>
+								<Setter Property="Background" TargetName="Bd" Value="{StaticResource ToolBarButtonPressed}"/>
+							</Trigger>
+							<Trigger Property="IsEnabled" Value="false">
+								<Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
+							</Trigger>
+						</ControlTemplate.Triggers>
+					</ControlTemplate>
+				</Setter.Value>
+			</Setter>
+		</Style>
+		<Style x:Key="ButtonStyle3" TargetType="{x:Type ToggleButton}">
+			<Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+			<Setter Property="Padding" Value="2"/>
+			<Setter Property="BorderThickness" Value="1"/>
+			<Setter Property="Background" Value="Transparent"/>
+			<Setter Property="BorderBrush" Value="Transparent"/>
+			<Setter Property="HorizontalAlignment" Value="Center"/>
+			<Setter Property="VerticalAlignment" Value="Center"/>
+			<Setter Property="HorizontalContentAlignment" Value="Center"/>
+			<Setter Property="VerticalContentAlignment" Value="Center"/>
+			<Setter Property="Template">
+				<Setter.Value>
+					<ControlTemplate TargetType="{x:Type ToggleButton}">
+						<Border x:Name="Bd" SnapsToDevicePixels="true" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Padding="{TemplateBinding Padding}">
+							<ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+						</Border>
+						<ControlTemplate.Triggers>
+							<Trigger Property="IsMouseOver" Value="true">
+								<Setter Property="Opacity" TargetName="Bd" Value="1"/>
+								<Setter Property="Background" TargetName="Bd" Value="#4BC2E0FF"/>
+								<Setter Property="BorderBrush" TargetName="Bd" Value="#023399FF"/>
+							</Trigger>
+							<Trigger Property="IsKeyboardFocused" Value="true">
+								<Setter Property="BorderBrush" TargetName="Bd" Value="{StaticResource ToolBarButtonHoverBorder}"/>
+								<Setter Property="Background" TargetName="Bd" Value="{StaticResource ToolBarButtonHover}"/>
+							</Trigger>
+							<Trigger Property="IsPressed" Value="true">
+								<Setter Property="BorderBrush" TargetName="Bd" Value="{StaticResource ToolBarButtonPressedBorder}"/>
+								<Setter Property="Background" TargetName="Bd" Value="{StaticResource ToolBarButtonPressed}"/>
+							</Trigger>
+							<Trigger Property="IsEnabled" Value="false">
+								<Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
+							</Trigger>
+						</ControlTemplate.Triggers>
+					</ControlTemplate>
+				</Setter.Value>
+			</Setter>
+		</Style>
+		<Style x:Key="ButtonStyle2" TargetType="{x:Type Button}">
 			<Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
 			<Setter Property="Padding" Value="2"/>
 			<Setter Property="BorderThickness" Value="1"/>
@@ -962,6 +1052,9 @@
 		</Storyboard>
 	</Window.Resources>
 	<Window.Triggers>
+		<EventTrigger RoutedEvent="FrameworkElement.Loaded">
+            <BeginStoryboard Storyboard="{StaticResource MarchingAnts}"/>
+        </EventTrigger>
 		<EventTrigger RoutedEvent="Mouse.MouseEnter" SourceName="viewbox">
 			<BeginStoryboard Storyboard="{StaticResource OnMouseEnter1}"/>
 		</EventTrigger>
@@ -981,7 +1074,7 @@
 				<MenuItem Style="{DynamicResource MenuItemStyle2}" Background="#00FFFFFF" Header="_File">
 					<MenuItem Header="_Load Object Data"/>
 					<Separator Opacity="0.325"/>
-					<MenuItem Style="{DynamicResource MenuItemStyle1}" Background="#FF6D6D6D" Header="E_xit" IsCheckable="False"/>
+					<MenuItem Style="{DynamicResource MenuItemStyle1}" Background="#FF6D6D6D" Header="E_xit" IsCheckable="False" x:Name="exitMenu" Click="exitMenu_Click"/>
 				</MenuItem>
 			</Menu>
 			<Menu HorizontalAlignment="Right" Margin="0,0,0,0" Width="78" RenderTransformOrigin="0.5,0.5" Background="{x:Null}">
@@ -1012,16 +1105,35 @@
 					<GradientStop Color="#FF3A3A3A" Offset="1"/>
 				</LinearGradientBrush>
 			</ToolBarTray.Background>
-			<ToolBar Width="287" Height="30" Style="{DynamicResource ToolBarStyle1}">
+			<ToolBar Height="30" Style="{DynamicResource ToolBarStyle1}" x:Name="switchModes" Width="152.637">
 				<ToolBar.Background>
 					<LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
 						<GradientStop Color="#00FFFFFF" Offset="0"/>
 						<GradientStop Color="#528D8A8D" Offset="0.982"/>
 					</LinearGradientBrush>
 				</ToolBar.Background>
-				<Button Style="{DynamicResource ButtonStyle1}" x:Name="ldImage" Click="ldImage_Click">
-					<Image Source="res\world_edit.png"/>
+				<ToggleButton Style="{DynamicResource ButtonStyle3}" x:Name="modeSw" Click="modeSw_Click">
+					<Image x:Name="modeSwImg" Source="res\switch_to_camera_mode.png" ToolTip="Switch current mode"/>
+				</ToggleButton>
+				<!--ToggleButton Style="{DynamicResource ButtonStyle1}" x:Name="modeSw2" Click="modeSw_Click">
+					<Image x:Name="modeSwimgobj" Source="res\webcam.png"/>
+				</ToggleButton-->
+				<Separator/>
+				<Label Background="#00FFFFFF" Foreground="#FFE5DC5E" FontWeight="Bold" x:Name="currentMode">Capture Mode</Label>
+			</ToolBar>
+			<ToolBar Width="88" Height="30" Style="{DynamicResource ToolBarStyle1}" x:Name="objectToolbar" Visibility="Visible">
+				<ToolBar.Background>
+					<LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
+						<GradientStop Color="#00FFFFFF" Offset="0"/>
+						<GradientStop Color="#528D8A8D" Offset="0.982"/>
+					</LinearGradientBrush>
+				</ToolBar.Background>
+				<Button x:Name="loadImage" Click="ldImage_Click" Style="{DynamicResource ButtonStyle2}" ToolTip="Load Image">
+					<Image Source="res\picture_add.png"/>
 				</Button>
+				<ToggleButton x:Name="pick" Style="{DynamicResource ButtonStyle1}" Click="pick_Click" ToolTip="Define objects" IsEnabled="False" OpacityMask="#7E000000">
+					<Image Source="res\pick_objects.png"/>
+				</ToggleButton>
 			</ToolBar>
 		</ToolBarTray>
 		<StackPanel Margin="4,4,0,4" x:Name="s_setup" VerticalAlignment="Top" Width="256" Height="Auto">
@@ -1082,9 +1194,27 @@
 			</Expander>
 		</StackPanel>
 		<Border Background="{x:Null}" BorderBrush="#82848484" BorderThickness="1,1,1,1" CornerRadius="3,3,3,3" Margin="4,4,4,4" Width="Auto" Height="Auto" Padding="0,0,0,0">
-			<Grid Width="Auto" Height="Auto" ShowGridLines="False">
-				<Rectangle Fill="#FF383838" Stroke="{x:Null}" Margin="0,0,0,0" VerticalAlignment="Top" Height="32" Panel.ZIndex="6" Opacity="0.45" HorizontalAlignment="Stretch"/>
-				<TextBlock HorizontalAlignment="Left" Margin="8,8,0,0" VerticalAlignment="Top" Width="Auto" Panel.ZIndex="7" Foreground="#FFD6D6D6" Text="FPS:" TextWrapping="Wrap"/>
+			<Grid Width="Auto" Height="Auto" ShowGridLines="False" x:Name="imgGrid">
+				<Popup Margin="0,0,0,0" x:Name="objNamePopup" IsOpen="False" HorizontalAlignment="Center" VerticalAlignment="Center" Placement="Mouse" OpacityMask="{x:Null}">
+				        <Border BorderBrush="#FF7E7B66" BorderThickness="1,1,1,1" Background="{x:Null}" SnapsToDevicePixels="True">
+						<StackPanel Orientation="Vertical" Background="#FF323232" Opacity="1">
+							<StackPanel Orientation="Horizontal">
+							   <TextBlock x:Name="Text" Margin="10,10,10,10" VerticalAlignment="Center" Background="{x:Null}" Foreground="#FFFFFFFF">Object Name:</TextBlock>
+							   <TextBox HorizontalAlignment="Left" VerticalAlignment="Center" Width="150" Margin="0,0,10,0" x:Name="objName"></TextBox>
+					        </StackPanel>
+							<StackPanel Orientation="Horizontal" Margin="0,5,0,10" HorizontalAlignment="Right">
+					           <Button Content="Add object" VerticalAlignment="Center" Margin="0,0,2,0" HorizontalAlignment="Right" Padding="3,3,3,3" ScrollViewer.CanContentScroll="False"/>
+							   <Button Content="Cancel" VerticalAlignment="Center" Margin="0,0,10,0" Click="objName_Cancel_Click" Padding="3,3,3,3" x:Name="objName_Cancel"/>
+					        </StackPanel>
+						</StackPanel>
+						</Border>
+			  	</Popup>
+				<Rectangle Fill="#14FFFFFF" StrokeDashArray="5" Stroke="#FFFFFFFF"
+                       Visibility="Hidden" x:Name="rectangle" Width="50" Height="50" 
+                       StrokeDashOffset="0" StrokeThickness="1" RadiusX="0" RadiusY="0" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="4,4,0,0"
+                       />
+				<Rectangle Fill="#FF383838" Stroke="{x:Null}" Margin="0,0,0,0" VerticalAlignment="Top" Height="32" Panel.ZIndex="6" Opacity="0.45" HorizontalAlignment="Stretch" x:Name="fps_bar"/>
+				<TextBlock HorizontalAlignment="Left" Margin="8,8,0,0" VerticalAlignment="Top" Width="Auto" Panel.ZIndex="7" Foreground="#FFD6D6D6" Text="FPS:" TextWrapping="Wrap" x:Name="fps_text"/>
 				<TextBlock HorizontalAlignment="Left" Margin="34,8,0,0" x:Name="fpsDisplay" VerticalAlignment="Top" Width="Auto" Height="Auto" Panel.ZIndex="7" Foreground="#FFD8D8D8" Text="0" TextWrapping="Wrap"/>
 				<Viewbox HorizontalAlignment="Right" Margin="0,8,8,0" x:Name="viewbox" VerticalAlignment="Top" Width="200" Height="19" Opacity="0.44" Stretch="Fill" Panel.ZIndex="7">
 					<Grid Width="200" Height="19">
@@ -1092,10 +1222,10 @@
 						<TextBlock HorizontalAlignment="Left" Margin="0,1,0,1" Width="98" TextWrapping="Wrap"><Run Foreground="#FFFFFFFF" Text="Output Mode:"/></TextBlock>
 					</Grid>
 				</Viewbox>
-				<Image x:Name="captureImg" Width="Auto" Height="Auto" Stretch="Fill" Margin="4,4,4,4" VerticalAlignment="Stretch" RenderTransformOrigin="0.5,0.5">
+				<Image x:Name="captureImg" Width="Auto" Height="Auto" Stretch="Fill" Margin="4,4,4,4" VerticalAlignment="Stretch" RenderTransformOrigin="0.5,0.5" SizeChanged="captureImg_SizeChanged">
 					<Image.RenderTransform>
 						<TransformGroup>
-							<ScaleTransform ScaleX="-1" ScaleY="1"/>
+							<ScaleTransform ScaleX="1" ScaleY="1"/>
 							<SkewTransform AngleX="0" AngleY="0"/>
 							<RotateTransform Angle="0"/>
 							<TranslateTransform X="0" Y="0"/>
@@ -1107,9 +1237,8 @@
 						<TextBlock Margin="22.542,1.52,0,3.52" FontSize="12" Foreground="#FFDEDEDE" Text="Capture not active. Press &quot;Start Capture&quot;" TextWrapping="Wrap" d:LayoutOverrides="HorizontalAlignment, VerticalAlignment, Width, Height"/>
 						<TextBlock HorizontalAlignment="Left" Width="20.542" FontFamily="Webdings" FontSize="18" Foreground="#FFC40000" Text="&lt;" TextWrapping="Wrap"/>
 					</Grid>
-				</Border>
+				</Border> 
 			</Grid>
 		</Border>
-        
 	</DockPanel>
 </Window>

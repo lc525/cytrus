@@ -53,6 +53,10 @@
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Resource Include="res\world_edit.png" />
+    <Page Include="Simple Styles.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
@@ -109,6 +113,16 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="res\Book.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="res\picture_add.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="res\pick_objects.png" />
+    <Resource Include="res\switch_to_camera_mode.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="res\webcam.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

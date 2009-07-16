@@ -16,7 +16,8 @@
 using namespace cytrus::cameraHAL;
 
 IImageConsumer::~IImageConsumer(){
-	_imgSource->removeImageConsumer(this);
+	if(removeFromSourceOnDestroy==true)
+		_imgSource->removeImageConsumer(this);
 }
 
 
@@ -24,4 +25,5 @@ IImageConsumer::IImageConsumer(IImageSource* imgSource, int index){
 	_imgSource=imgSource;
 	consumerIndex=index;
 	_imgSource->registerImageConsumer(this);
+	removeFromSourceOnDestroy=true;
 }

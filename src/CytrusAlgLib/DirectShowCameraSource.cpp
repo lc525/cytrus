@@ -95,23 +95,26 @@ void DirectShowCameraSource::setActiveCamera(int cIndex){
 	SysFreeString(pbstrName);
 }
 
-void DirectShowCameraSource::displayCameraPropertiesDialog(HWND hwnd){
-	if(_currentCamera!=NO_CAMERA){
-		DisplayCameraPropertiesDialog(deviceHandle[0],hwnd);
-	}
-}
 
 void DirectShowCameraSource::notifyConsumers(){
-	for(std::set<IImageConsumer*>::iterator cIt=instance->consumers.begin(); cIt!=instance->consumers.end(); cIt++){
-		(*cIt)->processImage(imageDataSize,(unsigned char*)imageData);
+	if(_sourceIsStarted==true){
+		for(std::set<IImageConsumer*>::iterator cIt=consumers.begin(); cIt!=consumers.end(); cIt++){
+			(*cIt)->processImage(imageDataSize,(unsigned char*)imageData);
+		}
 	}
 }
 
 void DirectShowCameraSource::notifyConsumer(int consumerIndex){
-	if(consumerIndex<instance->consumers.size()){
-		std::set<IImageConsumer*>::iterator cIt=instance->consumers.begin();
+	if(consumerIndex<consumers.size() && _sourceIsStarted==true){
+		std::set<IImageConsumer*>::iterator cIt=consumers.begin();
 		std::advance(cIt,consumerIndex);
 		(*cIt)->processImage(imageDataSize,(unsigned char*)imageData);
+	}
+}
+
+void DirectShowCameraSource::displayCameraPropertiesDialog(HWND hwnd){
+	if(_currentCamera!=NO_CAMERA){
+		DisplayCameraPropertiesDialog(deviceHandle[0],hwnd);
 	}
 }
 

@@ -33,6 +33,7 @@ namespace cytrus{
 			protected:
 				IImageSource* _imgSource;
 			public: 
+				bool removeFromSourceOnDestroy;
 				int consumerIndex; // for identifying multiple consumers
 				IImageConsumer(IImageSource* imgSource, int index);
 				virtual ~IImageConsumer();

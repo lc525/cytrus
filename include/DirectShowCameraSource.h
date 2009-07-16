@@ -72,9 +72,9 @@ namespace cytrus{
 				void setActiveCamera(int cIndex);
 				void displayCameraPropertiesDialog(HWND hwnd);
 
+				virtual void notifySizeChange(){};
 				virtual void notifyConsumers();
 				virtual void notifyConsumer(int consumerIndex);
-				virtual void notifySizeChange(){};
 
 				virtual void startCapture();
 				virtual void stopCapture();

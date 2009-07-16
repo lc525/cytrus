@@ -17,7 +17,22 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CytrusManagedLib", "CytrusM
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cytrus", "Cytrus\Cytrus.csproj", "{AA3CABA2-4BC5-45C6-87BE-398191D35E6E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CytrusModuleTesting", "CytrusModuleTesting\CytrusModuleTesting.csproj", "{9F00217E-AD06-41A2-B73F-1542D7290E61}"
+	ProjectSection(ProjectDependencies) = postProject
+		{28623A2E-01DB-46ED-AF4B-2B10C4610A95} = {28623A2E-01DB-46ED-AF4B-2B10C4610A95}
+		{58195B5F-0AFD-48C2-B6C2-B5880EFFA70B} = {58195B5F-0AFD-48C2-B6C2-B5880EFFA70B}
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{C71E0023-5DCA-4A7B-9003-6612BF532F5D}"
+	ProjectSection(SolutionItems) = preProject
+		cytrus.vsmdi = cytrus.vsmdi
+		LocalTestRun.testrunconfig = LocalTestRun.testrunconfig
+	EndProjectSection
+EndProject
 Global
+	GlobalSection(TestCaseManagementSettings) = postSolution
+		CategoryFile = cytrus.vsmdi
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Debug|Mixed Platforms = Debug|Mixed Platforms
@@ -77,6 +92,16 @@ Global
 		{AA3CABA2-4BC5-45C6-87BE-398191D35E6E}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{AA3CABA2-4BC5-45C6-87BE-398191D35E6E}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{AA3CABA2-4BC5-45C6-87BE-398191D35E6E}.Release|Win32.ActiveCfg = Release|Any CPU
+		{9F00217E-AD06-41A2-B73F-1542D7290E61}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9F00217E-AD06-41A2-B73F-1542D7290E61}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9F00217E-AD06-41A2-B73F-1542D7290E61}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{9F00217E-AD06-41A2-B73F-1542D7290E61}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{9F00217E-AD06-41A2-B73F-1542D7290E61}.Debug|Win32.ActiveCfg = Debug|Any CPU
+		{9F00217E-AD06-41A2-B73F-1542D7290E61}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9F00217E-AD06-41A2-B73F-1542D7290E61}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9F00217E-AD06-41A2-B73F-1542D7290E61}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{9F00217E-AD06-41A2-B73F-1542D7290E61}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{9F00217E-AD06-41A2-B73F-1542D7290E61}.Release|Win32.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
