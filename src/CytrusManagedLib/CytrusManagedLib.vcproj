@@ -119,7 +119,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="&quot;C:\Program Files\boost\boost_1_38&quot;;..\..\include;D:\B.Sc_Work\Work\include\jpeglib"
+				AdditionalIncludeDirectories="&quot;C:\Program Files\boost\boost_1_41_0&quot;;..\..\include;..\..\include\jpeglib"
 				PreprocessorDefinitions="WIN32;NDEBUG"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="2"

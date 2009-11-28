@@ -27,6 +27,7 @@
 #include "IImageConsumer.h"
 #include "IImageSource.h"
 #include "IPOIAlgorithm.h"
+#include "ObjectPoiStorage.h"
 #include "poi.h"
 
 using namespace cytrus::cameraHAL;
@@ -38,6 +39,7 @@ namespace cytrus{
             private:
                 volatile int _pWidth, _pHeight;
                 volatile bool _isCustomPrelSize;
+				static ObjectPoiStorage* _store;
 
             public:
                 SurfAlg(IImageSource* imgSrc, POIAlgResult outputFunc, int index);

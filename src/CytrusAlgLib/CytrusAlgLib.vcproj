@@ -122,7 +122,7 @@
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
 				WholeProgramOptimization="true"
-				AdditionalIncludeDirectories="D:\B.Sc_Work\Work\include\jpeglib;..\..\include;&quot;C:\Program Files\boost\boost_1_38&quot;"
+				AdditionalIncludeDirectories="..\..\include\jpeglib;..\..\include;&quot;C:\Program Files\boost\boost_1_41_0\&quot;"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;CYTRUSALGLIB_EXPORTS"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
@@ -265,6 +265,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\ObjectPoiStorage.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\SurfAlg.cpp"
 					>
 				</File>
@@ -323,10 +327,6 @@
 					>
 				</File>
 				<File
-					RelativePath="..\..\include\IImage.h"
-					>
-				</File>
-				<File
 					RelativePath="..\..\include\IImageTransform.h"
 					>
 				</File>
@@ -340,6 +340,10 @@
 				</File>
 				<File
 					RelativePath="..\..\include\IPOIAlgorithm.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\include\ObjectPoiStorage.h"
 					>
 				</File>
 				<File

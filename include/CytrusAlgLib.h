@@ -35,6 +35,7 @@
 #include "DirectShowCameraSource.h"
 #include "FileImageSource.h"
 #include "SurfAlg.h"
+#include "ObjectPoiStorage.h"
 
 //EXPIMP_TEMPLATE template class CYTRUSALGLIB_API std::list<char*>;
 //EXPIMP_TEMPLATE template class CYTRUSALGLIB_API std::pair<int,int>;

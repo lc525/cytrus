@@ -78,6 +78,10 @@ namespace cytrus {
 			void startImageProcessing();
 			void freeResources();
 
+			//returns the object index
+			int registerObject(int startX, int startY, int width, int height);
+			void removeObject(int index);
+
 		};
 	
 	}

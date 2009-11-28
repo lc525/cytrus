@@ -13,6 +13,7 @@
 
 #include "stdafx.h"
 #include "ImageFileManaged.h"
+#include "ObjectPoiStorage.h"
 
 //#define DEBUG_EVENTLOG // define to write alg worker information to Windows Event Log
 #define MAX_PROCESSING_THREADS 4
@@ -28,7 +29,12 @@ void ImageFileMgr::callImageCaptureEvent(int dwSize, unsigned char* pbData, int 
 
     std::vector<Poi> pctLst=alg->getPoiResult();
     for(std::vector<Poi>::iterator it=pctLst.begin(); it!=pctLst.end(); it++){
-        poiArray->Add(gcnew Poi_m(it->x, it->y));
+        Poi_m^ iPt=gcnew Poi_m(it->x,it->y);
+		iPt->Orientation=it->orientation;
+		iPt->Scale=it->scale;
+		iPt->MatchesObjectNo=it->matchesObjectNr;
+		iPt->MatchedDistance=it->matchedDistance;
+		poiArray->Add(iPt);
     }
 
     onImageAvailableForRendering(byteArray, poiArray);
@@ -103,6 +109,8 @@ ImageFileMgr::!ImageFileMgr(){
 
 void ImageFileMgr::setActiveOutputMode(int modeIndex){
 	alg->setOutputMode(modeIndex);
+	fs->stopCapture();
+	fs->startCapture();
 }
 
 ObservableCollection<OutputMode^>^ ImageFileMgr::getOutputModesList(){
@@ -124,4 +132,15 @@ void ImageFileMgr::startImageProcessing(){
 		alg=new SurfAlg(fs, result, -1);
 		alg->run();
 	}
+}
+
+int ImageFileMgr::registerObject(int startX, int startY, int widthR, int heightR){
+	ObjectPoiStorage* store=ObjectPoiStorage::getInstance();
+	int index=store->registerObject(startX,startY,widthR,heightR,alg);
+	return index;
+}
+
+void ImageFileMgr::removeObject(int index){
+	ObjectPoiStorage* store=ObjectPoiStorage::getInstance();
+	store->removeObject(index);
 }

@@ -20,6 +20,8 @@ using Tomers.WPF.Imaging.Demo;
 using System.ComponentModel;
 using ImageAnnotationDemo;
 using System.Reflection;
+using System.Diagnostics;
+using System.Configuration;
 
 namespace cytrus.managed
 {
@@ -60,7 +62,7 @@ namespace cytrus.managed
         private PoiAdorner prevAdorner = null;
         AdornerLayer myAdornerLayer;
         private ImageCaptureCallback staticImageCallback;
-        private Point startDrag;
+        private Point startDrag, currentPoint, objStDrag;
         BitmapImage bpCM, bpOM;
         bool imageLoaded;
         MouseButtonEventHandler md, mu;
@@ -69,9 +71,12 @@ namespace cytrus.managed
         public Window1()
         {
             //temporary
-            _rObj.Add(new RecognisedObject("Mouse", 50));
-            _rObj.Add(new RecognisedObject("Human Face", 20));
+            //RecognisedObject p = new RecognisedObject("Mouse", 20);
+            //_rObj.Add(p);
+            //_rObj.Add(new RecognisedObject("Human Face", 20));
+            //p.RecognitionCertainty = 80;
             //
+           
             Fps = 0;
             meanFrames = 100;
             currentNoOfFrames = 0;
@@ -98,7 +103,25 @@ namespace cytrus.managed
 
             rectangle.ContextMenu = myMenu;
 
+            ContextMenu myMenu2 = new ContextMenu();
+            MenuItem objItem2 = new MenuItem();
+            objItem2.Header = "Delete object";
+            objItem2.Click += new RoutedEventHandler(objItem2_Click);
+            myMenu2.Items.Add(objItem2);
 
+            objListDisp.ContextMenu = myMenu2;
+
+
+        }
+
+        void objItem2_Click(object sender, RoutedEventArgs e)
+        {
+            //throw new NotImplementedException();
+            if (objListDisp.SelectedIndex != -1)
+            {
+                pictureManager.removeObject(objListDisp.SelectedIndex);
+                _rObj.RemoveAt(objListDisp.SelectedIndex);
+            }
         }
 
         void objItem_Click(object sender, RoutedEventArgs e)
@@ -110,6 +133,9 @@ namespace cytrus.managed
         {
             //Set the start point
             startDrag = e.GetPosition(captureImg);
+            objStDrag = new Point(startDrag.X, startDrag.Y);
+            //startDrag.X = captureImg.ActualWidth - startDrag.X;
+            startDrag.Y = captureImg.ActualHeight - startDrag.Y;
             //Move the selection marquee on top of all other objects in canvas
             Canvas.SetZIndex(rectangle, imgGrid.Children.Count);
             //Capture the mouse
@@ -131,7 +157,9 @@ namespace cytrus.managed
         {
             if (captureImg.IsMouseCaptured)
             {
-                Point currentPoint = e.GetPosition(captureImg);
+                currentPoint = e.GetPosition(captureImg);
+                //currentPoint.X = captureImg.ActualWidth - currentPoint.X;
+                currentPoint.Y = captureImg.ActualHeight - currentPoint.Y;
 
                 //Calculate the top left corner of the rectangle 
                 //regardless of drag direction
@@ -162,11 +190,12 @@ namespace cytrus.managed
                 else if (e.GetPosition(captureImg).Y > captureImg.ActualHeight) yC = captureImg.ActualHeight;
                 else yC = e.GetPosition(captureImg).Y;
 
-                //rectangle.Width = Math.Abs(e.GetPosition(captureImg).X - startDrag.X);
-                //rectangle.Height = Math.Abs(e.GetPosition(captureImg).Y - startDrag.Y);
+                //xC = captureImg.ActualWidth - xC;
+                yC = captureImg.ActualHeight - yC;
 
                 rectangle.Width = Math.Abs(xC - startDrag.X);
                 rectangle.Height = Math.Abs(yC - startDrag.Y);
+                
             }
         }
 
@@ -227,6 +256,8 @@ namespace cytrus.managed
                 }
                 _frameRenderer.RenderFrame(pbData);
 
+                //if (_rObj.Count > 0)
+                //    _rObj[0].RecognitionCertainty += 1;
                 //display poi's:
                 int st = (int)Fps / 3 + 1;
                 if (currentNoOfFrames % st == 0)
@@ -234,7 +265,10 @@ namespace cytrus.managed
 
                     if (prevAdorner != null) myAdornerLayer.Remove(prevAdorner);
                     ImgSize sz = (ImgSize)imgSizeCombo.SelectedItem;
-                    PoiAdorner newAdorner = new PoiAdorner(captureImg, poiData, new Size((double)sz.width,(double)sz.height));
+                    PoiAdorner newAdorner = new PoiAdorner(captureImg, poiData, new Size((double)sz.width,(double)sz.height),_rObj);
+                    newAdorner.showPOI = (bool)dispPOI.IsChecked;
+                    newAdorner.showOrientation = (bool)dispOrientation.IsChecked;
+                    newAdorner.showVicinity = (bool)dispArea.IsChecked;
                     newAdorner.IsHitTestVisible = false;
                     myAdornerLayer.Add(newAdorner);
                     prevAdorner = newAdorner;
@@ -262,9 +296,11 @@ namespace cytrus.managed
             this.Dispatcher.Invoke(DispatcherPriority.Normal, (Action)(() =>
             {
                 _frameRenderer.RenderFrame(pbData);
-
                 if (prevAdorner != null) myAdornerLayer.Remove(prevAdorner);
-                PoiAdorner newAdorner = new PoiAdorner(captureImg, poiData, new Size(width, height));
+                PoiAdorner newAdorner = new PoiAdorner(captureImg, poiData, new Size(width, height),_rObj);
+                newAdorner.showPOI = (bool)dispPOI.IsChecked;
+                newAdorner.showOrientation = (bool)dispOrientation.IsChecked;
+                newAdorner.showVicinity = (bool)dispArea.IsChecked;
                 newAdorner.IsHitTestVisible = false;
                 myAdornerLayer.Add(newAdorner);
                 prevAdorner = newAdorner;
@@ -354,6 +390,7 @@ namespace cytrus.managed
             ComboBox cb=(ComboBox)e.Source;
             if (cb.SelectedIndex >= 0)
             {
+
                 cameraManager.setActiveOutputMode(cb.SelectedIndex);
                 OutputMode om = outputM.SelectedItem as OutputMode;
                 _frameRenderer.ChangePixelFormat((PixelFormat)om.pixelFormat);
@@ -532,6 +569,50 @@ namespace cytrus.managed
             objNamePopup.IsOpen = false;
             TextBox tb=(TextBox)objNamePopup.FindName("objName");
             tb.Text = "";
+        }
+
+        private void dispPOI_Unchecked(object sender, RoutedEventArgs e)
+        {
+            dispOrientation.IsEnabled = false;
+            dispArea.IsEnabled = false;
+        }
+
+        private void dispPOI_Checked(object sender, RoutedEventArgs e)
+        {
+            if (dispOrientation != null && dispArea != null)
+            {
+                dispOrientation.IsEnabled = true;
+                dispArea.IsEnabled = true;
+            }
+        }
+
+        private void objAddButton_Click(object sender, RoutedEventArgs e)
+        {
+            int rWidth, rHeight, x ,y;
+            x = (int)Math.Floor(objStDrag.X * pictureManager._imgWidth / captureImg.ActualWidth);
+            y = (int)Math.Floor(objStDrag.Y * pictureManager._imgHeight / captureImg.ActualHeight);
+            rWidth = (int)Math.Floor(rectangle.ActualWidth * pictureManager._imgWidth / captureImg.ActualWidth);
+            rHeight = (int)Math.Floor(rectangle.ActualHeight * pictureManager._imgHeight / captureImg.ActualHeight);
+
+            int no=pictureManager.registerObject(x,y,rWidth,rHeight);
+            RecognisedObject nObj = new RecognisedObject(objName.Text, no);
+            //RecognisedObject nObj = new RecognisedObject(objName.Text, 0);
+            _rObj.Add(nObj);
+            objNamePopup.IsOpen = false;
+            objName.Text = "";
+        }
+
+        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                string source = ConfigurationManager.AppSettings["helpSource"].ToString();
+                Process.Start(source);
+            }
+            catch
+            {
+                MessageBox.Show("Help not found");
+            }
         }
 
     }

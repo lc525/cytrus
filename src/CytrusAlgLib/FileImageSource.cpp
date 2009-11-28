@@ -42,7 +42,10 @@ void FileImageSource::startCapture(){
 		height=imageFile->height();
 		imageDataSize=width*height*3;
 		imageFileView=(rgb8_view_t*)&view(*imageFile);
-		imageData=(unsigned char*)interleaved_view_get_raw_data(*imageFileView);
+		rgb8_image_t flippedImg(width,height);
+		rgb8_view_t flipped=view(flippedImg);
+		copy_pixels(flipped_up_down_view(*imageFileView), flipped);
+		imageData=(unsigned char*)interleaved_view_get_raw_data(flipped);
 		_sourceIsStarted=true;
 		notifyConsumers();
 	}

@@ -1,0 +1,5 @@
++modify project boost path - CytrusAlgLib
++qedit.h missing in Win SDK 7, add the 6.0A SDK to C++ Directories
++directshow dxtrans missing - copied from C:\Program Files\Microsoft Visual Studio 9.0\SmartDevices\SDK\PocketPC2003\Include\
++gil extensions (numerical) - get it from http://opensource.adobe.com/wiki/download/attachments/3866769/numeric.zip?version=1
++gil_all.hpp not seen from FileImageSource.h - modify boost path - CytrusManagedLib

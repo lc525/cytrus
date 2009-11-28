@@ -33,6 +33,8 @@ using namespace boost::gil;
     unsigned long get_in_256_range::max=1;
 //
 
+ObjectPoiStorage* SurfAlg::_store=NULL;
+
 SurfAlg::SurfAlg(IImageSource* imgSrc, POIAlgResult outputFunc, int index):
     IPOIAlgorithm(imgSrc,
                   new FastHessianLocator<gray32_view_t>,
@@ -42,6 +44,8 @@ SurfAlg::SurfAlg(IImageSource* imgSrc, POIAlgResult outputFunc, int index):
     _pWidth=-1;
     _pHeight=-1;
     _isCustomPrelSize=false;
+
+	_store=ObjectPoiStorage::getInstance();
 
     //Configure output modes
     std::pair<char*, int>* grayscale=new std::pair<char*, int>();
@@ -94,10 +98,10 @@ void SurfAlg::processImage(unsigned long dwSize, unsigned char* pbData){
 	// get POI's location
     FastHessianLocator<gray32_view_t>* locator=static_cast<FastHessianLocator<gray32_view_t>*>(_poiLoc);
 	if(consumerIndex==-1){ // static image, determine objects
-		locator->setParameters(3,4,10,25.007f);
+		locator->setParameters(3,4,width/120>=2?width/120:2,25.007f);
 	}
 	else{
-		locator->setParameters(3,4,width/120>=2?width/120:2, 5.007f);
+		locator->setParameters(3,4,width/120>=2?width/120:2, 25.007f);
 	}
     locator->setSourceIntegralImg(integralView);
     iPts.clear();
@@ -108,7 +112,18 @@ void SurfAlg::processImage(unsigned long dwSize, unsigned char* pbData){
 	descriptor->setSourceIntegralImg(integralView);
 	descriptor->getDescriptorsFor(iPts);
 
+	_store->matchObjects(iPts);
+
     unsigned long nSize=width*height*3;
+
+	// testing image origin location (placing a white rectangle in a region near the origin)
+	//for (int y=0; y<7; ++y) {
+	//	gray8_view_t::x_iterator src_it = grView.row_begin(y);
+
+	//	for (int x=0; x<30; ++x) {
+	//		src_it[x]=255;
+	//	}
+	//}
 
     switch(_currentOutputMode){
         case 0:

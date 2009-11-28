@@ -34,11 +34,15 @@ public:
 	int descriptorSize;
 	float* descriptor;
 	float dx, dy;
-	int clusterIndex;
+	//int clusterIndex; - not used yet
+	int matchesObjectNr;
+	float matchedDistance;
 
 	Poi(int descrSize=64) : orientation(0), descriptorSize(descrSize)
 	{
 		descriptor=new float[descriptorSize];
+		matchesObjectNr=-1;
+		matchedDistance=-1;
 	}
 };
 

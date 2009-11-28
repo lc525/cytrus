@@ -19,6 +19,10 @@ namespace cytrus {
         private:
             int _x, _y;
 			float _orientation;
+			int _scale;
+			int _matchesObjectNr;
+			float _matchedDistance;
+
         public:
 
             property int X
@@ -43,6 +47,17 @@ namespace cytrus {
                 }
             }
 
+			property int MatchesObjectNo
+            {
+                int get(){
+                    return _matchesObjectNr;
+                }
+
+                void set(int val){
+                    _matchesObjectNr=val;
+                }
+            }
+
 			property float Orientation
             {
                 float get(){
@@ -51,6 +66,28 @@ namespace cytrus {
 
                 void set(float val){
                     _orientation=val;
+                }
+            }
+
+			property float MatchedDistance
+            {
+                float get(){
+                    return _matchedDistance;
+                }
+
+                void set(float val){
+                    _matchedDistance=val;
+                }
+            }
+
+			property int Scale
+            {
+                int get(){
+                    return _scale;
+                }
+
+                void set(int val){
+                    _scale=val;
                 }
             }
 

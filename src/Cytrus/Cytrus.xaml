@@ -3,7 +3,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     Title="Cytrus Object Detector" 
 	DataContext="{Binding RelativeSource={RelativeSource Self}}" 
-	Height="502" Width="849.046" x:Name="CytrusMain" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" Loaded="CytrusMain_Loaded" WindowStyle="SingleBorderWindow" xmlns:Microsoft_Windows_Themes="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero" >
+	Height="649" Width="1027.046" x:Name="CytrusMain" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" Loaded="CytrusMain_Loaded" WindowStyle="SingleBorderWindow" xmlns:Microsoft_Windows_Themes="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero" >
 	<Window.Resources>
 	        <Storyboard x:Key="MarchingAnts">
             <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" 
@@ -1086,7 +1086,7 @@
 						<TranslateTransform X="0" Y="0"/>
 					</TransformGroup>
 				</Menu.RenderTransform>
-				<MenuItem Width="48.51" Height="20.96" Header="_Help" RenderTransformOrigin="0.5,0.5" Foreground="#FFFFF9F9">
+				<MenuItem Width="48.51" Height="20.96" Header="_Help" RenderTransformOrigin="0.5,0.5" Foreground="#FFFFF9F9" Click="MenuItem_Click">
 					<MenuItem.RenderTransform>
 						<TransformGroup>
 							<ScaleTransform ScaleX="1" ScaleY="1"/>
@@ -1121,7 +1121,7 @@
 				<Separator/>
 				<Label Background="#00FFFFFF" Foreground="#FFE5DC5E" FontWeight="Bold" x:Name="currentMode">Capture Mode</Label>
 			</ToolBar>
-			<ToolBar Width="88" Height="30" Style="{DynamicResource ToolBarStyle1}" x:Name="objectToolbar" Visibility="Visible">
+			<ToolBar Width="88" Height="30" Style="{DynamicResource ToolBarStyle1}" x:Name="objectToolbar" Visibility="Hidden">
 				<ToolBar.Background>
 					<LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
 						<GradientStop Color="#00FFFFFF" Offset="0"/>
@@ -1136,8 +1136,8 @@
 				</ToggleButton>
 			</ToolBar>
 		</ToolBarTray>
-		<StackPanel Margin="4,4,0,4" x:Name="s_setup" VerticalAlignment="Top" Width="256" Height="Auto">
-			<Expander x:Name="ImageSetup" Width="253.827" BorderBrush="#62979797" Panel.ZIndex="10" Header="Image Setup" Style="{DynamicResource ExpanderStyle1}" VerticalAlignment="Stretch" Height="Auto" Background="#00000000" Foreground="#FFFFFFFF" IsExpanded="True">
+		<StackPanel Margin="4,0,0,4" x:Name="s_setup" VerticalAlignment="Top" Width="256" Height="Auto">
+			<Expander x:Name="ImageSetup" Width="253.827" BorderBrush="#62979797" Panel.ZIndex="10" Header="Image Setup" Style="{DynamicResource ExpanderStyle1}" VerticalAlignment="Stretch" Height="Auto" Background="#00000000" Foreground="#FFFFFFFF" IsExpanded="True" Margin="0,4,0,0">
 				<Grid Width="340.043" Height="163" Background="#00FFFFFF" VerticalAlignment="Top">
 					<TextBlock x:Name="ImgSizeLabel" Width="76" Text="Resize:" TextWrapping="Wrap" HorizontalAlignment="Left" Margin="14,89.04,0,0" IsEnabled="False" VerticalAlignment="Top"/>
 					<ComboBox Margin="100,25.92,101.043,0" x:Name="cameraList" VerticalAlignment="Top" IsSynchronizedWithCurrentItem="True" d:LayoutOverrides="Height" SelectionChanged="cameraList_SelectionChanged"/>
@@ -1150,10 +1150,20 @@
 					<ComboBox Margin="100,88.04,101.043,0" Height="Auto" IsEditable="False" IsSynchronizedWithCurrentItem="True" IsEnabled="False" x:Name="imgSizeCombo" VerticalAlignment="Top"/>
 				</Grid>
 			</Expander>
+			<Expander x:Name="Results" Width="253.827" BorderBrush="#62979797" Panel.ZIndex="10" Header="Results" Style="{DynamicResource ExpanderStyle1}" Height="Auto" Background="#00000000" Foreground="#FFFFFFFF" IsExpanded="True" Margin="0,4,0,0">
+				<Grid VerticalAlignment="Top" Width="340.043" Height="120" Background="#00FFFFFF">
+					<Path Fill="{x:Null}" Stretch="Fill" Stroke="#85BBBBBB" Height="1" Data="M2,1 L303,1" Margin="-2.978,0,85.021,0" VerticalAlignment="Top"/>
+					<StackPanel Margin="14,25,85.021,0" VerticalAlignment="Top">
+						<CheckBox Width="194" Height="15.96" Content="Display Points of Interest (POI's)" Foreground="#FFFFFFFF" IsEnabled="True" IsChecked="True" HorizontalAlignment="Left" VerticalAlignment="Top" x:Name="dispPOI" Unchecked="dispPOI_Unchecked" Checked="dispPOI_Checked"/>
+						<CheckBox Content="Display POI Orientation" Foreground="#FFFFFFFF" IsEnabled="True" IsChecked="True" Width="194" Height="15.96" Margin="0,10,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" x:Name="dispOrientation"/>
+						<CheckBox Content="Display Descriptor Area" Foreground="#FFFFFFFF" IsEnabled="True" IsChecked="False" Width="194" Height="15.96" Margin="0,10,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" x:Name="dispArea"/>
+					</StackPanel>
+				</Grid>
+			</Expander>
 			<Expander x:Name="Objects" Width="253.827" BorderBrush="#62979797" Panel.ZIndex="10" Style="{DynamicResource ExpanderStyle1}" Height="Auto" Foreground="#FFFFFFFF" IsExpanded="True" Header="Objects" Margin="0,4,0,0">
 				<StackPanel Width="Auto" Height="Auto" RenderTransformOrigin="0.488,-0.034" VerticalAlignment="Top">
 					<Path Fill="{x:Null}" Stretch="Fill" Stroke="#85BBBBBB" Height="1" Data="M2,1 L303,1" Width="258"/>
-					<ListView Width="Auto" Height="125" IsSynchronizedWithCurrentItem="True" Margin="4,7,4,4" ItemsSource="{Binding Path=RecognisedObjects}" VerticalAlignment="Stretch" Background="#FF3A3A3A" Foreground="#FF8F8F8F" IsEnabled="True" Focusable="False" TabIndex="0">
+					<ListView Width="Auto" Height="125" IsSynchronizedWithCurrentItem="True" Margin="4,7,4,4" ItemsSource="{Binding Path=RecognisedObjects}" VerticalAlignment="Stretch" Background="#FF3A3A3A" Foreground="#FF8F8F8F" IsEnabled="True" Focusable="False" TabIndex="0" x:Name="objListDisp">
 						<ListView.View>
 							<GridView>
 								<GridViewColumn Header="Object Name" 
@@ -1186,7 +1196,7 @@
 										</DataTemplate>
 									</GridViewColumn.CellTemplate>
 								</GridViewColumn>
-                                <GridViewColumn Header="Certainty" DisplayMemberBinding="{Binding Path=RecognitionCertainty}" />
+                                <GridViewColumn Header="Accuracy" DisplayMemberBinding="{Binding Path=RecognitionCertainty}" />
                             </GridView>
 						</ListView.View>
 					</ListView>
@@ -1203,7 +1213,7 @@
 							   <TextBox HorizontalAlignment="Left" VerticalAlignment="Center" Width="150" Margin="0,0,10,0" x:Name="objName"></TextBox>
 					        </StackPanel>
 							<StackPanel Orientation="Horizontal" Margin="0,5,0,10" HorizontalAlignment="Right">
-					           <Button Content="Add object" VerticalAlignment="Center" Margin="0,0,2,0" HorizontalAlignment="Right" Padding="3,3,3,3" ScrollViewer.CanContentScroll="False"/>
+					           <Button Content="Add object" VerticalAlignment="Center" Margin="0,0,2,0" HorizontalAlignment="Right" Padding="3,3,3,3" ScrollViewer.CanContentScroll="False" x:Name="objAddButton" Click="objAddButton_Click"/>
 							   <Button Content="Cancel" VerticalAlignment="Center" Margin="0,0,10,0" Click="objName_Cancel_Click" Padding="3,3,3,3" x:Name="objName_Cancel"/>
 					        </StackPanel>
 						</StackPanel>
@@ -1225,7 +1235,7 @@
 				<Image x:Name="captureImg" Width="Auto" Height="Auto" Stretch="Fill" Margin="4,4,4,4" VerticalAlignment="Stretch" RenderTransformOrigin="0.5,0.5" SizeChanged="captureImg_SizeChanged">
 					<Image.RenderTransform>
 						<TransformGroup>
-							<ScaleTransform ScaleX="1" ScaleY="1"/>
+							<ScaleTransform ScaleX="1" ScaleY="-1"/>
 							<SkewTransform AngleX="0" AngleY="0"/>
 							<RotateTransform Angle="0"/>
 							<TranslateTransform X="0" Y="0"/>
