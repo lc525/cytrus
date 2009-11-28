@@ -1,29 +1,30 @@
-This is XeTeX, Version 3.1415926-2.2-0.999.6 (MiKTeX 2.7) (preloaded format=xelatex 2009.7.2)  15 JUL 2009 15:30
+This is XeTeX, Version 3.1415926-2.2-0.9995.1 (MiKTeX 2.8) (preloaded format=xelatex 2009.10.31)  31 OCT 2009 14:20
 entering extended mode
 **bsc_latexSource.tex
-(bsc_latexSource.tex
-LaTeX2e <2005/12/01>
+(E:\B.Sc_Work\Work\doc\bsc_latexSource\bsc_latexSource.tex
+LaTeX2e <2009/09/24>
 Babel <v3.8l> and hyphenation patterns for english, dumylang, nohyphenation, ge
-rman, ngerman, french, romanian, loaded.
-("C:\Program Files\MiKTeX 2.7\tex\latex\memoir\memoir.cls"
-Document Class: memoir 2009/02/06 v1.6180339e configurable book, report, articl
-e document class
+rman, ngerman, german-x-2009-06-19, ngerman-x-2009-06-19, french, romanian, loa
+ded.
+("C:\Program Files\MikTeX\tex\latex\memoir\memoir.cls"
+Document Class: memoir 2009/09/21 v1.61803398b configurable book, report, artic
+le document class
 \onelineskip=\skip41
 \lxvchars=\skip42
 \xlvchars=\skip43
 \@memcnta=\count79
 \c@@memmarkcntra=\count80
-("C:\Program Files\MiKTeX 2.7\tex\generic\oberdiek\ifpdf.sty"
-Package: ifpdf 2007/12/12 v1.6 Provides the ifpdf switch (HO)
+("C:\Program Files\MikTeX\tex\generic\oberdiek\ifpdf.sty"
+Package: ifpdf 2009/04/10 v2.0 Provides the ifpdf switch (HO)
 Package ifpdf Info: pdfTeX in pdf mode not detected.
 )
-Class memoir Info: An `ifetex' package is being emulated on input line 247.
+Class memoir Info: An `ifetex' package is being emulated on input line 251.
 
-("C:\Program Files\MiKTeX 2.7\tex\generic\ifxetex\ifxetex.sty"
-Package: ifxetex 2008/09/18 v0.4 Provides ifxetex conditional
+("C:\Program Files\MikTeX\tex\latex\ifxetex\ifxetex.sty"
+Package: ifxetex 2009/01/23 v0.5 Provides ifxetex conditional
 )
-("C:\Program Files\MiKTeX 2.7\tex\generic\oberdiek\ifluatex.sty"
-Package: ifluatex 2007/12/12 v1.0 Provides the ifluatex switch (HO)
+("C:\Program Files\MikTeX\tex\generic\oberdiek\ifluatex.sty"
+Package: ifluatex 2009/04/17 v1.2 Provides the ifluatex switch (HO)
 Package ifluatex Info: LuaTeX not detected.
 )
 \stockheight=\skip44
@@ -31,7 +32,11 @@ Package ifluatex Info: LuaTeX not detected.
 \trimtop=\skip46
 \trimedge=\skip47
 
-("C:\Program Files\MiKTeX 2.7\tex\latex\memoir\mem11.clo"
+("C:\Program Files\MikTeX\tex\latex\misc\etex.sty"
+Package: etex 1998/03/26 v2.0 eTeX basic definition package (PEB)
+\et@xins=\count81
+)
+("C:\Program Files\MikTeX\tex\latex\memoir\mem11.clo"
 File: mem11.clo 2008/01/30 v0.3 memoir class 11pt size option
 )
 \binding=\skip48
@@ -42,20 +47,20 @@ File: mem11.clo 2008/01/30 v0.3 memoir class 11pt size option
 \headdrop=\skip53
 \normalrulethickness=\skip54
 \headwidth=\skip55
-\c@storedpagenumber=\count81
+\c@storedpagenumber=\count82
 \memPD=\dimen102
 \m@mabparskip=\skip56
 \thanksmarkwidth=\skip57
 \thanksmarksep=\skip58
 \droptitle=\skip59
-\c@book=\count82
-\c@part=\count83
-\c@chapter=\count84
-\c@section=\count85
-\c@subsection=\count86
-\c@subsubsection=\count87
-\c@paragraph=\count88
-\c@subparagraph=\count89
+\c@book=\count83
+\c@part=\count84
+\c@chapter=\count85
+\c@section=\count86
+\c@subsection=\count87
+\c@subsubsection=\count88
+\c@paragraph=\count89
+\c@subparagraph=\count90
 \beforechapskip=\skip60
 \midchapskip=\skip61
 \afterchapskip=\skip62
@@ -77,8 +82,8 @@ File: mem11.clo 2008/01/30 v0.3 memoir class 11pt size option
 \beforesubparaskip=\skip78
 \aftersubparaskip=\skip79
 \pfbreakskip=\skip80
-\c@@ppsavesec=\count90
-\c@@ppsaveapp=\count91
+\c@@ppsavesec=\count91
+\c@@ppsaveapp=\count92
 \ragrparindent=\dimen103
 \everylistparindent=\dimen104
 \parsepi=\skip81
@@ -100,10 +105,10 @@ File: mem11.clo 2008/01/30 v0.3 memoir class 11pt size option
 \absrightindent=\skip95
 \absparindent=\skip96
 \absparsep=\skip97
-\c@vslineno=\count92
-\c@poemline=\count93
-\c@modulo@vs=\count94
-\c@memfvsline=\count95
+\c@vslineno=\count93
+\c@poemline=\count94
+\c@modulo@vs=\count95
+\c@memfvsline=\count96
 \vleftskip=\skip98
 \vrightskip=\skip99
 \stanzaskip=\skip100
@@ -111,11 +116,11 @@ File: mem11.clo 2008/01/30 v0.3 memoir class 11pt size option
 \vgap=\skip102
 \vindent=\skip103
 \vleftmargin=\dimen106
-\c@verse=\count96
-\c@chrsinstr=\count97
+\c@verse=\count97
+\c@chrsinstr=\count98
 \beforepoemtitleskip=\skip104
 \afterpoemtitleskip=\skip105
-\c@poem=\count98
+\c@poem=\count99
 \beforePoemTitleskip=\skip106
 \midPoemTitleskip=\skip107
 \afterPoemTitleskip=\skip108
@@ -129,7 +134,7 @@ File: mem11.clo 2008/01/30 v0.3 memoir class 11pt size option
 \TX@old@col=\dimen111
 \TX@target=\dimen112
 \TX@delta=\dimen113
-\TX@cols=\count99
+\TX@cols=\count100
 \TX@ftn=\toks16
 \heavyrulewidth=\dimen114
 \lightrulewidth=\dimen115
@@ -141,22 +146,22 @@ File: mem11.clo 2008/01/30 v0.3 memoir class 11pt size option
 \cmidrulesep=\dimen121
 \cmidrulekern=\dimen122
 \defaultaddspace=\dimen123
-\@cmidla=\count100
-\@cmidlb=\count101
+\@cmidla=\count101
+\@cmidlb=\count102
 \@aboverulesep=\dimen124
 \@belowrulesep=\dimen125
-\@thisruleclass=\count102
-\@lastruleclass=\count103
+\@thisruleclass=\count103
+\@lastruleclass=\count104
 \@thisrulewidth=\dimen126
 \ctableftskip=\skip111
 \ctabrightskip=\skip112
-\abovecolumnspenalty=\count104
-\@linestogo=\count105
-\@cellstogo=\count106
-\@cellsincolumn=\count107
+\abovecolumnspenalty=\count105
+\@linestogo=\count106
+\@cellstogo=\count107
+\@cellsincolumn=\count108
 \crtok=\toks17
 \@mincolumnwidth=\dimen127
-\c@newflo@tctr=\count108
+\c@newflo@tctr=\count109
 \@contcwidth=\skip113
 \@contindw=\skip114
 \abovecaptionskip=\skip115
@@ -167,7 +172,7 @@ File: mem11.clo 2008/01/30 v0.3 memoir class 11pt size option
 \subfloatbottomskip=\skip120
 \subfloatlabelskip=\skip121
 \subfloatcapmargin=\dimen128
-\c@@contsubnum=\count109
+\c@@contsubnum=\count110
 \m@mscap@capbox=\box26
 \m@mscap@fbox=\box27
 \sidecapsep=\dimen129
@@ -181,8 +186,8 @@ File: mem11.clo 2008/01/30 v0.3 memoir class 11pt size option
 \afterepigraphskip=\skip123
 \epigraphwidth=\skip124
 \epigraphrule=\skip125
-LaTeX Info: Redefining \em on input line 6881.
-LaTeX Info: Redefining \emph on input line 6889.
+LaTeX Info: Redefining \em on input line 7000.
+LaTeX Info: Redefining \emph on input line 7008.
 \tocentryskip=\skip126
 \tocbaseline=\skip127
 \cftparskip=\skip128
@@ -211,7 +216,7 @@ LaTeX Info: Redefining \emph on input line 6889.
 \cftsubparagraphindent=\skip149
 \cftsubparagraphnumwidth=\skip150
 \prechapterprecisshift=\dimen138
-\c@maxsecnumdepth=\count110
+\c@maxsecnumdepth=\count111
 \bibindent=\dimen139
 \bibitemsep=\skip151
 \indexcolsep=\skip152
@@ -232,49 +237,49 @@ LaTeX Info: Redefining \emph on input line 6889.
 \footinsdim=\skip162
 \footinsv@r=\insert231
 \@mpfootinsv@r=\insert230
-\m@m@k=\count111
+\m@m@k=\count112
 \m@m@h=\dimen142
 \m@mipn@skip=\skip163
-\c@pagenote=\count112
+\c@pagenote=\count113
 \every@verbatim=\toks19
 \afterevery@verbatim=\toks20
 \verbatim@line=\toks21
-\tab@position=\count113
+\tab@position=\count114
 \verbatim@in@stream=\read1
 \verbatimindent=\skip164
 \verbatim@out=\write3
 \bvboxsep=\skip165
-\c@memfbvline=\count114
-\c@bvlinectr=\count115
+\c@memfbvline=\count115
+\c@bvlinectr=\count116
 \bvnumlength=\skip166
 \fb@frw=\dimen143
 \fb@frh=\dimen144
 \FrameRule=\dimen145
 \FrameSep=\dimen146
-\c@cp@cntr=\count116
-LaTeX Info: Redefining \: on input line 10718.
-LaTeX Info: Redefining \! on input line 10720.
-\c@ism@mctr=\count117
-\c@xsm@mctr=\count118
-\c@csm@mctr=\count119
-\c@ksm@mctr=\count120
-\c@xksm@mctr=\count121
-\c@cksm@mctr=\count122
-\c@msm@mctr=\count123
-\c@xmsm@mctr=\count124
-\c@cmsm@mctr=\count125
-\c@bsm@mctr=\count126
-\c@workm@mctr=\count127
-\c@sheetsequence=\count128
-\c@lastsheet=\count129
-\c@lastpage=\count130
-\c@figure=\count131
-\c@lofdepth=\count132
+\c@cp@cntr=\count117
+LaTeX Info: Redefining \: on input line 10864.
+LaTeX Info: Redefining \! on input line 10866.
+\c@ism@mctr=\count118
+\c@xsm@mctr=\count119
+\c@csm@mctr=\count120
+\c@ksm@mctr=\count121
+\c@xksm@mctr=\count122
+\c@cksm@mctr=\count123
+\c@msm@mctr=\count124
+\c@xmsm@mctr=\count125
+\c@cmsm@mctr=\count126
+\c@bsm@mctr=\count127
+\c@workm@mctr=\count128
+\c@sheetsequence=\count129
+\c@lastsheet=\count130
+\c@lastpage=\count131
+\c@figure=\count132
+\c@lofdepth=\count133
 \cftbeforefigureskip=\skip167
 \cftfigureindent=\skip168
 \cftfigurenumwidth=\skip169
-\c@table=\count133
-\c@lotdepth=\count134
+\c@table=\count134
+\c@lotdepth=\count135
 \cftbeforetableskip=\skip170
 \cfttableindent=\skip171
 \cfttablenumwidth=\skip172
@@ -314,13 +319,14 @@ Package tocloft [2008/07/23] emulated by memoir.
 Package verbatim [2008/07/23] emulated by memoir.
 Package verse [2008/07/23] emulated by memoir.
 
-("C:\Program Files\MiKTeX 2.7\tex\latex\memoir\mempatch.sty"
-File: mempatch.sty 2008/07/23 v6.0 Patches for memoir class v1.6180339
-)) (style.tex
-("C:\Program Files\MiKTeX 2.7\tex\latex\subfig\subfig.sty"
+("C:\Program Files\MikTeX\tex\latex\memoir\mempatch.sty"
+Package: mempatch 2009/07/24 v6.0f Patches for memoir class v1.6180339
+))
+(E:\B.Sc_Work\Work\doc\bsc_latexSource\style.tex
+("C:\Program Files\MikTeX\tex\latex\subfig\subfig.sty"
 Package: subfig 2005/06/28 ver: 1.3 subfig package
 
-("C:\Program Files\MiKTeX 2.7\tex\latex\graphics\keyval.sty"
+("C:\Program Files\MikTeX\tex\latex\graphics\keyval.sty"
 Package: keyval 1999/03/16 v1.13 key=value parser (DPC)
 \KV@toks@=\toks22
 )
@@ -330,11 +336,11 @@ Class memoir Warning: You are using the caption package with the memoir
 (memoir)              results if you use any of memoir's captioning facilities.
 
 
-("C:\Program Files\MiKTeX 2.7\tex\latex\caption\caption.sty"
-Package: caption 2008/08/24 v3.1j Customizing captions (AR)
+("C:\Program Files\MikTeX\tex\latex\caption\caption.sty"
+Package: caption 2009/10/09 v3.1k Customizing captions (AR)
 
-("C:\Program Files\MiKTeX 2.7\tex\latex\caption\caption3.sty"
-Package: caption3 2008/08/24 v3.1j caption3 kernel (AR)
+("C:\Program Files\MikTeX\tex\latex\caption\caption3.sty"
+Package: caption3 2009/10/09 v3.1k caption3 kernel (AR)
 \captionmargin=\dimen147
 \captionmargin@=\dimen148
 \captionwidth=\dimen149
@@ -342,84 +348,88 @@ Package: caption3 2008/08/24 v3.1j caption3 kernel (AR)
 \caption@parindent=\dimen151
 \caption@hangindent=\dimen152
 )
-\c@ContinuedFloat=\count135
+\c@ContinuedFloat=\count136
 )
-\c@KVtest=\count136
+\c@KVtest=\count137
 \sf@farskip=\skip173
 \sf@captopadj=\dimen153
 \sf@capskip=\skip174
 \sf@nearskip=\skip175
-\c@subfigure=\count137
-\c@subfigure@save=\count138
-\c@subtable=\count139
-\c@subtable@save=\count140
+\c@subfigure=\count138
+\c@subfigure@save=\count139
+\c@subtable=\count140
+\c@subtable@save=\count141
 \sf@top=\skip176
 \sf@bottom=\skip177
 )
-("C:\Program Files\MiKTeX 2.7\tex\latex\graphics\graphicx.sty"
-Package: graphicx 1999/02/16 v1.0f Enhanced LaTeX Graphics (DPC,SPQR)
+("C:\Program Files\MikTeX\tex\latex\graphics\lscape.sty"
+Package: lscape 2000/10/22 v3.01 Landscape Pages (DPC)
 
-("C:\Program Files\MiKTeX 2.7\tex\latex\graphics\graphics.sty"
-Package: graphics 2006/02/20 v1.0o Standard LaTeX Graphics (DPC,SPQR)
+("C:\Program Files\MikTeX\tex\latex\graphics\graphics.sty"
+Package: graphics 2009/02/05 v1.0o Standard LaTeX Graphics (DPC,SPQR)
 
-("C:\Program Files\MiKTeX 2.7\tex\latex\graphics\trig.sty"
+("C:\Program Files\MikTeX\tex\latex\graphics\trig.sty"
 Package: trig 1999/03/16 v1.09 sin cos tan (DPC)
 )
-("C:\Program Files\MiKTeX 2.7\tex\latex\00miktex\graphics.cfg"
+("C:\Program Files\MikTeX\tex\latex\00miktex\graphics.cfg"
 File: graphics.cfg 2007/01/18 v1.5 graphics configuration of teTeX/TeXLive
 )
-Package graphics Info: Driver file: xetex.def on input line 90.
+Package graphics Info: Driver file: xetex.def on input line 91.
 
-("C:\Program Files\MiKTeX 2.7\tex\xelatex\xetex-def\xetex.def"
+("C:\Program Files\MikTeX\tex\xelatex\xetex-def\xetex.def"
 File: xetex.def 2006/08/10 v0.92 LaTeX color/graphics driver for XeTeX (RRM, mo
 d. JK)
-))
+)))
+("C:\Program Files\MikTeX\tex\latex\graphics\graphicx.sty"
+Package: graphicx 1999/02/16 v1.0f Enhanced LaTeX Graphics (DPC,SPQR)
 \Gin@req@height=\dimen154
 \Gin@req@width=\dimen155
 )
-("C:\Program Files\MiKTeX 2.7\tex\latex\ltxmisc\import.sty")
-("C:\Program Files\MiKTeX 2.7\tex\latex\marvosym\marvosym.sty"
+("C:\Program Files\MikTeX\tex\latex\ltxmisc\import.sty"
+Package: import 2009/03/23  v 5.1
+)
+("C:\Program Files\MikTeX\tex\latex\marvosym\marvosym.sty"
 Package: marvosym 2006/05/11 v2.1 Martin Vogel's Symbols font definitions
 )
-("C:\Program Files\MiKTeX 2.7\tex\xelatex\fontspec\fontspec.sty"
+("C:\Program Files\MikTeX\tex\xelatex\fontspec\fontspec.sty"
 Package: fontspec 2008/08/09 v1.18 Advanced font selection for XeLaTeX
-\c@zf@newff=\count141
-\c@zf@index=\count142
-\c@zf@script=\count143
-\c@zf@language=\count144
+\c@zf@newff=\count142
+\c@zf@index=\count143
+\c@zf@script=\count144
+\c@zf@language=\count145
 
-("C:\Program Files\MiKTeX 2.7\tex\latex\tools\calc.sty"
-Package: calc 2005/08/06 v4.2 Infix arithmetic (KKT,FJ)
-\calc@Acount=\count145
-\calc@Bcount=\count146
+("C:\Program Files\MikTeX\tex\latex\tools\calc.sty"
+Package: calc 2007/08/22 v4.3 Infix arithmetic (KKT,FJ)
+\calc@Acount=\count146
+\calc@Bcount=\count147
 \calc@Adimen=\dimen156
 \calc@Bdimen=\dimen157
 \calc@Askip=\skip178
 \calc@Bskip=\skip179
-LaTeX Info: Redefining \setlength on input line 75.
-LaTeX Info: Redefining \addtolength on input line 76.
-\calc@Ccount=\count147
+LaTeX Info: Redefining \setlength on input line 76.
+LaTeX Info: Redefining \addtolength on input line 77.
+\calc@Ccount=\count148
 \calc@Cskip=\skip180
 )
-("C:\Program Files\MiKTeX 2.7\tex\latex\xkeyval\xkeyval.sty"
+("C:\Program Files\MikTeX\tex\latex\xkeyval\xkeyval.sty"
 Package: xkeyval 2008/08/13 v2.6a package option processing (HA)
 
-("C:\Program Files\MiKTeX 2.7\tex\generic\xkeyval\xkeyval.tex"
+("C:\Program Files\MikTeX\tex\generic\xkeyval\xkeyval.tex"
 \XKV@toks=\toks23
 \XKV@tempa@toks=\toks24
-\XKV@depth=\count148
+\XKV@depth=\count149
 File: xkeyval.tex 2008/08/13 v2.6a key=value parser (HA)
 ))
-("C:\Program Files\MiKTeX 2.7\tex\latex\base\fontenc.sty"
+("C:\Program Files\MikTeX\tex\latex\base\fontenc.sty"
 Package: fontenc 2005/09/27 v1.99g Standard LaTeX package
 
-("C:\Program Files\MiKTeX 2.7\tex\xelatex\euenc\eu1enc.def"
+("C:\Program Files\MikTeX\tex\xelatex\euenc\eu1enc.def"
 File: eu1enc.def 2008/03/08 v0.1d Experimental unicode font encoding
 )
 LaTeX Font Info:    Try loading font information for EU1+lmr on input line 100.
 
 
-("C:\Program Files\MiKTeX 2.7\tex\xelatex\euenc\eu1lmr.fd"
+("C:\Program Files\MikTeX\tex\xelatex\euenc\eu1lmr.fd"
 File: eu1lmr.fd 2007/01/14 v1.3 Font defs for Latin Modern
 ))
 LaTeX Info: Redefining \itshape on input line 1163.
@@ -428,39 +438,39 @@ LaTeX Info: Redefining \scshape on input line 1169.
 LaTeX Info: Redefining \upshape on input line 1172.
 
 fontspec.cfg loaded.
-("C:\Program Files\MiKTeX 2.7\tex\xelatex\fontspec\fontspec.cfg"))
-("C:\Program Files\MiKTeX 2.7\tex\latex\graphics\epsfig.sty"
+("C:\Program Files\MikTeX\tex\xelatex\fontspec\fontspec.cfg"))
+("C:\Program Files\MikTeX\tex\latex\graphics\epsfig.sty"
 Package: epsfig 1999/02/16 v1.7a (e)psfig emulation (SPQR)
 \epsfxsize=\dimen158
 \epsfysize=\dimen159
 )
-("C:\Program Files\MiKTeX 2.7\tex\latex\amsmath\amsmath.sty"
+("C:\Program Files\MikTeX\tex\latex\ams\math\amsmath.sty"
 Package: amsmath 2000/07/18 v2.13 AMS math features
 \@mathmargin=\skip181
 
 For additional information on amsmath, use the `?' option.
-("C:\Program Files\MiKTeX 2.7\tex\latex\amsmath\amstext.sty"
+("C:\Program Files\MikTeX\tex\latex\ams\math\amstext.sty"
 Package: amstext 2000/06/29 v2.01
 
-("C:\Program Files\MiKTeX 2.7\tex\latex\amsmath\amsgen.sty"
+("C:\Program Files\MikTeX\tex\latex\ams\math\amsgen.sty"
 File: amsgen.sty 1999/11/30 v2.0
 \@emptytoks=\toks25
 \ex@=\dimen160
 ))
-("C:\Program Files\MiKTeX 2.7\tex\latex\amsmath\amsbsy.sty"
+("C:\Program Files\MikTeX\tex\latex\ams\math\amsbsy.sty"
 Package: amsbsy 1999/11/29 v1.2d
 \pmbraise@=\dimen161
 )
-("C:\Program Files\MiKTeX 2.7\tex\latex\amsmath\amsopn.sty"
+("C:\Program Files\MikTeX\tex\latex\ams\math\amsopn.sty"
 Package: amsopn 1999/12/14 v2.01 operator names
 )
-\inf@bad=\count149
+\inf@bad=\count150
 LaTeX Info: Redefining \frac on input line 211.
-\uproot@=\count150
-\leftroot@=\count151
+\uproot@=\count151
+\leftroot@=\count152
 LaTeX Info: Redefining \overline on input line 307.
-\classnum@=\count152
-\DOTSCASE@=\count153
+\classnum@=\count153
+\DOTSCASE@=\count154
 LaTeX Info: Redefining \ldots on input line 379.
 LaTeX Info: Redefining \dots on input line 382.
 LaTeX Info: Redefining \cdots on input line 467.
@@ -469,15 +479,15 @@ LaTeX Info: Redefining \cdots on input line 467.
 \big@size=\dimen162
 LaTeX Font Info:    Redeclaring font encoding OML on input line 567.
 LaTeX Font Info:    Redeclaring font encoding OMS on input line 568.
-\macc@depth=\count154
-\c@MaxMatrixCols=\count155
+\macc@depth=\count155
+\c@MaxMatrixCols=\count156
 \dotsspace@=\muskip10
-\c@parentequation=\count156
-\dspbrk@lvl=\count157
+\c@parentequation=\count157
+\dspbrk@lvl=\count158
 \tag@help=\toks26
-\row@=\count158
-\column@=\count159
-\maxfields@=\count160
+\row@=\count159
+\column@=\count160
+\maxfields@=\count161
 \andhelp@=\toks27
 \eqnshift@=\dimen163
 \alignsep@=\dimen164
@@ -492,17 +502,17 @@ LaTeX Font Info:    Redeclaring font encoding OMS on input line 568.
 LaTeX Info: Redefining \[ on input line 2666.
 LaTeX Info: Redefining \] on input line 2667.
 )
-("C:\Program Files\MiKTeX 2.7\tex\latex\amsfonts\amssymb.sty"
-Package: amssymb 2002/01/22 v2.2d
+("C:\Program Files\MikTeX\tex\latex\amsfonts\amssymb.sty"
+Package: amssymb 2009/06/22 v3.00
 
-("C:\Program Files\MiKTeX 2.7\tex\latex\amsfonts\amsfonts.sty"
-Package: amsfonts 2001/10/25 v2.2f
+("C:\Program Files\MikTeX\tex\latex\amsfonts\amsfonts.sty"
+Package: amsfonts 2009/06/22 v3.00 Basic AMSFonts support
 \symAMSa=\mathgroup4
 \symAMSb=\mathgroup5
 LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
-(Font)                  U/euf/m/n --> U/euf/b/n on input line 132.
+(Font)                  U/euf/m/n --> U/euf/b/n on input line 96.
 ))
-("C:\Program Files\MiKTeX 2.7\tex\latex\amscls\amsthm.sty"
+("C:\Program Files\MikTeX\tex\latex\ams\classes\amsthm.sty"
 Package: amsthm 2004/08/06 v2.20
 \thm@style=\toks30
 \thm@bodyfont=\toks31
@@ -514,143 +524,172 @@ Package: amsthm 2004/08/06 v2.20
 \thm@headsep=\skip186
 \dth@everypar=\toks35
 )
-("C:\Program Files\MiKTeX 2.7\tex\latex\stmaryrd\stmaryrd.sty"
+("C:\Program Files\MikTeX\tex\latex\stmaryrd\stmaryrd.sty"
 Package: stmaryrd 1994/03/03 St Mary's Road symbol package
 \symstmry=\mathgroup6
 LaTeX Font Info:    Overwriting symbol font `stmry' in version `bold'
 (Font)                  U/stmry/m/n --> U/stmry/b/n on input line 89.
 )
-("C:\Program Files\MiKTeX 2.7\tex\xelatex\xetexurl\url.sty"
+("C:\Program Files\MikTeX\tex\xelatex\xetexurl\url.sty"
 \Urlmuskip=\muskip11
 Package: url 2004/03/15  ver 3.1  Verb mode for urls, etc.
 )
-("C:\Program Files\MiKTeX 2.7\tex\latex\tools\longtable.sty"
+("C:\Program Files\MikTeX\tex\latex\tools\longtable.sty"
 Package: longtable 2004/02/01 v4.11 Multi-page Table package (DPC)
 \LTleft=\skip187
 \LTright=\skip188
 \LTpre=\skip189
 \LTpost=\skip190
-\LTchunksize=\count161
+\LTchunksize=\count162
 \LTcapwidth=\dimen169
 \LT@head=\box30
 \LT@firsthead=\box31
 \LT@foot=\box32
 \LT@lastfoot=\box33
-\LT@cols=\count162
-\LT@rows=\count163
-\c@LT@tables=\count164
-\c@LT@chunks=\count165
+\LT@cols=\count163
+\LT@rows=\count164
+\c@LT@tables=\count165
+\c@LT@chunks=\count166
 \LT@p@ftn=\toks36
 )
-("C:\Program Files\MiKTeX 2.7\tex\latex\rotating\rotating.sty"
+("C:\Program Files\MikTeX\tex\latex\rotating\rotating.sty"
 Package: rotating 2009/03/28 v2.16a rotated objects in LaTeX
 
-("C:\Program Files\MiKTeX 2.7\tex\latex\base\ifthen.sty"
+("C:\Program Files\MikTeX\tex\latex\base\ifthen.sty"
 Package: ifthen 2001/05/26 v1.1c Standard LaTeX ifthen package (DPC)
 )
-\c@r@tfl@t=\count166
+\c@r@tfl@t=\count167
 \rotFPtop=\skip191
 \rotFPbot=\skip192
 \rot@float@box=\box34
 \rot@mess@toks=\toks37
 )
-("C:\Program Files\MiKTeX 2.7\tex\latex\ltxmisc\a4wide.sty"
+("C:\Program Files\MikTeX\tex\latex\ltxmisc\a4wide.sty"
 Package: a4wide 1994/08/30
 
-("C:\Program Files\MiKTeX 2.7\tex\latex\ntgclass\a4.sty"
+("C:\Program Files\MikTeX\tex\latex\ntgclass\a4.sty"
 Package: a4 2004/04/15 v1.2g A4 based page layout
 ))
-("C:\Program Files\MiKTeX 2.7\tex\latex\listings\listings.sty"
-\lst@mode=\count167
+("C:\Program Files\MikTeX\tex\latex\listings\listings.sty"
+\lst@mode=\count168
 \lst@gtempboxa=\box35
 \lst@token=\toks38
-\lst@length=\count168
+\lst@length=\count169
 \lst@currlwidth=\dimen170
-\lst@column=\count169
-\lst@pos=\count170
+\lst@column=\count170
+\lst@pos=\count171
 \lst@lostspace=\dimen171
 \lst@width=\dimen172
-\lst@newlines=\count171
-\lst@lineno=\count172
+\lst@newlines=\count172
+\lst@lineno=\count173
 \lst@maxwidth=\dimen173
 
-("C:\Program Files\MiKTeX 2.7\tex\latex\listings\lstmisc.sty"
+("C:\Program Files\MikTeX\tex\latex\listings\lstmisc.sty"
 File: lstmisc.sty 2007/02/22 1.4 (Carsten Heinz)
-\c@lstnumber=\count173
-\lst@skipnumbers=\count174
+\c@lstnumber=\count174
+\lst@skipnumbers=\count175
 \lst@framebox=\box36
 )
-("C:\Program Files\MiKTeX 2.7\tex\latex\listings\listings.cfg"
+("C:\Program Files\MikTeX\tex\latex\listings\listings.cfg"
 File: listings.cfg 2007/02/22 1.4 listings configuration
 ))
 Package: listings 2007/02/22 1.4 (Carsten Heinz)
 
-("C:\Program Files\MiKTeX 2.7\tex\generic\babel\babel.sty"
+("C:\Program Files\MikTeX\tex\xelatex\xltxtra\xltxtra.sty"
+Package: xltxtra 2009/10/25 v0.5a Improvements for the "XeLaTeX" format
+
+("C:\Program Files\MikTeX\tex\xelatex\xunicode\xunicode.sty"
+File: xunicode.sty 2008/02/08 v0.91 provides access to latin accents and many o
+ther characters in Unicode lower plane
+)
+("C:\Program Files\MikTeX\tex\latex\metalogo\metalogo.sty"
+Package: metalogo 2009/09/04 v0.11 Extended TeX logo macros
+\xl@everylogo=\toks39
+\xl@@everylogo=\toks40
+LaTeX Info: Redefining \TeX on input line 193.
+LaTeX Info: Redefining \LaTeX on input line 202.
+LaTeX Info: Redefining \LaTeXe on input line 219.
+)
+("C:\Program Files\MikTeX\tex\latex\base\fixltx2e.sty"
+Package: fixltx2e 2006/09/13 v1.1m fixes to LaTeX
+LaTeX Info: Redefining \em on input line 420.
+LaTeX Info: Redefining \textsubscript on input line 424.
+LaTeX Info: The control sequence `\[' is already robust on input line 471.
+LaTeX Info: The control sequence `\]' is already robust on input line 472.
+)
+LaTeX Info: Redefining \em on input line 51.
+LaTeX Info: Redefining \emph on input line 60.
+LaTeX Info: Redefining \- on input line 65.
+LaTeX Info: Redefining \textsubscript on input line 84.
+LaTeX Info: Redefining \textsuperscript on input line 86.
+\xxt@tempbox=\box37
+)
+("C:\Program Files\MikTeX\tex\generic\babel\babel.sty"
 Package: babel 2008/07/06 v3.8l The Babel package
 
 *************************************
 * Local config file bblopts.cfg used
 *
-("C:\Program Files\MiKTeX 2.7\tex\latex\00miktex\bblopts.cfg"
+("C:\Program Files\MikTeX\tex\latex\00miktex\bblopts.cfg"
 File: bblopts.cfg 2006/07/31 v1.0 MiKTeX 'babel' configuration
 )
-("C:\Program Files\MiKTeX 2.7\tex\generic\babel\romanian.ldf"
+("C:\Program Files\MikTeX\tex\generic\babel\romanian.ldf"
 Language: romanian 2005/03/31 v1.2l Romanian support from the babel system
 
-("C:\Program Files\MiKTeX 2.7\tex\generic\babel\babel.def"
+("C:\Program Files\MikTeX\tex\generic\babel\babel.def"
 File: babel.def 2008/07/06 v3.8l Babel common definitions
-\babel@savecnt=\count175
+\babel@savecnt=\count176
 \U@D=\dimen174
 )))
 \bsc_latexSource@idxfile=\write4
 
 Writing index file bsc_latexSource.idx 
-("C:\Program Files\MiKTeX 2.7\tex\latex\citeref\citeref.sty"
+("C:\Program Files\MikTeX\tex\latex\citeref\citeref.sty"
 Package: citeref 1999/27/05
 
 Package citeref v1.1 <1999/27/05> (Bjoern Briel)
-) ("C:\Program Files\MiKTeX 2.7\tex\latex\graphics\color.sty"
+) ("C:\Program Files\MikTeX\tex\latex\graphics\color.sty"
 Package: color 2005/11/14 v1.0j Standard LaTeX Color (DPC)
 
-("C:\Program Files\MiKTeX 2.7\tex\latex\00miktex\color.cfg"
+("C:\Program Files\MikTeX\tex\latex\00miktex\color.cfg"
 File: color.cfg 2007/01/18 v1.5 color configuration of teTeX/TeXLive
 )
 Package color Info: Driver file: xetex.def on input line 130.
 )
-Package color Info: Redefining color yellow on input line 42.
-Package color Info: Redefining color red on input line 56.
-Package color Info: Redefining color magenta on input line 62.
-Package color Info: Redefining color blue on input line 83.
-Package color Info: Redefining color cyan on input line 85.
-Package color Info: Redefining color green on input line 95.
-Package color Info: Redefining color black on input line 107.
-Package color Info: Redefining color white on input line 108.
+Package color Info: Redefining color yellow on input line 44.
+Package color Info: Redefining color red on input line 58.
+Package color Info: Redefining color magenta on input line 64.
+Package color Info: Redefining color blue on input line 85.
+Package color Info: Redefining color cyan on input line 87.
+Package color Info: Redefining color green on input line 97.
+Package color Info: Redefining color black on input line 109.
+Package color Info: Redefining color white on input line 110.
 
-("C:\Program Files\MiKTeX 2.7\tex\latex\hyperref\hyperref.sty"
-Package: hyperref 2008/09/29 v6.78l Hypertext links for LaTeX
+("C:\Program Files\MikTeX\tex\latex\hyperref\hyperref.sty"
+Package: hyperref 2009/10/19 v6.79b Hypertext links for LaTeX
 
-("C:\Program Files\MiKTeX 2.7\tex\generic\oberdiek\ifvtex.sty"
-Package: ifvtex 2007/09/09 v1.3 Switches for detecting VTeX and its modes (HO)
+("C:\Program Files\MikTeX\tex\generic\oberdiek\ifvtex.sty"
+Package: ifvtex 2008/11/04 v1.4 Switches for detecting VTeX and its modes (HO)
 Package ifvtex Info: VTeX not detected.
 )
-("C:\Program Files\MiKTeX 2.7\tex\latex\oberdiek\hycolor.sty"
-Package: hycolor 2008/09/08 v1.4 Code for color options of hyperref/bookmark (H
+("C:\Program Files\MikTeX\tex\latex\oberdiek\hycolor.sty"
+Package: hycolor 2009/10/02 v1.5 Code for color options of hyperref/bookmark (H
 O)
 
-("C:\Program Files\MiKTeX 2.7\tex\latex\oberdiek\xcolor-patch.sty"
-Package: xcolor-patch 2008/09/08 xcolor patch
+("C:\Program Files\MikTeX\tex\latex\oberdiek\xcolor-patch.sty"
+Package: xcolor-patch 2009/10/02 xcolor patch
 ))
 \@linkdim=\dimen175
-\Hy@linkcounter=\count176
-\Hy@pagecounter=\count177
+\Hy@linkcounter=\count177
+\Hy@pagecounter=\count178
 
-("C:\Program Files\MiKTeX 2.7\tex\latex\hyperref\pd1enc.def"
-File: pd1enc.def 2008/09/29 v6.78l Hyperref: PDFDocEncoding definition (HO)
+("C:\Program Files\MikTeX\tex\latex\hyperref\pd1enc.def"
+File: pd1enc.def 2009/10/19 v6.79b Hyperref: PDFDocEncoding definition (HO)
 )
-("C:\Program Files\MiKTeX 2.7\tex\generic\oberdiek\etexcmds.sty"
+("C:\Program Files\MikTeX\tex\generic\oberdiek\etexcmds.sty"
 Package: etexcmds 2007/12/12 v1.2 Prefix for e-TeX command names (HO)
 
-("C:\Program Files\MiKTeX 2.7\tex\generic\oberdiek\infwarerr.sty"
+("C:\Program Files\MikTeX\tex\generic\oberdiek\infwarerr.sty"
 Package: infwarerr 2007/09/09 v1.2 Providing info/warning/message (HO)
 )
 Package etexcmds Info: Could not find \expanded.
@@ -658,78 +697,86 @@ Package etexcmds Info: Could not find \expanded.
 (etexcmds)             that some package has redefined \expanded.
 (etexcmds)             In the latter case, load this package earlier.
 )
-("C:\Program Files\MiKTeX 2.7\tex\latex\00miktex\hyperref.cfg"
+("C:\Program Files\MikTeX\tex\latex\00miktex\hyperref.cfg"
 File: hyperref.cfg 2002/06/06 v1.2 hyperref configuration of TeXLive
 )
-("C:\Program Files\MiKTeX 2.7\tex\latex\oberdiek\kvoptions.sty"
-Package: kvoptions 2007/10/18 v3.0 Keyval support for LaTeX options (HO)
-)
-Package hyperref Info: Option `plainpages' set `false' on input line 2796.
-Package hyperref Info: Option `pdfpagelabels' set `true' on input line 2796.
-Package hyperref Info: Option `bookmarksnumbered' set `true' on input line 2796
+("C:\Program Files\MikTeX\tex\latex\oberdiek\kvoptions.sty"
+Package: kvoptions 2009/08/13 v3.4 Keyval support for LaTeX options (HO)
+
+("C:\Program Files\MikTeX\tex\generic\oberdiek\kvsetkeys.sty"
+Package: kvsetkeys 2009/07/30 v1.5 Key value parser with default handler suppor
+t (HO)
+))
+Package hyperref Info: Option `plainpages' set `false' on input line 2864.
+Package hyperref Info: Option `pdfpagelabels' set `true' on input line 2864.
+Package hyperref Info: Option `bookmarksnumbered' set `true' on input line 2864
 .
-Package hyperref Info: Option `colorlinks' set `true' on input line 2796.
+Package hyperref Info: Option `colorlinks' set `true' on input line 2864.
 
 
 Package hyperref Warning: Option `pagecolor' is not available anymore.
 
-Package hyperref Info: Option `breaklinks' set `true' on input line 2796.
-Package hyperref Info: Hyper figures OFF on input line 2907.
-Package hyperref Info: Link nesting OFF on input line 2912.
-Package hyperref Info: Hyper index ON on input line 2915.
-Package hyperref Info: Plain pages OFF on input line 2922.
-Package hyperref Info: Backreferencing OFF on input line 2927.
+Package hyperref Info: Option `breaklinks' set `true' on input line 2864.
+Package hyperref Info: Hyper figures OFF on input line 2975.
+Package hyperref Info: Link nesting OFF on input line 2980.
+Package hyperref Info: Hyper index ON on input line 2983.
+Package hyperref Info: Plain pages OFF on input line 2990.
+Package hyperref Info: Backreferencing OFF on input line 2995.
 Implicit mode ON; LaTeX internals redefined
-Package hyperref Info: Bookmarks ON on input line 3117.
-LaTeX Info: Redefining \url on input line 3351.
-("C:\Program Files\MiKTeX 2.7\tex\generic\oberdiek\bitset.sty"
+Package hyperref Info: Bookmarks ON on input line 3191.
+LaTeX Info: Redefining \url on input line 3428.
+("C:\Program Files\MikTeX\tex\generic\oberdiek\bitset.sty"
 Package: bitset 2007/09/28 v1.0 Data type bit set (HO)
 
-("C:\Program Files\MiKTeX 2.7\tex\generic\oberdiek\intcalc.sty"
+("C:\Program Files\MikTeX\tex\generic\oberdiek\intcalc.sty"
 Package: intcalc 2007/09/27 v1.1 Expandable integer calculations (HO)
 )
-("C:\Program Files\MiKTeX 2.7\tex\generic\oberdiek\bigintcalc.sty"
+("C:\Program Files\MikTeX\tex\generic\oberdiek\bigintcalc.sty"
 Package: bigintcalc 2007/11/11 v1.1 Expandable big integer calculations (HO)
 
-("C:\Program Files\MiKTeX 2.7\tex\generic\oberdiek\pdftexcmds.sty"
-Package: pdftexcmds 2007/12/12 v0.3 LuaTeX support for pdfTeX utility functions
+("C:\Program Files\MikTeX\tex\generic\oberdiek\pdftexcmds.sty"
+Package: pdftexcmds 2009/09/23 v0.6 LuaTeX support for pdfTeX utility functions
  (HO)
-Package pdftexcmds Info: LuaTeX not detected on input line 139.
-Package pdftexcmds Info: pdfTeX >= 1.30 not detected.
-)))
-("C:\Program Files\MiKTeX 2.7\tex\generic\oberdiek\kvsetkeys.sty"
-Package: kvsetkeys 2007/09/29 v1.3 Key value parser with default handler suppor
-t (HO)
+
+("C:\Program Files\MikTeX\tex\generic\oberdiek\ltxcmds.sty"
+Package: ltxcmds 2009/08/05 v1.0 Some LaTeX kernel commands for general use (HO
 )
-\Fld@menulength=\count178
+)
+Package pdftexcmds Info: LuaTeX not detected.
+Package pdftexcmds Info: pdfTeX >= 1.30 not detected.
+Package pdftexcmds Info: \pdf@primitive is available.
+Package pdftexcmds Info: \pdf@ifprimitive is available.
+)))
+\Fld@menulength=\count179
 \Field@Width=\dimen176
 \Fld@charsize=\dimen177
-\Field@toks=\toks39
-Package hyperref Info: Hyper figures OFF on input line 4268.
-Package hyperref Info: Link nesting OFF on input line 4273.
-Package hyperref Info: Hyper index ON on input line 4276.
-Package hyperref Info: backreferencing OFF on input line 4283.
-Package hyperref Info: Link coloring ON on input line 4286.
-Package hyperref Info: Link coloring with OCG OFF on input line 4293.
-Package hyperref Info: PDF/A mode OFF on input line 4298.
+\Field@toks=\toks41
+Package hyperref Info: Hyper figures OFF on input line 4377.
+Package hyperref Info: Link nesting OFF on input line 4382.
+Package hyperref Info: Hyper index ON on input line 4385.
+Package hyperref Info: backreferencing OFF on input line 4392.
+Package hyperref Info: Link coloring ON on input line 4395.
+Package hyperref Info: Link coloring with OCG OFF on input line 4402.
+Package hyperref Info: PDF/A mode OFF on input line 4407.
 
-("C:\Program Files\MiKTeX 2.7\tex\generic\oberdiek\atbegshi.sty"
+("C:\Program Files\MikTeX\tex\generic\oberdiek\atbegshi.sty"
 Package: atbegshi 2008/07/31 v1.9 At begin shipout hook (HO)
 )
-\Hy@abspage=\count179
-\c@Item=\count180
+\Hy@abspage=\count180
+\c@Item=\count181
 )
-("C:\Program Files\MiKTeX 2.7\tex\latex\memoir\memhfixc.sty"
+("C:\Program Files\MikTeX\tex\latex\memoir\memhfixc.sty"
 Package: memhfixc 2009/02/06 v1.12 nameref/hyperref package fixes for memoir cl
 ass
-\c@memhycontfloat=\count181
+\c@memhycontfloat=\count182
 )
 *hyperref using default driver hdvipdfm*
-("C:\Program Files\MiKTeX 2.7\tex\latex\hyperref\hdvipdfm.def"
-File: hdvipdfm.def 2008/09/29 v6.78l Hyperref driver for dvipdfm
-\pdfm@box=\box37
-\HyField@AnnotCount=\count182
-\Fld@listcount=\count183
+("C:\Program Files\MikTeX\tex\latex\hyperref\hdvipdfm.def"
+File: hdvipdfm.def 2009/10/19 v6.79b Hyperref driver for dvipdfm
+\pdfm@box=\box38
+\c@Hy@AnnotLevel=\count183
+\HyField@AnnotCount=\count184
+\Fld@listcount=\count185
 )
 
 ******************************************************
@@ -754,7 +801,7 @@ Sidebarheight: 594.32022pt
 LaTeX Warning: Unused global option(s):
     [makeidx].
 
-(bsc_latexSource.aux)
+(E:\B.Sc_Work\Work\doc\bsc_latexSource\bsc_latexSource.aux)
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 7.
 LaTeX Font Info:    ... okay on input line 7.
 LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 7.
@@ -787,7 +834,7 @@ See the caption package documentation for explanation.
 Package caption Info: hyperref package is loaded.
 Package caption Info: listings package is loaded.
 Package caption Info: longtable package is loaded.
-("C:\Program Files\MiKTeX 2.7\tex\latex\caption\ltcaption.sty"
+("C:\Program Files\MikTeX\tex\latex\caption\ltcaption.sty"
 Package: ltcaption 2008/03/28 v1.2 longtable captions (AR)
 )
 Package caption Info: rotating package is loaded.
@@ -850,33 +897,34 @@ LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `bold'
 (Font)                  OT1/cmss/bx/n --> EU1/lmss/bx/n on input line 7.
 LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `bold'
 (Font)                  OT1/cmtt/m/n --> EU1/lmtt/bx/n on input line 7.
-\c@lstlisting=\count184
+\c@lstlisting=\count186
 Package hyperref Info: Link coloring ON on input line 7.
 
-("C:\Program Files\MiKTeX 2.7\tex\latex\hyperref\nameref.sty"
+("C:\Program Files\MikTeX\tex\latex\hyperref\nameref.sty"
 Package: nameref 2007/05/29 v2.31 Cross-referencing by name of section
 
-("C:\Program Files\MiKTeX 2.7\tex\latex\oberdiek\refcount.sty"
+("C:\Program Files\MikTeX\tex\latex\oberdiek\refcount.sty"
 Package: refcount 2008/08/11 v3.1 Data extraction from references (HO)
 )
-\c@section@level=\count185
+\c@section@level=\count187
 )
 LaTeX Info: Redefining \ref on input line 7.
 LaTeX Info: Redefining \pageref on input line 7.
 
-(bsc_latexSource.out) (bsc_latexSource.out)
+(E:\B.Sc_Work\Work\doc\bsc_latexSource\bsc_latexSource.out)
+(E:\B.Sc_Work\Work\doc\bsc_latexSource\bsc_latexSource.out)
 \@outlinefile=\write5
-\AtBeginShipoutBox=\box38
+\AtBeginShipoutBox=\box39
 
 Redoing nameref's sectioning
 Redoing nameref's label
-(front.tex
+(E:\B.Sc_Work\Work\doc\bsc_latexSource\front.tex
 LaTeX Font Info:    Try loading font information for EU1+lmss on input line 11.
 
- ("C:\Program Files\MiKTeX 2.7\tex\xelatex\euenc\eu1lmss.fd"
+
+("C:\Program Files\MikTeX\tex\xelatex\euenc\eu1lmss.fd"
 File: eu1lmss.fd 2007/01/14 v1.3 Font defs for Latin Modern
-)
-[1
+) [1
 
 
 ] [2
@@ -891,25 +939,30 @@ Underfull \hbox (badness 10000) in paragraph at lines 67--70
 
 [3] [4
 
-] (bsc_latexSource.toc
+] (E:\B.Sc_Work\Work\doc\bsc_latexSource\bsc_latexSource.toc
 LaTeX Font Info:    Try loading font information for U+msa on input line 4.
 
-("C:\Program Files\MiKTeX 2.7\tex\latex\amsfonts\umsa.fd"
-File: umsa.fd 2002/01/19 v2.2g AMS font definitions
+("C:\Program Files\MikTeX\tex\latex\amsfonts\umsa.fd"
+File: umsa.fd 2009/06/22 v3.00 AMS symbols A
 )
 LaTeX Font Info:    Try loading font information for U+msb on input line 4.
 
-("C:\Program Files\MiKTeX 2.7\tex\latex\amsfonts\umsb.fd"
-File: umsb.fd 2002/01/19 v2.2g AMS font definitions
+("C:\Program Files\MikTeX\tex\latex\amsfonts\umsb.fd"
+File: umsb.fd 2009/06/22 v3.00 AMS symbols B
 )
 LaTeX Font Info:    Try loading font information for U+stmry on input line 4.
 
-("C:\Program Files\MiKTeX 2.7\tex\latex\stmaryrd\ustmry.fd") [1]
-LaTeX Font Info:    Try loading font information for OT1+lmr on input line 58.
+("C:\Program Files\MikTeX\tex\latex\stmaryrd\ustmry.fd") [1]
+Overfull \hbox (1.91623pt too wide) detected at line 75
+ \EU1/lmr/bx/n/10.95 100
+ []
 
-("C:\Program Files\MiKTeX 2.7\tex\latex\lm\ot1lmr.fd"
-File: ot1lmr.fd 2007/01/14 v1.3 Font defs for Latin Modern
-))) [2] (chap1/chap1.tex
+
+Overfull \hbox (1.91623pt too wide) detected at line 76
+ \EU1/lmr/bx/n/10.95 103
+ []
+
+)) [2] (E:\B.Sc_Work\Work\doc\bsc_latexSource\chap1/chap1.tex
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [1
@@ -921,7 +974,7 @@ File: chap1/localizare_poi.png Graphic file (type QTm)
 <use  "chap1/localizare_poi.png" >
 File: chap1/descriere_poi.png Graphic file (type QTm)
  <use  "chap1/descriere_poi.png" > [2]
-[3]) (chap2/chap2.tex [4]
+[3]) (E:\B.Sc_Work\Work\doc\bsc_latexSource\chap2/chap2.tex [4]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [5
@@ -943,7 +996,7 @@ Overfull \hbox (7.4935pt too wide) in paragraph at lines 27--33
 [6] [7]
 File: chap2/harris_detector.png Graphic file (type QTm)
  <use  "chap2/harris_detector.png" >
-Overfull \hbox (3.84729pt too wide) in paragraph at lines 94--95
+Overfull \hbox (3.84729pt too wide) in paragraph at lines 96--97
  [][][] 
  []
 
@@ -953,66 +1006,59 @@ File: chap2/sift_scale.png Graphic file (type QTm)
  <use  "chap2/sift_scale.png" >
 [11] [12]
 File: chap2/sift_histo.png Graphic file (type QTm)
- <use  "chap2/sift_histo.png" >
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
- [13]
+ <use  "chap2/sift_histo.png" > [13]
 File: chap2/surfBoxFilters.png Graphic file (type QTm)
 
-<use  "chap2/surfBoxFilters.png" > [14]
+<use  "chap2/surfBoxFilters.png" >
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [14]
 File: chap2/squareArea.png Graphic file (type QTm)
- <use  "chap2/squareArea.png" > [15]
+
+<use  "chap2/squareArea.png" >
 File: chap2/scalespacecomp.png Graphic file (type QTm)
-
-<use  "chap2/scalespacecomp.png" > [16]
+ <use  "chap2/scalespacecomp.png" > [15] [16]
 File: chap2/haarWavelets.png Graphic file (type QTm)
- <use  "chap2/haarWavelets.png" >
-File: chap2/surfOrientation.png Graphic file (type QTm)
 
-<use  "chap2/surfOrientation.png" >
-Overfull \hbox (18.50374pt too wide) in paragraph at lines 288--289
+<use  "chap2/haarWavelets.png" >
+File: chap2/surfOrientation.png Graphic file (type QTm)
+ <use  "chap2/surfOrientation.png" >
+Overfull \hbox (18.50374pt too wide) in paragraph at lines 292--293
  [][][] 
  []
 
 
-Underfull \hbox (badness 2189) in paragraph at lines 289--289
+Underfull \hbox (badness 2189) in paragraph at lines 293--293
 []\EU1/lmr/m/n/10.95 Figura 2.10: |[]SURF: Determinarea orientării pentru un p
 unct de inte-
  []
 
-[17]) (chap3/chap3.tex
-Underfull \hbox (badness 10000) in paragraph at lines 300--2
+[17]
+Underfull \hbox (badness 10000) in paragraph at lines 304--313
 
  []
 
 [18]
+Overfull \hbox (22.94576pt too wide) in paragraph at lines 317--318
+\EU1/lmr/m/n/10.95 pentru asigurarea consistenţei rezultatelor  [[][], [][]]. 
+
+ []
+
+[19]) (E:\B.Sc_Work\Work\doc\bsc_latexSource\chap3/chap3.tex [20]
 LaTeX Font Info:    Try loading font information for EU1+lmtt on input line 14.
 
- ("C:\Program Files\MiKTeX 2.7\tex\xelatex\euenc\eu1lmtt.fd"
+
+("C:\Program Files\MikTeX\tex\xelatex\euenc\eu1lmtt.fd"
 File: eu1lmtt.fd 2007/01/14 v1.3 Font defs for Latin Modern
-) [19
+) [21
 
-]
-LaTeX Font Info:    Try loading font information for OMS+lmr on input line 25.
-
-("C:\Program Files\MiKTeX 2.7\tex\latex\lm\omslmr.fd"
-File: omslmr.fd 2007/01/14 v1.3 Font defs for Latin Modern
-)
-LaTeX Font Info:    Try loading font information for OMS+lmsy on input line 25.
-
-
-("C:\Program Files\MiKTeX 2.7\tex\latex\lm\omslmsy.fd"
-File: omslmsy.fd 2007/01/14 v1.3 Font defs for Latin Modern
-)
-LaTeX Font Info:    Font shape `OMS/lmr/m/n' in size <10.95> not available
-(Font)              Font shape `OMS/lmsy/m/n' tried instead on input line 25.
- [20]
+] [22]
 File: chap3/layers.png Graphic file (type QTm)
 
-<use  "chap3/layers.png" > [21]
+<use  "chap3/layers.png" > [23]
 Underfull \vbox (badness 3068) has occurred while \output is active []
 
- [22]
+ [24]
 File: chap3/aq_layer.png Graphic file (type QTm)
 
 <use  "chap3/aq_layer.png" >
@@ -1026,18 +1072,18 @@ Overfull \hbox (5.37103pt too wide) in paragraph at lines 75--76
 al funcţiile startCapture,
  []
 
-[23]
+[25]
 File: chap3/proc_layer.png Graphic file (type QTm)
- <use  "chap3/proc_layer.png" > [24]
+ <use  "chap3/proc_layer.png" > [26]
 File: chap3/thread_layer.png Graphic file (type QTm)
  <use  "chap3/thread_layer.png" >
 Overfull \hbox (28.94502pt too wide) in paragraph at lines 104--105
  [][][] 
  []
 
-[25]
+[27]
 File: chap3/coarse_parallelism.png Graphic file (type QTm)
- <use  "chap3/coarse_parallelism.png" > [26] [27]
+ <use  "chap3/coarse_parallelism.png" > [28] [29]
 Underfull \hbox (badness 10000) in paragraph at lines 130--143
 
  []
@@ -1047,111 +1093,372 @@ Overfull \hbox (22.47836pt too wide) in paragraph at lines 130--143
 [] 
  []
 
-) (chap4/chap4.tex [28]
+) (E:\B.Sc_Work\Work\doc\bsc_latexSource\chap4/chap4.tex [30]
 File: chap4/artifacts.png Graphic file (type QTm)
- <use  "chap4/artifacts.png" >
+
+<use  "chap4/artifacts.png" >
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [29
+ [31
 
 ]
-[30] [31] ("C:\Program Files\MiKTeX 2.7\tex\latex\listings\lstlang1.sty"
+[32] [33] ("C:\Program Files\MikTeX\tex\latex\listings\lstlang1.sty"
 File: lstlang1.sty 2004/09/05 1.3 listings language file
 )
-("C:\Program Files\MiKTeX 2.7\tex\latex\listings\lstlang1.sty"
+("C:\Program Files\MikTeX\tex\latex\listings\lstlang1.sty"
 File: lstlang1.sty 2004/09/05 1.3 listings language file
 )
-("C:\Program Files\MiKTeX 2.7\tex\latex\listings\lstmisc.sty"
+("C:\Program Files\MikTeX\tex\latex\listings\lstmisc.sty"
 File: lstmisc.sty 2007/02/22 1.4 (Carsten Heinz)
-)
-LaTeX Font Info:    Font shape `OMS/lmr/m/n' in size <9> not available
-(Font)              Font shape `OMS/lmsy/m/n' tried instead on input line 48.
- [32]
-LaTeX Font Info:    Try loading font information for OML+lmr on input line 79.
-
-("C:\Program Files\MiKTeX 2.7\tex\latex\lm\omllmr.fd"
-File: omllmr.fd 2007/01/14 v1.3 Font defs for Latin Modern
-)
-LaTeX Font Info:    Try loading font information for OML+lmm on input line 79.
-
-("C:\Program Files\MiKTeX 2.7\tex\latex\lm\omllmm.fd"
-File: omllmm.fd 2007/01/14 v1.3 Font defs for Latin Modern
-)
-LaTeX Font Info:    Font shape `OML/lmr/m/n' in size <9> not available
-(Font)              Font shape `OML/lmm/m/it' tried instead on input line 79.
- [33] [34] [35] [36]
-Underfull \vbox (badness 7221) has occurred while \output is active []
-
- [37]
-[38] [39] [40]
+) [34] [35] [36]
+[37] [38] [39] [40] [41] [42] [43] [44]
 File: chap4/interface1.png Graphic file (type QTm)
  <use  "chap4/interface1.png" >
-Overfull \hbox (0.83513pt too wide) in paragraph at lines 287--288
+Overfull \hbox (0.83513pt too wide) in paragraph at lines 380--381
  [][][] 
  []
 
-[41]
+[45] [46]
 File: chap4/interface2.png Graphic file (type QTm)
  <use  "chap4/interface2.png" >
-Overfull \hbox (0.83513pt too wide) in paragraph at lines 305--306
+Overfull \hbox (0.83513pt too wide) in paragraph at lines 398--399
  [][][] 
  []
 
 File: chap4/toolbar_ico2.png Graphic file (type QTm)
-<use  "chap4/toolbar_ico2.png" >) (chap5/chap5.tex [42] [43] [44
+<use  "chap4/toolbar_ico2.png" >)
+(E:\B.Sc_Work\Work\doc\bsc_latexSource\chap5/chap5.tex [47] [48
 
-] [45]
+] [49]
 Overfull \hbox (7.57196pt too wide) in paragraph at lines 32--33
 \EU1/lmr/m/n/10.95 sual Studio (Se folosesc clasele din namespace-ul \EU1/lmr/m
 /it/10.95 Microsoft.VisualStudio.TestTools.-
  []
 
-[46]
-Overfull \hbox (20.14261pt too wide) in paragraph at lines 39--40
-[][]\EU1/lmr/m/it/10.95 StaticImage[]ReadTest[]Lenna \EU1/lmr/m/n/10.95 verific
-ă dacă citirea unei imagini de test (lenna.jpg,
+[50]
+Overfull \hbox (28.53033pt too wide) in paragraph at lines 39--40
+[][]\EU1/lmr/m/it/10.95 StaticImage_ReadTest_Lenna \EU1/lmr/m/n/10.95 verifică
+ dacă citirea unei imagini de test (lenna.jpg,
  []
 
-) (chap6/chap6.tex [47] [48
-
-]) (bsc_latexSource.bbl [49] [50
+) (E:\B.Sc_Work\Work\doc\bsc_latexSource\chap6/chap6.tex [51] [52
 
 ]
+Overfull \hbox (4.3844pt too wide) in paragraph at lines 11--12
+[][]\EU1/lmr/m/n/10.95 Cameră video digitală Sony DCR-TRV730E, conexiune fire
+wire (IEEE 1394),
+ []
+
+[53]
+File: chap6/ff_rotational.png Graphic file (type QTm)
+ <use  "chap6/ff_rotational.png" >
+Overfull \hbox (34.56374pt too wide) in paragraph at lines 31--32
+ [][][] 
+ []
+
+[54]
+File: chap6/ff_scale_large.png Graphic file (type QTm)
+ <use  "chap6/ff_scale_large.png" >
+Overfull \hbox (34.56374pt too wide) in paragraph at lines 41--42
+ [][][] 
+ []
+
+File: chap6/ww_luminosity.png Graphic file (type QTm)
+<use  "chap6/ww_luminosity.png" >
+Overfull \hbox (34.56374pt too wide) in paragraph at lines 51--52
+ [][][] 
+ []
+
+File: chap6/ww_blur_affine_scale.png Graphic file (type QTm)
+<use  "chap6/ww_blur_affine_scale.png" >
+Overfull \hbox (34.56374pt too wide) in paragraph at lines 61--62
+ [][][] 
+ []
+
+[55]
+File: chap6/cw_res.png Graphic file (type QTm)
+ <use  "chap6/cw_res.png" >
+Overfull \hbox (34.56374pt too wide) in paragraph at lines 71--72
+ [][][] 
+ []
+
+[56]
+File: chap6/multiple.png Graphic file (type QTm)
+ <use  "chap6/multiple.png" >
+Overfull \hbox (47.61249pt too wide) in paragraph at lines 81--82
+ [][][] 
+ []
+
+[57]
+File: chap6/cc_scale_err.png Graphic file (type QTm)
+ <use  "chap6/cc_scale_err.png" >
+Overfull \hbox (34.56374pt too wide) in paragraph at lines 91--92
+ [][][] 
+ []
+
+
+Overfull \hbox (1.36987pt too wide) in paragraph at lines 100--101
+[][]\EU1/lmr/m/n/10.95 Prin comparaţie, alte implementări open-source ale alg
+oritmului SURF (Open-
+ []
+
+
+Overfull \hbox (0.41287pt too wide) in paragraph at lines 100--101
+\EU1/lmr/m/n/10.95 Surf, GPUSurf [[][]]) sunt dezvoltate utilizând biblioteci 
+care
+ []
+
+[58]
+File: chap6/femur.png Graphic file (type QTm)
+ <use  "chap6/femur.png" > [59]
+Overfull \hbox (8.77646pt too wide) in paragraph at lines 125--126
+\EU1/lmr/m/n/10.95 vele mobile. Microsoft Tag este una dintre ele (\EU1/lmtt/m/
+n/10.95 http://www.microsoft.com/tag/\EU1/lmr/m/n/10.95 ).
+ []
+
+) (E:\B.Sc_Work\Work\doc\bsc_latexSource\bsc_latexSource.bbl [60]
 bibitemlist
-) [51] [52
+[61
 
-] [53] [54] (app1/app1.tex) [55
+]) [62] [63
 
-] [56
+] [64] (E:\B.Sc_Work\Work\doc\bsc_latexSource\app1/app1.tex
+File: app1/cytrus.png Graphic file (type QTm)
 
-] (back.tex (symbols.tex)
-[57
+<use  "app1/cytrus.png" >
+File: app1/cytrus.cameraHAL.png Graphic file (type QTm)
+ <use  "app1/cytrus.cameraHAL.png" >
+Overfull \hbox (71.74959pt too wide) in paragraph at lines 16--17
+ [][][] 
+ []
+
+
+LaTeX Warning: Float too large for page by 73.14436pt on input line 19.
+
+[65
+
+] [66]
+File: app1/cytrus.alg1.png Graphic file (type QTm)
+ <use  "app1/cytrus.alg1.png" >
+Overfull \hbox (36.91068pt too wide) in paragraph at lines 24--25
+ [][][] 
+ []
+
+
+LaTeX Warning: Float too large for page by 80.33159pt on input line 25.
+
+[67]
+File: app1/cytrus.alg2.png Graphic file (type QTm)
+ <use  "app1/cytrus.alg2.png" >
+Overfull \hbox (36.91068pt too wide) in paragraph at lines 31--32
+ [][][] 
+ []
+
+
+LaTeX Warning: Float too large for page by 47.45757pt on input line 34.
+
+[68]
+File: app1/cytrus.managed.png Graphic file (type QTm)
+ <use  "app1/cytrus.managed.png" >
+Overfull \hbox (80.78328pt too wide) in paragraph at lines 39--40
+ [][][] 
+ []
+
+
+LaTeX Warning: Float too large for page by 0.42317pt on input line 42.
+
+File: app1/cameraSeq.png Graphic file (type QTm)
+<use  "app1/cameraSeq.png" >
+Overfull \hbox (40.13167pt too wide) in paragraph at lines 46--47
+ [][][] 
+ []
+
+) (E:\B.Sc_Work\Work\doc\bsc_latexSource\app2/app2.tex [69] [70]
+File: app2/gauss.png Graphic file (type QTm)
+
+<use  "app2/gauss.png" >
+File: app2/laplace.png Graphic file (type QTm)
+ <use  "app2/laplace.png" >
+File: app2/LoG.png Graphic file (type QTm)
+ <use  "app2/LoG.png" >
+File: app2/DoG.png Graphic file (type QTm)
+
+<use  "app2/DoG.png" >
+Overfull \hbox (61.302pt too wide) in paragraph at lines 34--38
+ [][][][][] 
+ []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [71
+
+
 
 
 
 ]
-LaTeX Font Info:    Try loading font information for OT1+lmss on input line 17.
+File: app2/Lxx.png Graphic file (type QTm)
 
- ("C:\Program Files\MiKTeX 2.7\tex\latex\lm\ot1lmss.fd"
-File: ot1lmss.fd 2007/01/14 v1.3 Font defs for Latin Modern
-)
+<use  "app2/Lxx.png" >
+File: app2/Lxx2D.png Graphic file (type QTm)
+ <use  "app2/Lxx2D.png" >
+File: app2/Lyy.png Graphic file (type QTm)
+ <use  "app2/Lyy.png" >
+File: app2/Lyy2D.png Graphic file (type QTm)
+
+<use  "app2/Lyy2D.png" >
+Overfull \hbox (0.86713pt too wide) in paragraph at lines 54--62
+ [][][][] 
+ []
+
+File: app2/Lxy.png Graphic file (type QTm)
+<use  "app2/Lxy.png" >
+File: app2/Lxy2D.png Graphic file (type QTm)
+ <use  "app2/Lxy2D.png" >
+
+LaTeX Warning: Float too large for page by 55.14418pt on input line 74.
+
+) (E:\B.Sc_Work\Work\doc\bsc_latexSource\app3/app3.tex [72] [73] [74]
+Underfull \hbox (badness 10000) in paragraph at lines 15--16
+[][]\EU1/lmtt/m/n/10.95 IImageTransform.h: General interface for Image
+ []
+
+[75
+
+] [76]
+Overfull \vbox (3.2002pt too high) detected at line 137
+ []
+
+[77]
+Overfull \vbox (0.39493pt too high) detected at line 246
+ []
+
+[78]
+Underfull \vbox (badness 10000) detected at line 246
+ []
+
+
+Underfull \vbox (badness 10000) detected at line 246
+ []
+
+[79]
+Underfull \vbox (badness 10000) detected at line 246
+ []
+
+
+Underfull \vbox (badness 10000) detected at line 246
+ []
+
+[80]
+Overfull \vbox (0.39493pt too high) detected at line 293
+ []
+
+[81]
+Underfull \hbox (badness 2020) in paragraph at lines 295--296
+[][]\EU1/lmtt/m/n/10.95 FileImageSource.h : File Image Source. Implements
+ []
+
+
+Overfull \vbox (3.25494pt too high) detected at line 353
+ []
+
+[82] [83]
+Underfull \vbox (badness 10000) detected at line 435
+ []
+
+
+Underfull \vbox (badness 10000) detected at line 435
+ []
+
+[84] [85]
+Overfull \vbox (0.91579pt too high) detected at line 597
+ []
+
+[86]
+Underfull \vbox (badness 2173) detected at line 597
+ []
+
+[87]
+Underfull \vbox (badness 10000) detected at line 597
+ []
+
+
+Underfull \vbox (badness 10000) detected at line 597
+ []
+
+[88]
+Overfull \vbox (3.25494pt too high) detected at line 642
+ []
+
+[89] [90]
+Underfull \vbox (badness 10000) detected at line 752
+ []
+
+
+Underfull \vbox (badness 10000) detected at line 752
+ []
+
+[91]
+Overfull \vbox (0.40588pt too high) detected at line 802
+ []
+
+[92]
+Overfull \vbox (3.2659pt too high) detected at line 895
+ []
+
+[93]
+Underfull \vbox (badness 10000) detected at line 895
+ []
+
+
+Underfull \vbox (badness 10000) detected at line 895
+ []
+
+[94]
+Overfull \vbox (3.2659pt too high) detected at line 975
+ []
+
+[95]
+Underfull \vbox (badness 10000) detected at line 975
+ []
+
+
+Underfull \vbox (badness 10000) detected at line 975
+ []
+
+[96]) [97] [98
+
+] (E:\B.Sc_Work\Work\doc\bsc_latexSource\back.tex
+(E:\B.Sc_Work\Work\doc\bsc_latexSource\symbols.tex) [99
+
+
+
+]
 
 Package hyperref Warning: Glyph not defined in PD1 encoding,
 (hyperref)                removing `\u' on input line 17.
 
-(bsc_latexSource.lof) (bsc_latexSource.ind)) [58
+(E:\B.Sc_Work\Work\doc\bsc_latexSource\bsc_latexSource.lof [100
 
-]
+])
+(E:\B.Sc_Work\Work\doc\bsc_latexSource\bsc_latexSource.ind [101] [102
+
+] [103
+
+
+]))
 \tf@toc=\write6
 \tf@lof=\write7
- (bsc_latexSource.aux) ) 
-Here is how much of TeX's memory you used:
- 13817 strings out of 30467
- 207643 string characters out of 1190985
- 446326 words of memory out of 1500000
- 16624 multiletter control sequences out of 110000
- 18419 words of font info for 86 fonts, out of 1200000 for 2000
- 17 hyphenation exceptions out of 8191
- 50i,12n,97p,1347b,1234s stack positions out of 5000i,500n,10000p,200000b,5000s
 
-Output written on bsc_latexSource.pdf (64 pages).
+(E:\B.Sc_Work\Work\doc\bsc_latexSource\bsc_latexSource.aux) ) 
+Here is how much of TeX's memory you used:
+ 16910 strings out of 430411
+ 249607 string characters out of 3189585
+ 672190 words of memory out of 3000000
+ 19713 multiletter control sequences out of 15000+200000
+ 11778 words of font info for 81 fonts, out of 3000000 for 9000
+ 17 hyphenation exceptions out of 8191
+ 50i,12n,97p,1327b,1075s stack positions out of 5000i,500n,10000p,200000b,50000s
+
+Output written on bsc_latexSource.pdf (109 pages).

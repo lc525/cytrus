@@ -1,0 +1,976 @@
+\XeTeXinputencoding cp1250
+% ********** Appendix 3 **********
+\chapter{Codul aplicaþiei (parþial)}
+\label{sec:appendix3}
+
+\texttt{Carata Lucian, calucian[at]yahoo.co.uk\\
+Copyright (C) 2009, Carata Lucian\\
+Acest program este liber; îl puteþi redistribui ºi/sau modifica în conformitate cu termenii Licenþei Publice Generale GNU, aºa cum este publicatã de cãtre Free Software Foundation; fie versiunea 3 a Licenþei, fie (la latitudinea dumneavoastrã) orice versiune ulterioarã.\\
+Acest program este distribuit cu speranþa cã va fi util, dar FÃRÃ NICI O GARANÞIE; fãrã macar garanþia implicitã de vandabilitate sau CONFORMITATE UNUI ANUMIT SCOP. A se vedea Licenþa Publicã Generalã GNU pentru detalii.\\
+Ar trebui sã fi primit o copie a Licenþei Publice Generale GNU împreunã cu acest program.\\
+În caz contrar, consultaþi http://www.gnu.org/licenses/.
+}
+
+\begin{framed}
+\texttt{IImageTransform.h: General interface for Image transformations}
+\begin{lstlisting}
+#ifndef _IIMAGETRANSFORM_H_
+#define _IIMAGETRANSFORM_H_
+
+#ifndef CYTRUSALGLIB_API
+	#ifdef CYTRUSALGLIB_EXPORTS
+		#define CYTRUSALGLIB_API __declspec(dllexport)
+	#else
+		#define CYTRUSALGLIB_API __declspec(dllimport)
+	#endif
+#endif
+
+namespace cytrus{
+	namespace alg{
+		class CYTRUSALGLIB_API IImageTransform{
+		public:
+			template <typename SrcView, typename DstView>
+			void applyTransform(SrcView& src, DstView& dst);
+
+			virtual ~IImageTransform(){}
+		};
+	}
+}
+
+#endif
+\end{lstlisting}
+\end{framed} 
+\begin{framed}
+\texttt{IDescriptor.h : An interface that defines the contract for describing the points of interest in an image.}
+\begin{lstlisting}
+#ifndef _IDESCRIPTOR_H_
+#define _IDESCRIPTOR_H_
+
+#ifndef CYTRUSALGLIB_API
+	#ifdef CYTRUSALGLIB_EXPORTS
+		#define CYTRUSALGLIB_API __declspec(dllexport)
+	#else
+		#define CYTRUSALGLIB_API __declspec(dllimport)
+	#endif
+#endif
+
+namespace cytrus{
+	namespace alg{
+		class CYTRUSALGLIB_API IDescriptor{
+			public:
+			virtual ~IDescriptor(){}
+		};
+	}
+}
+
+#endif
+\end{lstlisting}
+\end{framed}
+\begin{framed}
+\texttt{ILocator.h : An interface that defines the contract for locating the points of interest in an image.}
+\begin{lstlisting}
+#ifndef _ILOCATOR_H_
+#define _ILOCATOR_H_
+
+#ifndef CYTRUSALGLIB_API
+	#ifdef CYTRUSALGLIB_EXPORTS
+		#define CYTRUSALGLIB_API __declspec(dllexport)
+	#else
+		#define CYTRUSALGLIB_API __declspec(dllimport)
+	#endif
+#endif
+
+#include <vector>
+#include "poi.h"
+
+namespace cytrus{
+	namespace alg{
+		class CYTRUSALGLIB_API ILocator{
+			public:
+				virtual void locatePOIInImage(std::vector<Poi>& iPts_out)=0;
+				virtual ~ILocator(){}
+		};
+	}
+}
+
+#endif
+\end{lstlisting}
+\end{framed}  
+\begin{framed}
+\texttt{IntegralImageTransform.h: Transforms a given image into its integral representation}
+\begin{lstlisting}
+#ifndef _INTEGRALIMAGETRANSFORM_H_
+#define _INTEGRALIMAGETRANSFORM_H_
+
+
+#include "IImageTransform.h"
+#include <boost/gil/gil_all.hpp>
+
+using namespace boost::gil;
+
+namespace cytrus{
+	namespace alg{
+		class IntegralImageTransform : public IImageTransform{
+		public:
+
+			// SrcView and DstView must both be GIL Image Views. The following conditions must be met:
+			// ImageViewConcept<SrcView> >();
+			// MutableImageViewConcept<DstView> >();
+			// ColorSpacesCompatibleConcept<color_space_type<SrcView>::type, color_space_type<DstView>::type> >();
+			template <typename SrcView, typename DstView>
+			static void applyTransform(SrcView& src, DstView& dst);
+
+			// IntegralImageView must be a GIL Image View. The following conditions must be met:
+			// ImageViewConcept<SrcView> >();
+			// The current implementation assumes the view has only one channel
+			template <typename IntegralImageView>
+			static float boxFilter(IntegralImageView* src, int xSt, int ySt, int boxHeight, int boxWidth);
+		};
+		
+	}
+}
+
+#include "IntegralImageTransform.hpp"
+
+#endif
+\end{lstlisting}
+\end{framed}
+\begin{framed}
+\texttt{IImageSource.h : Image Source Interface}
+\begin{lstlisting}
+#ifndef _IIMAGESOURCE_H_
+#define _IIMAGESOURCE_H_
+
+#ifndef CYTRUSALGLIB_API
+	#define CYTRUSALGLIB_API
+#endif
+
+#include <set>
+#include "IImageConsumer.h"
+
+namespace cytrus{
+	namespace cameraHAL{
+		
+		// Abstract base class for all image sources.
+		// Defines the functions and members for registering and removing image consumers (IImageConsumer)
+		// Register your image consumer by calling registerImageConsumer, and the processImage function
+		// will be called by the image source when an image is available.
+		// Current available implementations:
+		//	cytrus::cameraHal::DirectShowCameraSource - win32/directx only
+		//	cytrus::cameraHal::ImageFromFileSource
+		// Info for subclassing:
+		// If your source provides external consumer notification (like function callbacks provided by a
+		// SO-specific image aquisition system), you should implement those in separate (static?) functions. 
+		// In derived classes, implement the four pure virtual functions,
+		//	notifyConsumers() - for manual consumer notification
+		//	getImageSize() - for providing source-dependent image size information
+		class CYTRUSALGLIB_API IImageSource{
+			protected: 
+				std::set<IImageConsumer*> consumers;
+				bool _sourceIsStarted;
+			public:
+
+				virtual ~IImageSource();
+
+				//
+				// This function manually notifies all the registered consumers.
+				// The implementation usually calls IImageConsumer.processImage, passing the source's image
+				// as a parameter.
+				//
+				virtual void notifyConsumers()=0;
+
+				//
+				// This function manually notifies a specific registered consumer.
+				// The implementation usually calls IImageConsumer.processImage, passing the source's image
+				// as a parameter.
+				//
+				virtual void notifyConsumer(int consumerIndex)=0;
+
+				//
+				// Returns the size <width,height> of the images that this
+				// source currently provides.
+				//
+				virtual std::pair<int,int> getImageSize()=0;
+
+				//
+				// Starts the capture on the specific image source. This function will be called
+				// after configuring the image source. 
+				// Implementation examples:
+				//	For a static single-image source, calling the startCapture function should read the
+				// image from disk and then notify all the consumers.
+				//	For a stream-type image source, calling the startCapture should determine periodic
+				// notifications to the consumers, as the frames come from the capture device.
+				//
+				//
+				virtual void startCapture()=0;
+
+				//
+				// Stops the capture process on the specific image source.
+				//
+				virtual void stopCapture()=0;
+
+				//
+				// Default implementation does nothing. Subclasses might overwrite this to account for the cases when
+				// the size of the image provided by the source changes. Maybe it's a camera source and the user
+				// connected a second camera that provides another resolution (for example)
+				//
+				virtual void notifySizeChange(){};
+
+				//
+				// Registers an ImageConsumer with this source. 
+				// The registered ImageConsumers will be notified when new images are produced by the source,
+				// and the image will be sent to them for processing. 
+				// 
+				// returns true if the consumer could be registered correctly
+				//         false if the consumer already exists in the list;
+				//               another possibility is that the source is already started
+				//               for mentaining consistency, adding consumers "on the fly" is not supported
+				//
+				bool registerImageConsumer(IImageConsumer *c);
+
+				//
+				// Remove Image Consumer from the consumers that are waiting for this image source.
+				// returns true if the consumer could be removed correctly
+				//         false if the consumer did not previously exist in the list;
+				//               another possibility is that the source is already started
+				//               for mentaining consistency, removing consumers "on the fly" is not supported
+				//
+				bool removeImageConsumer(IImageConsumer *c);
+		};
+	
+	}
+}
+
+#endif
+\end{lstlisting}
+\end{framed}
+\begin{framed}
+\texttt{ImageConsumer.h : Image Consumer Interface}
+\begin{lstlisting}
+#ifndef _IIMAGECONSUMER_H_
+#define _IIMAGECONSUMER_H_
+
+#ifndef CYTRUSALGLIB_API
+	#define CYTRUSALGLIB_API
+#endif
+
+namespace cytrus{
+	namespace cameraHAL{
+
+		class IImageSource;
+
+		//
+		// Abstract base class for ImageConsumers
+		// All the classes that make use of image sources should implement this, so that they can be notified
+		// with images when those are available at the source.
+		//
+		class CYTRUSALGLIB_API IImageConsumer{
+			protected:
+				IImageSource* _imgSource;
+			public: 
+				bool removeFromSourceOnDestroy;
+				int consumerIndex; // for identifying multiple consumers
+				IImageConsumer(IImageSource* imgSource, int index);
+				virtual ~IImageConsumer();
+				//
+				// This function is called by the image source when the image data is ready
+				// (has been loaded from disk, has been recieved from a camera etc.). 
+				//
+				virtual void processImage(unsigned long dwSize, unsigned char* pbData)=0;
+
+				//
+				// This function is called by the image source when the size of the image
+				// changes.
+				//
+				virtual void onSourceSizeChange()=0;
+		};
+	
+	}
+}
+
+#endif
+\end{lstlisting}
+\end{framed}
+\begin{framed}
+\texttt{FileImageSource.h : File Image Source. Implements IImageSource}
+\begin{lstlisting}
+#ifndef _FILEIMAGESOURCE_H_
+#define _FILEIMAGESOURCE_H_
+
+#ifndef CYTRUSALGLIB_API
+	#ifdef CYTRUSALGLIB_EXPORTS
+		#define CYTRUSALGLIB_API __declspec(dllexport)
+	#else
+		#define CYTRUSALGLIB_API __declspec(dllimport)
+	#endif
+#endif
+
+#include "IImageSource.h"
+#include <boost/gil/gil_all.hpp>
+
+
+namespace cytrus{
+	namespace cameraHAL{
+
+		//
+		// FileImageSource is a source that reads images from files. 
+		// <Limitation> Currently, the implementation only accepts .jpg files
+		//
+		class CYTRUSALGLIB_API FileImageSource: public IImageSource{
+			private:
+				unsigned long imageDataSize;
+				unsigned char* imageData;
+
+				const char* _path;
+				boost::gil::rgb8_image_t* imageFile;
+				boost::gil::rgb8_view_t* imageFileView;
+
+			public:
+
+				int width, height;
+				
+				FileImageSource();
+				virtual ~FileImageSource();
+
+				virtual void notifySizeChange(){};
+				virtual void notifyConsumers();
+				virtual void notifyConsumer(int consumerIndex);
+
+
+				virtual void startCapture();
+				virtual void stopCapture();
+				virtual void setPath(const char* path);
+				virtual std::pair<int,int> getImageSize();
+
+		};
+	
+	}
+}
+
+
+#endif
+\end{lstlisting}
+\end{framed}
+\begin{framed}
+\texttt{DirectShowCameraSource.h : Camera Image Source. Implements IImageSource}
+\begin{lstlisting}
+#ifndef _CAMERASOURCE_H_
+#define _CAMERASOURCE_H_
+
+#ifndef CYTRUSALGLIB_API
+	#ifdef CYTRUSALGLIB_EXPORTS
+		#define CYTRUSALGLIB_API __declspec(dllexport)
+	#else
+		#define CYTRUSALGLIB_API __declspec(dllimport)
+	#endif
+#endif
+
+#include <list>
+#include "WebCamLib.h"
+#include "IImageSource.h"
+
+#define NO_CAMERA -256
+
+namespace cytrus{
+	namespace cameraHAL{
+
+		#ifdef WIN32
+		//
+		// DirectShowCameraSource is an image source aquiring images from camera devices
+		// (connected by usb, firewire etc) through DirectShow/DirectX
+		// As such, this is a Windows-specific implementation.
+		// Not threadsafe (yet)
+		//
+		typedef void (__stdcall *NewImageAvailableCallback)(void);
+
+		class CYTRUSALGLIB_API DirectShowCameraSource: public IImageSource{
+			// TODO: add thread safetyness to singleton & other members.
+			private:
+				static DirectShowCameraSource* instance;  // singleton instance
+				static NewImageAvailableCallback signalNewImageAvailable;
+				IUnknown** deviceHandle;
+
+				static DWORD imageDataSize;
+				static BYTE* imageData;
+				
+				// current capture device spec:
+				int _currentCamera;
+				
+				//
+				
+				DirectShowCameraSource();
+				virtual ~DirectShowCameraSource();
+				void getCameraList();
+
+			public:
+
+				int width, height;
+				int _nrAvailableCameras;
+				std::list<char*> _availableCameras;
+
+
+				static DirectShowCameraSource* getCameraInstance(NewImageAvailableCallback callback);
+				std::list<char*> getAvailableCameras(bool refresh=true);
+				void setActiveCamera(int cIndex);
+				void displayCameraPropertiesDialog(HWND hwnd);
+
+				virtual void notifySizeChange(){};
+				virtual void notifyConsumers();
+				virtual void notifyConsumer(int consumerIndex);
+
+				virtual void startCapture();
+				virtual void stopCapture();
+				virtual std::pair<int,int> getImageSize();
+
+				static void __stdcall callbackFunc(DWORD dwSize, BYTE* pbData);
+		};
+		#endif
+	
+	}
+}
+
+
+#endif
+\end{lstlisting}
+\end{framed}
+\begin{framed}
+\texttt{IPOIAlgorithm.h : An interface that inherits IImageConsumer, and enforces a contract for all the algorithms that work on Points of Interest (POI), for object detection ( Locator + Descriptor )}
+\begin{lstlisting}
+#ifndef _IPOIALGORITHM_H_
+#define _IPOIALGORITHM_H_
+
+#ifndef CYTRUSALGLIB_API
+	#ifdef CYTRUSALGLIB_EXPORTS
+		#define CYTRUSALGLIB_API __declspec(dllexport)
+	#else
+		#define CYTRUSALGLIB_API __declspec(dllimport)
+	#endif
+#endif
+
+#include "IImageConsumer.h"
+#include "ILocator.h"
+#include "IDescriptor.h"
+#include <list>
+
+using namespace cytrus::cameraHAL;
+using namespace cytrus::alg;
+
+namespace cytrus{
+	namespace alg{
+		typedef void (__stdcall *POIAlgResult)(unsigned long dwSize, unsigned char* pbData, int index);
+		class CYTRUSALGLIB_API IPOIAlgorithm : public IImageConsumer{
+			protected:
+				ILocator *_poiLoc;
+				IDescriptor *_poiDescr;
+				POIAlgResult _outputAlgResult;
+				std::vector<Poi> iPts;
+
+				std::list<std::pair<char*,int>*>* _outputModes;
+				volatile int _currentOutputMode;
+			public:
+				IPOIAlgorithm(IImageSource* imgSrc, ILocator* poiLocator, IDescriptor* poiDescriptor, POIAlgResult outputFunc, int index);
+				virtual ~IPOIAlgorithm();
+
+				//This function should be overriden to process the image data from the source.
+				//It will be automatically called by the image source, when the algorithm runs.
+				//If one has to display the results of the algorithm to an outside source,
+				//the implementation of this function can call _outputAlgResult with appropiate data.
+				virtual void processImage(unsigned long dwSize, unsigned char* pbData)=0;
+
+				//Allows for processing the image at a smaller size than captured
+				//returns true if the processing size could be set (is valid, processing size<image size)
+				virtual bool setProcessingSize(int newWidth, int newHeight)=0;
+				
+				//Actions to take when the image from the source changes size
+				virtual void onSourceSizeChange()=0;
+				
+				//Manage algorithm Output modes
+				virtual void setOutputMode(int mode);
+				virtual int getCurrentOutputMode();
+				virtual std::list<std::pair<char*,int>*>* getOutputModes();
+				
+				//Runs the POI Algorithm
+				void run();
+
+				std::vector<Poi> getPoiResult();
+		};
+	}
+}
+
+#endif
+
+\end{lstlisting}
+\end{framed}
+\begin{framed}
+\texttt{FastHessianLocator.h : Locating POI's using the determinant of the Hessian matrix.
+Some parts are adapted from Bay's SURF implementation/notes:C. Evans, Research Into Robust Visual Features, MSc University of Bristol, 2008. }
+\begin{lstlisting}
+#ifndef _FASTHESSIANLOCATOR_H_
+#define _FASTHESSIANLOCATOR_H_
+
+#ifndef CYTRUSALGLIB_API
+    #ifdef CYTRUSALGLIB_EXPORTS
+        #define CYTRUSALGLIB_API __declspec(dllexport)
+    #else
+        #define CYTRUSALGLIB_API __declspec(dllimport)
+    #endif
+#endif
+
+#include <vector>
+#include <iostream>
+#include "poi.h"
+#include "ILocator.h"
+
+namespace cytrus{
+    namespace alg{
+
+        static const int OCTAVES = 3;
+        static const int INTERVALS = 4;
+        static const float THRES = 0.002f;
+        static const int INT_SAMPLE = 2;
+
+        template <typename IntegralImageView>
+        class FastHessianLocator:public ILocator{
+
+            private:
+
+                void buildDet(); // this fills the hessianDet with values calculated
+                         // for pixels in the image (sampled)
+                         
+                //! Interpolation functions - adapted from Lowe's SIFT implementation
+                // (Adapted from Bay, Evans - SURF, the above coment is from their
+                //  implementation)
+                void interpolateExtremum(std::vector<Poi>& iPts_out, int octv, int intvl, int r, int c);
+                void interpolateStep(int octv, int intvl, int r, int c, double* xi, double* xr, double* xc );
+                double* deriv3D( int octv, int intvl, int r, int c );
+                double* hessian3D(int octv, int intvl, int r, int c );
+                // Non-maximum supression
+                int isExtremum(int octv, int intvl, int column, int row); 
+                
+                //utility
+                inline int getLaplacianSign(int o, int i, int c, int r);
+                inline float getHessian(int octave, int interval, int column, int row);
+            protected:
+
+            IntegralImageView* _img;
+            int i_width, i_height;
+
+            int _octaves;
+            int _intervals;
+            int _sampling;
+            int _threshold;
+
+            float* hessianDet; // array that contains
+
+            public:
+                FastHessianLocator(IntegralImageView& intImg, 
+                                   const int octaves = OCTAVES, 
+                                   const int intervals = INTERVALS, 
+                                   const int sampling = INT_SAMPLE, 
+                                   const float threshold = THRES);
+
+                FastHessianLocator(const int octaves = OCTAVES, 
+                                   const int intervals = INTERVALS, 
+                                   const int sampling = INT_SAMPLE, 
+                                   const float threshold = THRES);
+
+				virtual ~FastHessianLocator();
+
+                void setSourceIntegralImg(IntegralImageView& intImg);
+                void setParameters(const int octaves, 
+                                   const int intervals, 
+                                   const int sampling , 
+                                   const float threshold);
+                
+                // Outputs in the given vector the interest points detected in the
+                // image, having only the location and scale information
+                // computed for them. 
+                virtual void locatePOIInImage(std::vector<Poi>& iPts_out);
+        };
+    }
+}
+
+#include "FastHessianLocator.hpp"
+
+#endif
+\end{lstlisting}
+\end{framed}
+\begin{framed}
+\texttt{ObjectPoiStorage.h : Stores the interest points for objects to be detected}
+\begin{lstlisting}
+#ifndef _OBJECTPOISTORAGE_H_
+#define _OBJECTPOISTORAGE_H_
+
+#ifndef CYTRUSALGLIB_API
+	#ifdef CYTRUSALGLIB_EXPORTS
+		#define CYTRUSALGLIB_API __declspec(dllexport)
+	#else
+		#define CYTRUSALGLIB_API __declspec(dllimport)
+	#endif
+#endif
+#define FLT_MAX         3.402823466e+38F        /* max value */
+
+#include "IPOIAlgorithm.h"
+
+namespace cytrus{
+	namespace alg{
+
+		class CYTRUSALGLIB_API ObjectPoiStorage{
+			// TODO: add thread safetyness to singleton & other members.
+			private:
+				static ObjectPoiStorage* instance;  // singleton instance
+				static std::vector<std::vector<Poi>*> _registeredObjects;
+				
+				ObjectPoiStorage();
+				virtual ~ObjectPoiStorage();
+
+				static float comparePOIs(Poi& p1, Poi& p2);
+
+			public:
+
+				static ObjectPoiStorage* getInstance();
+				static int registerObject(int startX, int startY, int width, int height, IPOIAlgorithm* poiSource);
+				static void matchObjects(std::vector<Poi>& iPts);
+		};
+	
+	}
+}
+
+
+#endif
+\end{lstlisting}
+\end{framed}
+\begin{framed}
+\texttt{poi.h: Defines data structures for the points of interest used in algorithms like SURF or SIFT}
+\begin{lstlisting}
+#ifndef _POI_H_
+#define _POI_H_
+
+#ifndef CYTRUSALGLIB_API
+	#ifdef CYTRUSALGLIB_EXPORTS
+		#define CYTRUSALGLIB_API __declspec(dllexport)
+	#else
+		#define CYTRUSALGLIB_API __declspec(dllimport)
+	#endif
+#endif
+
+
+class CYTRUSALGLIB_API Poi{
+public:
+	float x, y;
+	float scale;
+	float orientation;
+	int laplacianSign;
+	int descriptorSize;
+	float* descriptor;
+	float dx, dy;
+	//int clusterIndex; - not used yet
+	int matchesObjectNr;
+	float matchedDistance;
+
+	Poi(int descrSize=64) : orientation(0), descriptorSize(descrSize)
+	{
+		descriptor=new float[descriptorSize];
+		matchesObjectNr=-1;
+		matchedDistance=-1;
+	}
+};
+
+#endif
+\end{lstlisting}
+\end{framed}
+\begin{framed}
+\texttt{SurfDescriptor.h : Describe POI's matrix.
+Some parts are adapted from Bay's SURF implementation/notes:C. Evans, Research Into Robust Visual Features, MSc University of Bristol, 2008. }
+\begin{lstlisting}
+#ifndef _SURFDESCRIPTOR_H_
+#define _SURFDESCRIPTOR_H_
+
+#ifndef CYTRUSALGLIB_API
+    #ifdef CYTRUSALGLIB_EXPORTS
+        #define CYTRUSALGLIB_API __declspec(dllexport)
+    #else
+        #define CYTRUSALGLIB_API __declspec(dllimport)
+    #endif
+#endif
+
+#define PI  3.1415926535897932384626433832795
+
+#include <vector>
+#include <iostream>
+#include "math.h"
+#include "poi.h"
+#include "IDescriptor.h"
+
+namespace cytrus{
+    namespace alg{
+		const float pi = float(PI);
+
+        template <typename IntegralImageView>
+        class SurfDescriptor:public IDescriptor{
+
+            private:
+
+				void getOrientation(Poi& pt);
+				void getDescriptor(Poi& pt);
+
+				inline float gaussian(int x, int y, float sig);
+				inline float gaussian(float x, float y, float sig);
+				inline float haarX(int row, int column, int s);
+				inline float haarY(int row, int column, int s);
+				float getAngleFromOrigin(float x, float y);
+
+            protected:
+
+            IntegralImageView* _img;
+            int i_width, i_height;
+			bool _oriented;
+
+            public:
+                SurfDescriptor(IntegralImageView& intImg, bool oriented=true);
+
+				// Delayed image init constructor. Call setSourceIntegralImg to set image.
+                SurfDescriptor(bool oriented=true);
+
+				virtual ~SurfDescriptor(){}
+
+                void setSourceIntegralImg(IntegralImageView& intImg);
+                void setParameters(const int octaves, 
+                                   const int intervals, 
+                                   const int sampling , 
+                                   const float threshold);
+                
+                virtual void getDescriptorsFor(std::vector<Poi>& iPts_out);
+        };
+    }
+}
+
+#include "SurfDescriptor.hpp"
+
+#endif
+\end{lstlisting}
+\end{framed}
+\begin{framed}
+\texttt{SurfAlg.h : The implementation for the SurfAlgorithm}
+\begin{lstlisting}
+#ifndef _SURFALG_H_
+#define _SURFALG_H_
+
+#ifndef CYTRUSALGLIB_API
+    #ifdef CYTRUSALGLIB_EXPORTS
+        #define CYTRUSALGLIB_API __declspec(dllexport)
+    #else
+        #define CYTRUSALGLIB_API __declspec(dllimport)
+    #endif
+#endif
+
+#include <vector>
+#include "IImageConsumer.h"
+#include "IImageSource.h"
+#include "IPOIAlgorithm.h"
+#include "ObjectPoiStorage.h"
+#include "poi.h"
+
+using namespace cytrus::cameraHAL;
+using namespace cytrus::alg;
+
+namespace cytrus{
+    namespace alg{
+        class CYTRUSALGLIB_API SurfAlg : public IPOIAlgorithm{
+            private:
+                volatile int _pWidth, _pHeight;
+                volatile bool _isCustomPrelSize;
+				static ObjectPoiStorage* _store;
+
+            public:
+                SurfAlg(IImageSource* imgSrc, POIAlgResult outputFunc, int index);
+                ~SurfAlg();
+
+                virtual void processImage(unsigned long dwSize, unsigned char* pbData);
+
+                virtual bool setProcessingSize(int newWidth, int newHeight);
+                
+                //Actions to take when the image from the source changes size
+                virtual void onSourceSizeChange();
+        };
+    }
+}
+
+#endif
+
+\end{lstlisting}
+\end{framed}
+\begin{framed}
+\texttt{CytrusManagedLib.h Assures .NET managed camera wrappers for the unmanaged cytrus code}
+\begin{lstlisting}
+#pragma once
+#include "CytrusAlgLib.h"
+#include <list>
+#include <iostream>
+
+using namespace System;
+using namespace System::Collections::Generic;
+using namespace System::Collections::ObjectModel;
+using namespace System::Runtime::InteropServices;
+using namespace System::Windows::Media;
+
+using namespace cytrus::cameraHAL;
+using namespace cytrus::alg;
+
+
+namespace cytrus {
+	namespace managed{
+
+		delegate void RenderResultCallbackProc(int dwSize, unsigned char* pbData, int index);
+		delegate void NewImageCallback();
+		public delegate void ImageCaptureCallback(array<byte>^ pbData, List<Poi_m^>^ poiData);
+
+		public ref struct OutputMode{
+			String^ modeName;
+			PixelFormat^ pixelFormat;
+
+			virtual String^ ToString() override
+			{
+				return modeName;
+			}
+		};
+
+		//public delegate void OutputModeCallback(OutputMode^ newMode); // outputMode change events (not used)
+
+		// Managed class that is responsible for camera and capture management. It uses the unmanaged classes from cytrus::alg and cytrus::hal
+		// for running the SURF algorithm in real time on the captured video.
+		//
+		// This class also implements coarse-grained parallelism, dispatching work on multiple threads (there are multiple
+		// separate instances of the algorithm working in the same time)
+		public ref class CameraMgr
+		{	
+		private:
+			static GCHandle gch, nigch;
+			static int thNr=0;
+			//static int lastdwSize; // outputMode change events (not used)
+			std::list<IPOIAlgorithm*>* alg_ProcessingPool;
+			Dictionary<int, int>^ threadIndexes;
+
+			RenderResultCallbackProc^ fPtr;
+			NewImageCallback^ newImage;
+			DirectShowCameraSource* cs;
+			ObservableCollection<String^>^ cList;
+			
+			ObservableCollection<OutputMode^>^ outputModes;
+			POIAlgResult result;
+			NewImageAvailableCallback newImageAvailable;
+
+			void callImageCaptureEvent(int dwSize, unsigned char* pbData, int index);
+			void newImageAvailableEvent();
+			void cameraNotifyConsumers(Object^ o);
+
+		public:
+			int _camWidth, _camHeight;
+
+			// Treat this event to recieve the images from the selected camera
+			// as an array of bytes.
+			event ImageCaptureCallback^ onImageAvailableForRendering;
+			//event OutputModeCallback^ onOutputModeChange; // outputMode change events (not used)
+			
+			CameraMgr();
+			!CameraMgr();
+
+			void selectCamera(int i);
+			void refreshCameraList();
+			ObservableCollection<String^>^ getCameraList();
+			void showPropertiesDialog(IntPtr window);
+
+			void setActiveOutputMode(int modeIndex);
+			ObservableCollection<OutputMode^>^ getOutputModesList();
+			bool setProcessingSize(int width, int height);
+
+			void startCapture();
+			void stopCapture();
+
+		};
+	}
+}
+
+\end{lstlisting}
+\end{framed}
+\begin{framed}
+\texttt{ImageFileManaged.h Assures .NET managed wrappers for the image file unmanaged cytrus code}
+\begin{lstlisting}
+#pragma once
+#include "CytrusAlgLib.h"
+#include "CytrusManagedLib.h"
+
+using namespace System::Runtime::InteropServices;
+using namespace cytrus::cameraHAL;
+using namespace cytrus::alg;
+
+
+namespace cytrus {
+	namespace managed{
+	
+		public ref class ImageFileMgr
+		{	
+		private:
+			GCHandle gch;
+			IPOIAlgorithm* alg;
+			bool isInvalid;
+
+			RenderResultCallbackProc^ fPtr;
+			FileImageSource* fs;
+			char* filePath;
+			
+			ObservableCollection<OutputMode^>^ outputModes;
+			POIAlgResult result;
+			NewImageAvailableCallback newImageAvailable;
+
+			void callImageCaptureEvent(int dwSize, unsigned char* pbData, int index);
+
+		public:
+
+			property int _imgWidth
+			{
+				int get()
+				{
+					if(fs!=NULL)
+						return fs->width;
+					return 0;
+				}
+			}
+
+			property int _imgHeight
+			{
+				int get()
+				{
+					if(fs!=NULL)
+						return fs->height;
+					return 0;
+				}
+			}
+
+			// Treat this event to recieve the images from the selected camera
+			// as an array of bytes.
+			event ImageCaptureCallback^ onImageAvailableForRendering;
+			
+			ImageFileMgr();
+			!ImageFileMgr();
+			~ImageFileMgr();
+
+			void setActiveOutputMode(int modeIndex);
+			ObservableCollection<OutputMode^>^ getOutputModesList();
+			bool setProcessingSize(int width, int height);
+			void setImagePath(String^ path);
+
+			void startImageProcessing();
+			void freeResources();
+
+			//returns the object index
+			int registerObject(int startX, int startY, int width, int height);
+
+		};
+	
+	}
+}
+
+\end{lstlisting}
+\end{framed}
+% ********** End of appendix **********

@@ -10,11 +10,11 @@
 
 Oricare ar fi gradul de complexitate, la modul general se pune problema ca pornind de la o matrice de pixeli (imaginea), sã fie determinatã o submulþime a acestora care reprezintã un obiect. Fãrã a scãdea din generalitate, considerãm cã obiectul este dat de o regiune contiguã de pixeli din imaginea originalã. 
 
-O abordare directã a problemei, presupunând cã deþinem o imagine a obiectului, ar fi cãutarea tuturor pixelilor sãi într-o altã imagine datã. Îmbunãtãþiri ale acestei metode, caracterizatã de potrivirea unor "tipare" reprezentând obiectul în scene care îl conþin, au reprezentat începutul cercetãrii în domeniu (Figura \ref{fig:chap2:templatematching}). Soluþia \marginpar{template matching}(template matching\index{template matching}), în forma ei iniþialã, este ineficientã computaþional ºi sensibilã atât la modificãri ale mediului în care dorim sã realizãm recunoaºterea (luminozitate, reflexii) cât ºi la ocluzionãri parþiale ale obiectelor. Pentru obþinerea unei oarecare invarianþe, a fost propusã corelarea nivelurilor de gri din diverse zone ale imaginii reprezentând obiectul, cu zone din imagini care se presupune cã îl conþin.~\cite{Ballard82, Goshtasby84} Aceste studii sunt fãcute în contextul sistemelor de stereo-vizualizare, unde scena este fotografiatã simultan din perspective diferite ºi se doreºte determinarea unor corespondenþe între imagini, evitând o calibrare anterioarã sau cunoaºterea geometriei epipolare a sistemului. Mai recent, existã variante care propun modificãri ale metodei pentru a o putea rula în timp real~\cite{Cole04visualobject}.
+O abordare directã a problemei, presupunând cã deþinem o imagine a obiectului, ar fi cãutarea tuturor pixelilor sãi într-o altã imagine datã. Îmbunãtãþiri ale acestei metode, caracterizatã de potrivirea unor "tipare" reprezentând obiectul în scene care îl conþin, au reprezentat începutul cercetãrii în domeniu (Figura \ref{fig:chap2:templatematching}). Soluþia (\textbf{template matching}\index{template matching}), în forma ei iniþialã, este ineficientã computaþional ºi sensibilã atât la modificãri ale mediului în care dorim sã realizãm recunoaºterea (luminozitate, reflexii) cât ºi la ocluzionãri parþiale ale obiectelor. Pentru obþinerea unei oarecare invarianþe, a fost propusã corelarea nivelurilor de gri din diverse zone ale imaginii reprezentând obiectul, cu zone din imagini care se presupune cã îl conþin.~\cite{Ballard82, Goshtasby84} Aceste studii sunt fãcute în contextul sistemelor de stereo-vizualizare, unde scena este fotografiatã simultan din perspective diferite ºi se doreºte determinarea unor corespondenþe între imagini, evitând o calibrare anterioarã sau cunoaºterea geometriei epipolare a sistemului. Mai recent, existã variante care propun modificãri ale metodei pentru a o putea rula în timp real~\cite{Cole04visualobject}.
 
-Pentru a depãºi o parte din problemele metodei anterioare, se pleacã de la observaþia cã pentru recunoaºterea unui obiect nu este nevoie de toþi pixelii sãi, ci doar de o parte din aceºtia, ce definesc forma specificã a obiectului sau caracteristici importante ale acestuia. Se realizeazã o sintetizare a informaþiei din imaginea originalã, fãcându-se primul pas înspre reprezentarea respectivului obiect într-un mod abstract. Abordarea recunoaºterii obiectelor prin potrivirea unor astfel de trãsãturi abstracte \marginpar{feature matching}(feature matching\index{feature matching}) este cea de-a doua direcþie de cercetare în domeniu. (Figura \ref{fig:chap2:featurematching})
+Pentru a depãºi o parte din problemele metodei anterioare, se pleacã de la observaþia cã pentru recunoaºterea unui obiect nu este nevoie de toþi pixelii sãi, ci doar de o parte din aceºtia, ce definesc forma specificã a obiectului sau caracteristici importante ale acestuia. Se realizeazã o sintetizare a informaþiei din imaginea originalã, fãcându-se primul pas înspre reprezentarea respectivului obiect într-un mod abstract. Abordarea recunoaºterii obiectelor prin potrivirea unor astfel de trãsãturi abstracte (\textbf{feature matching}\index{feature matching}) este cea de-a doua direcþie de cercetare în domeniu. (Figura \ref{fig:chap2:featurematching})
 
-Aplicarea algoritmilor de acest tip presupune macarea trãsãturilor din imagine ca puncte de interes, având ca informaþie minimalã locaþia, $(x_t,y_t)$. Existã desigur ºi posibilitatea stocãrii unor date suplimentare precum orientarea sau scala caracteristicii determinate. 
+Aplicarea algoritmilor de acest tip presupune marcarea trãsãturilor din imagine ca puncte de interes, având ca informaþie minimalã locaþia, $(x_t,y_t)$. Existã desigur ºi posibilitatea stocãrii unor date suplimentare precum orientarea sau scala caracteristicii determinate. 
 
 În mod tradiþional, trãsãturile alese pentru identificare ºi potrivire sunt muchii, colþuri sau contururi~\cite{Cheng84, Ullman79}. În momentul de faþã, sunt propuºi algoritmi care realizeazã ºi identificarea unor alte structuri, precum petele luminoase sau întunecate (eng. blob)~\cite{Lowe03distinctiveimage,Bay06surf:speeded}\index{blob}.
 
@@ -33,7 +33,7 @@ Aplicarea algoritmilor de acest tip presupune macarea trãsãturilor din imagine c
 \caption[Potrivire bazatã pe tipare / Potrivire bazatã pe trãsãturi]{\subref{fig:chap2:templatematching}: Potrivire bazatã pe tipare (template matching),~\subref{fig:chap2:featurematching}: Potrivire bazatã pe trãsãturi (feature matching)}
 \end{figure}
 
-Avantajul acestei metode este cã necesitã mai puþinã putere de calcul (operând asupra unui numãr relativ restrâns de pixeli) ºi poate fi prin urmare aplicatã cu uºurinþã în timp real. În plus, datoritã faptului cã se lucreazã cu o reprezentare intermediarã a obiectului (trãsãturi), metodele pot fi proiectate pentru a obþine un grad ridicat de invarianþã la anumiþi parametrii de mediu sau la transformãri afine aplicate obiectului. Abordarea eºueazã însã dacã nu se reuºeºte o determinare repetabilã ºi consistentã a trãsãturilor unui obiect în imagini diferite. În acest caz, potrivirea nu are loc ºi obiectul nu este detectat.
+Avantajul acestei metode este cã necesitã mai puþinã putere de calcul (operând asupra unui numãr relativ restrâns de pixeli) ºi poate fi, prin urmare, aplicatã cu uºurinþã în timp real. În plus, datoritã faptului cã se lucreazã cu o reprezentare intermediarã a obiectului (trãsãturi), metodele pot fi proiectate pentru a obþine un grad ridicat de invarianþã la anumiþi parametrii de mediu sau la transformãri afine aplicate obiectului. Abordarea eºueazã dacã nu se reuºeºte o determinare repetabilã ºi consistentã a trãsãturilor unui obiect în imagini diferite. În acest caz, potrivirea nu are loc ºi obiectul nu este detectat.
 
 Datoritã flexibilitãþii crescute ºi a rezultatelor foarte bune obþinute în practicã de cãtre abordarea potrivirii bazate pe trãsãturi, lucrarea de faþã utilizeazã aceastã metodã pentru recunoaºterea obiectelor.
 
@@ -80,7 +80,9 @@ I_x^2     & I_x{}I_y\\
  I_x{}I_y & I_y^2    \end{array}\right]
 \end{equation*}
 
-Matricea M descrie structura localã a imaginii în vecinãtatea pixelului considerat. Fie $\lambda_1, \lambda_2$ valorile proprii ale acestei matrici. Existã 3 cazuri care trebuie considerate:
+Matricea M descrie structura localã a imaginii în vecinãtatea pixelului considerat. 
+
+Fie $\lambda_1, \lambda_2$ valorile proprii ale acestei matrici. Existã 3 cazuri care trebuie considerate:
 \begin{enumerate}
 \item Dacã atât $\lambda_1$ cât ºi $\lambda_2$ au valori mici, astfel încât funcþia de autocorelaþie este platã (schimbãri mici ale lui $E(\Delta{}x, \Delta{}y)$ în orice direcþie), zona din fereastra consideratã este aproximativ uniformã.
 \item Dacã o valoare proprie este mare iar cealaltã este micã, astfel încât funcþia de autocorelaþie are forma unei trepte, atunci deplasãrile ferestrei într-o direcþie (de-a lungul treptei) produc modificãri mici ale lui E, iar deplasãrile pe o direcþie ortogonalã primeia produc modificãri mari. Acest lucru indicã o muchie.
@@ -107,12 +109,12 @@ Intuitiv, modul de operare al detectorului Harris este prezentat în Figura~\ref{
 Au fost propuse ºi variante care sã fie invariante la scalãri (Harris-Laplacian), acestea fiind similare ca abordare cu cel de-al doilea detector important, SIFT.
 
 \subsection{Detectorul SIFT}
-SIFT (Scale Invariant Feature Transform)\label{sym:SIFT}\index{SIFT} este un algoritm propus de Lowe \cite{Lowe03distinctiveimage}, care include ca pas intermediar detecþia unor puncte de interes asimilate unor trãsãturi de tip "zonã luminoasã" sau "zonã întunecatã". Prin construcþia algoritmului, aceste zone sunt determinate pentru a fi invariante la scalãri, rotaþii ºi parþial invariante la modificãri ale luminozitãþii ºi la transformãri afine. Metoda aplicã o filtrare în cascadã, pentru a asigura calitatea punctelor de interes determinate, dar ºi pentru a aplica operaþiile intensive computaþional doar acelor zone care trec unele teste iniþiale. Pe lângã determinarea locaþiei punctelor de interes, algoritmul SIFT propune ºi metode de descriere a acestora în mod individual, astfel încât sã poatã fi identificate cu probabilitate mare în imagini noi. Practic, fiecãrui punct de interes îi este asociat un descriptor (vector caracteristic), calculat pe baza informaþiilor imaginii în vecinãtatea punctului de interes. 
+SIFT (Scale Invariant Feature Transform)\label{sym:SIFT}\index{SIFT} este un algoritm propus de Lowe \cite{Lowe03distinctiveimage}, care include, ca pas intermediar, detecþia unor puncte de interes asimilate unor trãsãturi de tip "zonã luminoasã" sau "zonã întunecatã". Prin construcþia algoritmului, aceste zone sunt determinate pentru a fi invariante la scalãri, rotaþii ºi parþial invariante la modificãri ale luminozitãþii ºi la transformãri afine. Metoda aplicã o filtrare în cascadã, pentru a asigura calitatea punctelor de interes determinate, dar ºi pentru a aplica operaþiile intensive computaþional doar acelor zone care trec unele teste iniþiale. Pe lângã determinarea locaþiei punctelor de interes, algoritmul SIFT propune ºi metode de descriere a acestora în mod individual, astfel încât sã poatã fi identificate cu probabilitate mare în imagini noi. Practic, fiecãrui punct de interes îi este asociat un descriptor (vector caracteristic), calculat pe baza informaþiilor imaginii în vecinãtatea punctului de interes. 
 
-Aceste caracteristici fac SIFT ideal pentru aplicarea în zona recunoaºterii obiectelor~\cite{Lowe99objectrecognition}. Pentru aceasta, mai intâi se extrag trãsãturile SIFT pentru un set de imagini de referinþã ce reprezintã obiectele, stocând descriptorii rezultaþi \mbox{într-o} bazã de date. Unei imagini noi, în care se doreºte identificarea unuia dintre obiectele existente în baza de date, i se aplicã acelaºi algoritm, iar descriptorii punctelor de interes rezultate sunt comparaþi individual cu descriptorii din baza de date. Potrivirile între descriptori se fac pe baza distanþei Euclidiene între vectori (nu se cautã doar potriviri exacte). Totuºi, într-o imagine aglomeratã, multe trãsãturi din fundal nu vor avea corespondenþi în baza de date, dând potriviri false, pe lângã cele corecte. Potrivirile corecte pot fi însã filtrate prin identificarea unor submulþimi de puncte de interes care sunt consistente cu aceeaºi localizare, scalã ºi orientare a obiectului în noua imagine. Determinarea acestor clustere poate fi realizatã eficient folosind transformata Hough.
+Aceste caracteristici recomandã SIFT ca fiind ideal pentru aplicarea în zona recunoaºterii obiectelor~\cite{Lowe99objectrecognition}. Pentru aceasta, mai intâi se extrag trãsãturile SIFT pentru un set de imagini de referinþã ce reprezintã obiectele, stocând descriptorii rezultaþi \mbox{într-o} bazã de date. Unei imagini noi, în care se doreºte identificarea unuia dintre obiectele existente în baza de date, i se aplicã acelaºi algoritm, iar descriptorii punctelor de interes rezultate sunt comparaþi individual cu descriptorii din baza de date. Potrivirile între descriptori se fac pe baza distanþei Euclidiene între vectori (nu se cautã doar potriviri exacte). Totuºi, într-o imagine aglomeratã, multe trãsãturi din fundal nu vor avea corespondenþi în baza de date, dând potriviri false, pe lângã cele corecte. Potrivirile corecte pot fi însã filtrate prin identificarea unor submulþimi de puncte de interes care sunt consistente cu aceeaºi localizare, scalã ºi orientare a obiectului în noua imagine. Determinarea acestor clustere poate fi realizatã eficient folosind transformata Hough~\cite{Brown02:invariantfeatures}.
 
 \subsubsection{Localizarea punctelor de interes}
-Primul pas în determinarea punctelor de interes SIFT îl reprezintã detectarea locaþiilor din imagine care sunt invariante la scalãri, prin cãutarea trãsãturilor stabile, folosind o funcþie de scalã cunoscutã sub denumirea de spaþiu al scalãrilor (eng. scale space\index{scale space}\index{spaþiul scalãrilor}). Spaþiul scalãrilor pentru o imagine este definit de funcþia $L(x,y,\sigma)$, obþinutã prin convoluþia unui nucleu Gaussian $G(x,y,\sigma)$ cu imaginea, $I(x,y)$. Pentru a obþine scalãri diferite, se variazã $\sigma$:
+Primul pas în determinarea punctelor de interes SIFT îl reprezintã detectarea locaþiilor din imagine care sunt invariante la scalãri, prin cãutarea trãsãturilor stabile, folosind o funcþie de scalã cunoscutã sub denumirea de spaþiu al scalãrilor (eng. scale space\index{scale space}\index{spaþiul scalãrilor}). Pentru o imagine, spaþiul scalãrilor este definit de funcþia $L(x,y,\sigma)$, obþinutã prin convoluþia unui nucleu Gaussian $G(x,y,\sigma)$ cu imaginea, $I(x,y)$. Pentru a obþine scalãri diferite, se variazã $\sigma$:
 \begin{equation*}
 L(x,y,\sigma)=G(x,y,\sigma)*I(x,y),
 \end{equation*} 
@@ -122,14 +124,15 @@ G(x,y,\sigma)=\frac{1}{2\pi\sigma^2}e^{-\frac{x^2+y^2}{2\sigma^2}}
 \end{equation*} 
 
 Pentru a detecta punctele de interes stabile în spaþiul scalãrilor, Lowe propune determinarea extremelor locale ale funcþiei "diferenþã de nuclee Gauss cu scalãri diferite", în convoluþie cu imaginea, $D(x,y,\sigma)$. Aceasta poate fi calculatã din diferenþa a douã scalãri separate de un factor $k$:
-\begin{eqnarray*}
+\begin{eqnarray}
 D(x,y,\sigma)&=&(G(x,y,k\sigma)-G(x,y,\sigma))*I(x,y)\\
              &=&L(x,y,k\sigma)-L(x,y,\sigma)
-\end{eqnarray*}
+\label{eq:chap2:diffGauss}
+\end{eqnarray}
 
 Existã mai multe motive pentru care a fost aleasã aceastã funcþie în mod particular. În primul rând, imaginile pentru care se aplicã filtrul Gaussian (convoluþie), trebuie oricum calculate în procesul de creare al spaþiului scalãrilor, D calculându-se în mod eficient prin scãderea imaginilor din douã scale adiacente. În al doilea rând, diferenþa nucleelor Gauss (Difference of Gaussian, DOG\label{sym:DOG}\index{DOG}) aproximeazã foarte bine Laplacianul Gaussian-ului, $\sigma^2\nabla^2G$. S-a demonstrat cã extremele aceastei funcþii reprezintã trãsãturi foarte stabile ale imaginii, în comparaþie cu trãsãturile determinate cu alte funcþii precum gradientul, Hessian-ul sau detectorul Harris\index{detector Harris}.
 
-Pentru a detecta extremele locale ale lui D, se realizeazã o eºantionare a funcþiei atât spaþial $(x,y)$, cât ºi pentru parametrul de scalã $(\sigma)$. Frecvanþa aleasã pentru eºantionare reprezintã un compromis între precizia localizãrii extremelor ºi puterea de calcul necesarã pentru determinarea lor. Astfel, o eºantionare cu frecvenþã mare duce la costuri mari din punct de vedere computaþional, iar o frecvenþã micã duce la o precizie scãzutã a algoritmului.
+Pentru a detecta extremele locale ale funcþiei D, se realizeazã o eºantionare a funcþiei atât spaþial $(x,y)$, cât ºi pentru parametrul de scalã $(\sigma)$. Frecvanþa aleasã pentru eºantionare reprezintã un compromis între precizia localizãrii extremelor ºi puterea de calcul necesarã pentru determinarea lor. Astfel, o eºantionare cu frecvenþã mare duce la costuri mari din punct de vedere computaþional, iar o frecvenþã micã duce la o precizie scãzutã a algoritmului.
 
 Fiecare punct eºantionat este comparat cu cei 8 vecini ai sãi din imaginea curentã, ºi cei 9 vecini din scalãrile adiacente celei curente (Figura~\ref{fig:chap2:siftscale}). Punctul este selectat doar dacã este mai mare sau mai mic comparativ cu toþi vecinii sãi. Aceastã abordare se dovedeºte eficientã pentru cã majoritatea punctelor sunt eliminate dupã doar câteva comparaþii.
 \begin{figure}[htbp]
@@ -152,7 +155,7 @@ unde D ºi derivatele sale sunt evaluate în punctul de eºantionare iar ${\mathbf 
 \frac{\partial D}{\partial{\mathbf x}}
 \label{eq:chap2:siftinterpolatedextr}
 \end{equation}
-Pentru a elimina punctele care sunt maxime locale dar se aflã într-o regiune cu un contrast slab (fiind deci instabile), se vor reþine doar acelea pentru care $D(\hat{\mathbf x})$ este mai mare decât o valoare prag (Lowe alege valoarea de prag 0.03 pentru experimentele sale).
+Pentru a elimina punctele care sunt maxime locale dar se aflã într-o regiune cu un contrast slab (fiind prin urmare instabile), se vor reþine doar acelea pentru care $D(\hat{\mathbf x})$ este mai mare decât o valoare prag (Lowe alege valoarea de prag 0.03 pentru experimentele sale).
 
 Totuºi, pentru o stabilitate crescutã, nu e suficientã îndepãrtarea trãsãturilor cu un contrast slab. Funcþia "diferenþã de nuclee Gauss" va avea un rãspuns puternic de-a lungul muchiilor, chiar dacã locaþia respectivã este determinatã imprecis, sensibilã la zgomotele din imagine. Pentru eliminarea acestor rãspunsuri, se foloseºte o abordare bazatã pe o matrice Hessianã $2\times 2$, calculatã în poziþia ºi pentru scala punctului de interes:
 \begin{equation}
@@ -203,7 +206,7 @@ Parametrii de poziþie, scalã ºi orientare determinaþi pânã acum stabilesc un sis
 \section{Identificarea trãsãturilor în timp real}
 \label{sec:chapter2:identificare_trasaturi_realtime}
 
-Dintre cele 2 metode prezentate, SIFT \index{SIFT} se remarcã datoritã invarianþei la un numãr mare de parametrii precum ºi datoritã stabilitãþii punctelor de interes determinate. Totuºi, este evident cã aplicarea algoritmului SIFT implicã un numãr mult mai mare de operaþii în comparaþie cu alþi detectori (Harris). Deoarece majoritatea aplicaþiilor îl vor utiliza doar ca pas intermediar, se pune problema unei post-procesãri a punctelor de interes (de exemplu, pentru a identifica obiecte) ºi se doreºte ca ansamblul algoritmilor de procesare sã ruleze în timp real. În forma prezentatã, SIFT poate prelucra în jur de 5 frame-uri (de dimensiune $650\times 315$) pe secundã. Prin urmare, se justificã o cãutare a unor îmbunãtãþiri care sã determine o scãdere a timpului de prelucrare, fãrã a afecta calitatea rezultatelor finale. 
+Dintre cele 2 metode prezentate, SIFT \index{SIFT} se remarcã datoritã invarianþei la un numãr mare de parametrii precum ºi datoritã stabilitãþii punctelor de interes determinate. Totuºi, este evident cã aplicarea algoritmului SIFT implicã un numãr mult mai mare de operaþii în comparaþie cu alþi detectori (Harris). Deoarece majoritatea aplicaþiilor îl vor utiliza doar ca pas intermediar, se pune problema unei post-procesãri a punctelor de interes (de exemplu, pentru a identifica obiecte) ºi se doreºte ca ansamblul algoritmilor de procesare sã ruleze în timp real. În forma prezentatã, SIFT poate prelucra aproximativ 5 cadre (de dimensiune $650\times 315$) pe secundã. Prin urmare, se justificã o cãutare a unor îmbunãtãþiri care sã determine o scãdere a timpului de prelucrare, fãrã a afecta calitatea rezultatelor finale. 
 
 \subsection{Detectorul SURF}
 SURF (Speeded-Up Robust Features)\index{SURF}\label{sym:SURF} este una dintre soluþiile propuse în acest sens, fiind ºi metoda utilizatã de aplicaþia descrisã în aceastã lucrare. Deoarece majoritatea paºilor urmaþi sunt identici cu cei ai algoritmului SIFT, vom prezenta în continuare doar elementele noi pe care le aduce în comparaþie cu acesta.
@@ -225,7 +228,7 @@ O imagine integralã reprezintã o prelucrare a unei imagini date ca intrare, pent
 I_\Sigma(x,y)=\sum_{i=0}^{i\leq x}\sum_{j=0}^{j\leq y}I(x,y)
 \label{eq:chap2:integralimg}
 \end{equation}
-Având la dispoziþie imaginea integralã, calculul sumei pixelilor dintr-o regiune oarecare se poate realiza doar prin 4 operaþii matematice. Dacã vom considera regiunea pentru care dorim sã calculãm suma ca fiind limitatã de colþurile A,B,C ºi D (precum în Figura~\ref{fig:chap2:squarearea}):
+Având la dispoziþie imaginea integralã, calculul sumei pixelilor dintr-o regiune oarecare se poate realiza prin doar 4 operaþii matematice. Dacã vom considera regiunea pentru care dorim sã calculãm suma ca fiind limitatã de colþurile A,B,C ºi D (precum în Figura~\ref{fig:chap2:squarearea}):
 \begin{equation}
 \sum=A+C-(B+D)
 \label{eq:chap2:sumintegral}
@@ -249,7 +252,7 @@ SURF, fiind avantajat de lucrul cu imagini integrale (ºi putând aplica filtrãril
 \caption{Construirea spaþiului scalãrilor, SURF/SIFT~\cite{CEvans09}}
 \label{fig:chap2:scalespacecomp}
 \end{figure}
-Spaþiul scalãrilor este divizat într-un numãr de octave, unde printr-o octavã se întelege secvenþa de imagini obþinute prin convoluþia cu filtre mediane care acoperã o dublare a scalei ($\sigma$). Dimensiunea primului filtru folosit este de $9\times 9$, iar acesta corespunde cu un filtru Gauss real cu $\sigma_b=1.2$~\cite{CEvans09}. Nivelurile succesive din spaþiul scalãrilor sunt obþinute prin redimensionarea filtrelor. Redimensionarea se face astfel încât filtrul sã-ºi pãstreze structura generalã, având un pixel central. Datoritã acestei redimensionãri proporþionale, se poate estima scala echivalentã a unui filtru Gaussian care ar produce acelaºi efect, folosind formula:
+Spaþiul scalãrilor este divizat într-un numãr de octave, unde printr-o octavã se întelege secvenþa de imagini obþinute prin convoluþia cu filtre de mediere care acoperã o dublare a scalei ($\sigma$). Dimensiunea primului filtru folosit este de $9\times 9$, iar acesta corespunde cu un filtru Gauss real cu $\sigma_b=1.2$~\cite{CEvans09}. Nivelurile succesive din spaþiul scalãrilor sunt obþinute prin redimensionarea filtrelor. Redimensionarea se face astfel încât filtrul sã-ºi pãstreze structura generalã, având un pixel central. Datoritã acestei redimensionãri proporþionale, se poate estima scala echivalentã a unui filtru Gaussian care ar produce acelaºi efect, folosind formula:
 \begin{equation}
 \sigma\approx\textrm{Dim. filtrului curent}\cdot\frac{\sigma_b}{\textrm{Dim. filtrului corespunzãtoare } \sigma_b}
 \label{eq:chap2:sigmaapprox}
@@ -268,6 +271,7 @@ H({\mathbf x})=H+\frac{\partial H}{\partial{\mathbf x}}^T{\mathbf x}+
 \end{equation}
 Este important de menþionat faptul cã, din analiza realizatã de \cite{Bay06surf:speeded}, aproximãrile fãcute în scopul de a reduce din calculul necesar pentru determinarea punctelor de interes nu influenþeazã în mod semnificativ rezultatele, acestea fiind comparabile cu cele ale algoritmului SIFT.
 \subsubsection{Descrierea punctelor de interes}
+\label{sec:chapter2:descrpctinteres}
 Vectorul caracteristic determinat de SURF pentru fiecare punct de interes mãsoarã modul în care este distribuitã intensitatea pixelilor într-o vecinãtate a punctului. Pentru determinarea gradienþilor locali în mod eficient, sunt folosite wavelet-uri Haar. Acestea sunt filtre extrem de simple, dupã cum se poate observa ºi în Figura \ref{fig:chap2:haarWavelets}
 \begin{figure}[htbp]
 \numberwithin{figure}{chapter}
@@ -290,12 +294,12 @@ O datã ponderate, rãspunsurile în direcþia x ºi cele în direcþia y pentru fiecar
 \label{fig:chap2:surfOrientation}
 \end{figure}
  
-Pentru determinarea vectorului caracteristic, se alege o vecinãtate de dimensiune $20\sigma$ în jurul punctului de interes, orientatã conform orientãrii punctului. (Toate calculele sunt realizate relativ la aceastã direcþie, cu scopul de a obþine invarianþa la rotaþii). Spre deosebire de SIFT, în cazul SURF aceastã vecinãtate este împãrþitã în mai puþine subregiuni, formându-se o grilã de dimensiune $4\times 4$. În cadrul fiecãrei subregiuni, sunt alese 25 de puncte dispuse la rândul lor pe o grilã regulatã, iar în fiecare din aceste puncte sunt calculate rãspunsurile pe direcþiile x ºi y a filtrelor Haar. Pentru fiecare subregiune din cele 16, însumând rezultatele obþinute în respectiva zonã, rezultã un vector descriptor de tipul:
+Pentru determinarea vectorului caracteristic, se alege o vecinãtate de dimensiune $20\sigma$ în jurul punctului de interes, orientatã conform orientãrii punctului. (Toate calculele sunt realizate relativ la aceastã direcþie, cu scopul de a obþine invarianþa la rotaþii). Spre deosebire de SIFT, în cazul SURF aceastã vecinãtate este împãrþitã în mai puþine subregiuni, formându-se o grilã de dimensiune $4\times 4$. În cadrul fiecãrei subregiuni, sunt alese 25 de puncte dispuse la rândul lor pe o grilã regulatã, iar în fiecare dintre aceste puncte sunt calculate rãspunsurile pe direcþiile x ºi y ale filtrelor Haar. Pentru fiecare subregiune din cele 16, însumând rezultatele obþinute în respectiva zonã, rezultã un vector descriptor de tipul:
 \begin{equation}
 v_{subregiune}=\left[\sum dx,\sum dy,\sum\lvert dx \rvert,\sum\lvert dy \rvert \right] 
 \end{equation}
-,unde în prima jumãtate se reþin informaþii referitoare la direcþia vectorilor, iar în a doua jumptate informaþii legate de norma lor.
-Pentru cã pentru fiecare dintre cele 16 subregiuni rezultã un vector cu 4 componente, vectorul descriptor general va fi compus din $16\times 4=64$ componente.
+,unde în prima jumãtate se reþin informaþii referitoare la direcþia vectorilor, iar în a doua jumãtate informaþii legate de norma lor.
+Pentru cã fiecare dintre cele 16 subregiuni este asociatã unui vector cu 4 componente, vectorul descriptor general va fi compus din $16\times 4=64$ componente.
 \subsection{Alegerea parametrilor de rulare ai algoritmilor}
 În general, algoritmii descriºi pânã acum folosesc o serie de parametrii care determinã în mod decisiv acurateþea rezultatelor ºi nivelul de acoperire al unui obiect dintr-o imagine cu puncte de interes. Trebuie realizat un compromis având în vedere dorinþa de a menþine durata rulãrii algoritmului în limite reduse (pentru prelucrarea în timp real). Astfel, parametrii de rulare de la care se pleacã în lucrarea de faþã sunt urmãtorii:
 \\
@@ -306,4 +310,23 @@ Intervale/octavã          & 4\\
 Frecvenþã eºantionare pentru determinarea extremelor & variabilã \\
 Prag stabilitate (cf. ecuaþiei ~\ref{eq:chap2:eigthreshold}) & 5-25
 \end{tabular}
+
+\section{Potrivirea trãsãturilor}
+O datã ce a fost aleasã metoda folositã în determinarea punctelor de interes asociate unor trãsãturi din imagine, se pune în mod natural problema potrivirii acestor puncte între imagini distincte ale aceluiaºi obiect. Cu alte cuvinte, dorim sã aflãm dacã în imaginea sau cadrul (eng. frame) curent existã puncte de interes similare cu unele determinate anterior. Pe baza acestei potriviri, putem decide daca un obiect este prezent sau nu în noua imagine.
+
+În mod tradiþional, potrivirea trãsãturilor este realizatã prin corelare, utilizând geometria epipolarã (geometria sistemului fizic determinat de axul optic al camerei/camerelor foto ºi obiectele din scena fotografiatã) drept constrângere pentru asigurarea consistenþei rezultatelor ~\cite{Zhang95:robustepipolar,Beardsley96:3dmodel}. 
+
+Aceastã metodã funcþioneazã bine pentru modificãri mici ale poziþiei obiectelor în scenã, însã eºueazã în momentul în care diferenþele de scalã sau de perspectivã sunt mari. Faptul cã simpla corelare pe baza geometriei nu este suficientã justificã folosirea descriptorilor (vectorilor caracteristici) locali, pentru fiecare punct de interes. Atât timp cât aceºti descriptori sunt determinaþi cu invarianþe la parametrii de mediu ºi poziþionare a camerei (precum în cazul algoritmilor de tip SIFT), potrivirea se poate realiza pe baza lor.
+
+Lucrarea de faþã utilizeazã o potrivire simplã, bazatã pe suma pãtratelor diferenþelor între 2 vectori caracteristici (SSD, eng. Sum of Squared Differences):
+\begin{equation}
+SSD=\sum_0^n(f_i-d_i)^2
+\label{eq:chap2:ssd}
+\end{equation}
+, unde n este dimensiunea vectorilor caracteristici, f este vectorul determinat pentru primul punct de interes iar d este vectorul pentru cel de-al doilea punct. Dacã aceastã diferenþã este sub o valoare prag, atunci cele douã puncte de interes sunt considerate identice (reprezentând aceeaºi trãsãturã a obiectului).
+
+În literatura de specialitate au fost propuse ºi modele mai complexe, avantajul acestora fiind o îmbunãtãþire considerabilã a preciziei. În schimb, aplicarea lor presupune cerinþe mai ridicate asupra resurselor de calcul. 
+
+Metoda aplicatã în \cite{Brown02:invariantfeatures} spre exemplu, presupune stabilirea unor grupuri de puncte de interes ºi identificarea lor în alte imagini. Clusterizarea se realizeazã pe baza transformatei Hough, iar trãsãturile definite de clustere sunt eficient potrivite între imagini utilizând arbori k-d (eng. k-d trees).  Pentru îmbunãtãþirea preciziei, se aplicã algoritmul RANSAC (RANdom SAmple Consensus), care determinã o estimare a transformãrii 2D prin care un set de puncte de interes (pentru obiectele cunoscute) este transformat în alt set (acela al grupãrilor de puncte de interes din imaginea curentã).
+
 %********** End of chapter **********

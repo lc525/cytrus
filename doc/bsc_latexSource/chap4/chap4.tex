@@ -8,7 +8,7 @@ Având în vedere necesitatea prelucrãrii imaginilor într-un timp cât mai scurt, a
 
 O asemenea abordare ar putea ridica semne de întrebare în privinþa portabilitãþii aplicaþiei pe sisteme de operare precum Linux. Totuºi, prin structurarea atentã a componentelor aplicaþiei, se reuºeºte ca o mare parte a codului sã poatã fi rulatã ºi pe alte sisteme de operare, în afarã de Windows. Alegerea bibliotecilor externe utilizate a þinut cont de aceste restricþii, fiind urmãrite soluþii care sã poatã fi portate pe un numãr cât mai mare de platforme. Pentru elementele C\# care nu apeleazã funcþionalitãþi specifice unui sistem de operare (DirectX), poate fi utilizatã platforma Mono.
 
-Împãrþirea pe niveluri este reflectatã în structura modularã a implementãrii, deºi corespondenþa nu este perfectã: existã niveluri (spre exemplu cel de achiziþie al imaginilor) care sunt împãrþite în mai multe biblioteci partajate (dll-uri); acest lucru este dictat în principal tot de portabilitate: pãrþile neportabile ale aplicaþiei sunt separate de cele care pot fi recompilate pe orice sistem de operare. Pentru a obþine o portare completã a aplicaþiei pe sisteme de operare GNU/Linux, este necesarã rescrierea (parþialã) a nivelului de achiziþie ºi a nivelului de administrare a resurselor (dacã se doreºte utilizarea firelor de execuþie native sistemului de operare), precum ºi a interfeþei grafice. (acestea sunt nivelurile care folosesc cod managed ºi funcþionalitãþi specifice sistemului de operare Windows). O imagine de ansamblu asupra modulelor rezultate în urma implementãrii poate fi analizatã în Figura \ref{fig:chap4:artifacts}
+Împãrþirea pe niveluri este reflectatã în structura modularã a implementãrii, deºi corespondenþa nu este perfectã: existã niveluri (spre exemplu cel de achiziþie a imaginilor) care sunt împãrþite în mai multe biblioteci partajate (dll-uri); acest lucru este dictat în principal tot de portabilitate: pãrþile neportabile ale aplicaþiei sunt separate de cele care pot fi recompilate pe orice sistem de operare. Pentru a obþine o portare completã a aplicaþiei pe sisteme de operare GNU/Linux, este necesarã rescrierea (parþialã) a nivelului de achiziþie ºi a nivelului de administrare a resurselor (dacã se doreºte utilizarea firelor de execuþie native sistemului de operare), precum ºi a interfeþei grafice. (acestea sunt nivelurile care folosesc cod managed ºi funcþionalitãþi specifice sistemului de operare Windows). O imagine de ansamblu asupra modulelor rezultate în urma implementãrii poate fi analizatã în Figura \ref{fig:chap4:artifacts}
 \begin{figure}[htbp]
 \numberwithin{figure}{chapter}
 \centering
@@ -31,7 +31,7 @@ Multitudinea formatelor grafice existente la momentul actual, precum ºi numãrul 
 Fiind disponibilã sub formã de cod sursã, biblioteca este inclusã în proiectul aplicaþiei ºi compilatã ca dll separat, utilizat de modulul în care este inclus nivelul de achiziþie a imaginilor (CytrusAlgLib). Au fost realizate o serie de modificãri faþã de versiunea disponibilã pe internet, legate de eliberarea corectã a memoriei.
 \item \textbf{gil}\footnote{\texttt{http://opensource.adobe.com/wiki/display/gil/Generic+Image+Library}} este o bibliotecã C++ dezvoltatã de cãtre cei de la Adobe în cadrul proiectelor open-source (dar utilizatã inclusiv în proiecte comerciale precum Photoshop). Ea a fost aleasã pentru includere în setul de biblioteci boost\footnote{\texttt{http://www.boost.org/}}. Acesta conþine un numãr semnificativ de funcþionalitãþi, fiind una dintre bibliotecile recunoscute pentru portabilitate ºi calitatea crescutã a codului. Boost nu este inclusã în proiectul Visual Studio, fiind una dintre cerinþele externe pentru compilarea codului.
 
-Gil este puternic abstractizatã, folosind în mod avansat template-urile C++ pentru a obþine o performanþã crescutã (o parte dintre calcule/instanþieri sunt realizate la compilare). Biblioteca permite accesul la pixelii unei imaginii într-un mod care nu depinde de formatul concret al acesteia. În plus, sunt asigurate structuri de acces (iteratori) care sã utilizeze în mod eficient cache-ul procesorului (procesoarelor), astfel încât prelucrarea datelor sã fie realizatã cât mai rapid. 
+Gil este puternic abstractizatã, folosind în mod avansat template-urile C++ pentru a obþine o performanþã crescutã (o parte dintre calcule/instanþieri sunt realizate la compilare). Biblioteca permite accesul la pixelii unei imagini într-un mod care nu depinde de formatul concret al acesteia. În plus, sunt asigurate structuri de acces (iteratori) care sã utilizeze în mod eficient cache-ul procesorului (procesoarelor), astfel încât prelucrarea datelor sã fie realizatã cât mai rapid. 
 
 Gil este folositã în cadrul nivelului de procesare a imaginilor, în algoritmii de prelucrare ºi detectare a punctelor de interes. Accesul la pixelii imaginilor furnizate de cãtre sursele de date se face cu ajutorul structurilor definite de gil, la fel ºi conversia între diversele formate de pixeli (rgb32, gra{}y).
 
@@ -73,7 +73,7 @@ typedef void (__stdcall *POIAlgResult)(unsigned long dwSize, unsigned char* pbDa
 \subsection{Imagini Integrale}
 Obþinerea unei imagini integrale din imaginea originalã este un exemplu sugestiv al utilizãrii bibliotecii gil pentru definirea abstractã a algoritmilor. Codul începe prin a defini condiþiile care trebuie respectate de cãtre parametrii furnizaþi pentru template-uri. Dacã în momentul instanþierii clasei IntegralImageTransform aceasta va fi particularizatã cu tipuri invalide, erorile vor fi anunþate la compilare.
 
-Pentru cã în cadrul codului vom realiza mereu accesul asupra unor vecinãtãþi ale pixelului curent clar stabilite (vecinul din stanga ºi cel de sus), aceste locaþii vor fi stocate într-un cache (deplasãrile nu vor fi recalculate de fiecare datã). Se parcurg liniile imaginii, iar pixelului curent îi este atribuitã suma dintre valoarea sa din imaginea sursã, suma pixelilor de pe rândul curent ºi cea a pixelilor de deasupra. (cu observaþia cã ultimele douã valori sunt deja calculate în locaþiile vecine - stanga ºi sus - din imaginea destinaþie, datoritã iteraþiilor anterioare ale buclei). Pentru prima linie (pentru care nu existã vecinul de sus), se foloseºte doar suma pixelilor de pe rând, pânã la pixelul curent.
+Pentru cã în cadrul codului vom realiza mereu accesul asupra unor vecinãtãþi ale pixelului curent clar stabilite (vecinul din stanga ºi cel de sus), aceste locaþii vor fi stocate într-un cache (deplasãrile nu vor fi recalculate de fiecare datã). Se parcurg liniile imaginii, iar pixelului curent îi este atribuitã suma dintre valoarea sa din imaginea sursã, suma pixelilor de pe rândul curent ºi cea a pixelilor de deasupra. (cu observaþia cã ultimele douã valori sunt deja calculate în locaþiile vecine - stanga ºi sus - din imaginea destinaþie, datoritã iteraþiilor anterioare ale buclei). Pentru prima linie (pentru care nu existã vecinul de sus), se foloseºte doar suma pixelilor de pe rând, pânã la pixelul curent. Practic, codul de mai jos reprezintã implementarea directã a ecuaþiei ~\ref{eq:chap2:integralimg}.
 \begin{framed}
 \begin{lstlisting}
 template <typename SrcView, typename DstView>
@@ -115,7 +115,7 @@ void IntegralImageTransform::applyTransform(SrcView& src, DstView& dst){
 }
 \end{lstlisting}
 \end{framed}
-Deºi se poate observa cã implementarea folosind primitivele gil nu este una neapãrat uºor de înþeles la prima vedere, o datã ce sunt cunoscute câteva funcþii de bazã, citirea algoritmului devine mult mai uºoarã. Avantajul principal este însã descrierea extrem de generalã a operaþiilor. Practic, formatul imaginii nu a fost precizat nicãieri în cadrul algoritmului.
+Deºi se poate observa cã folosirea primitivelor gil reduce din lizibilitatea codului, o datã ce sunt cunoscute funcþiile de bazã ale acestei biblioteci, citirea algoritmului devine mult mai uºoarã. Avantajul principal este descrierea extrem de generalã a operaþiilor. Practic, formatul imaginii nu a fost precizat explicit nicãieri în cadrul funcþiei, fiind furnizat prin intermediul parametrilor template SrcView ºi DstView (pentru formatul imaginii de intrare, respectiv de ieºire). Folosind aceastã tehnicã, algoritmul poate lucra practic cu orice format, fãrã a trebui realizate modificãri în implementarea sa. Tipul propriu-zis al imaginilor este determinat la compilare.
 
 \subsection{Implementarea algoritmului SURF}
 Codul prezentat mai jos compune elementele descrise anterior pentru a descrie structura generalã a algoritmului de detecþie a punctelor de interes. La început, informaþiile de culoare din imaginea iniþialã sunt folosite pentru a obþine o imagine cu niveluri de gri. Aceastã imagine este transformatã în imaginea integralã (preprocesarea de care are nevoie algoritmul pentru eficienþã). Apoi, urmeazã localizarea punctelor de interes. 
@@ -168,6 +168,99 @@ void SurfAlg::processImage(unsigned long dwSize, unsigned char* pbData){
 
 Implementarea noþiunilor teoretice prezentate în Capitolul~\ref{sec:chapter2}, în secþiunea ce descrie algoritmul SURF (secþiunea~\ref{sec:chapter2:identificare_trasaturi_realtime}) este descrisã în secvenþele de cod care urmeazã.
 
+\subsubsection{Determinarea Hessian-ului ºi a extremelor locale}
+Calculul hessian-ului (\ref{eq:chap2:sifthessian}) ºi determinarea locaþiei precise a extremelor locale (ecuaþia~\ref{eq:chap2:siftinterpolatedextr}) sunt implementate în cadrul clasei FastHessian, urmãrindu-se paºii de mai jos:
+\begin{itemize}
+\item Calculul determinantului Hessian-ului, pentru toate punctele eºantionate ale imaginilor din spaþiul scalãrilor. Numãrul de scalãri precum ºi frecvenþa eºantionãrii sunt parametrii ai algoritmului deciºi în momentul rulãrii acestuia. (funcþia buildDet);
+\item Eliminarea punctelor care nu sunt extreme locale în spaþiul scalãrilor;
+\item Determinarea prin interpolare a poziþiei exacte a extremului în spaþiul scalãrilor, pentru punctele rãmase. (funcþia interpolateExtremum, ce implementeazã ecuaþia~\ref{eq:chap2:siftinterpolatedextr}) 
+\end{itemize}
+\begin{framed}
+\begin{lstlisting}
+template <typename IntegralImageView>
+void FastHessianLocator<IntegralImageView>::buildDet(){
+    int l, w, b, border, samplingStep;
+    float Dxx, Dyy, Dxy, inverse_area;
+    for(int o=0; o<_octaves; o++) 
+    {
+        samplingStep = _sampling * (int)floor(pow(2.0f,o)+0.5f);
+        border = border_cache[o];
+
+        for(int i=0; i<_intervals; i++) {
+
+          l = lobe_cache[o*_intervals + i]; 
+          w = 3 * l;                      
+          b = w / 2;        
+          inverse_area = 1.0f/(w * w);     
+
+          for(int r = border; r < i_height - border; r += samplingStep) 
+          {
+            for(int c = border; c < i_width - border; c += samplingStep) 
+            {
+                Dxx = IntegralImageTransform::boxFilter
+							(_img, r - l + 1, c - b, 2*l - 1, w)
+                    - IntegralImageTransform::boxFilter
+							(_img, r - l + 1, c - l / 2, 2*l - 1, l)*3;
+                Dyy = IntegralImageTransform::boxFilter
+							(_img, r - b, c - l + 1, w, 2*l - 1)
+                    - IntegralImageTransform::boxFilter
+							(_img, r - l / 2, c - l + 1, l, 2*l - 1)*3;
+                Dxy = + IntegralImageTransform::boxFilter
+							(_img, r - l, c + 1, l, l)
+                      + IntegralImageTransform::boxFilter
+							(_img, r + 1, c - l, l, l)
+                      - IntegralImageTransform::boxFilter
+							(_img, r - l, c - l, l, l)
+                      - IntegralImageTransform::boxFilter
+							(_img, r + 1, c + 1, l, l);
+
+              //Normalizarea raspunsului filtrelor in raport cu marimea lor
+              Dxx *= inverse_area;
+              Dyy *= inverse_area;
+              Dxy *= inverse_area;
+
+              //Determinarea semnului pentru Laplacian
+              int lap_sign = (Dxx+Dyy >= 0 ? 1 : -1);
+
+              //Calcului determinantului Hessian-ului
+              float determinant = (Dxx*Dyy - pow(0.91f*Dxy,2));
+
+			  	  unsigned long ind=(o*_intervals+i)*(i_width*i_height) + (r*i_width+c);
+				  hessianDet[ind] = (determinant < 0 ? 0 : lap_sign * determinant);
+            }
+          }
+        }
+    }
+}
+\end{lstlisting}
+\end{framed}
+\begin{framed}
+\begin{lstlisting}
+template <typename IntegralImageView>
+void FastHessianLocator<IntegralImageView>::interpolateExtremum
+(std::vector<Poi>& iPts_out, int octv, int intvl, int r, int c)
+{
+  double xi = 0, xr = 0, xc = 0;
+  int i = 0;
+  float step = _sampling * (int)floor(pow(2.0f,octv)+0.5f);
+  
+  // Preluarea distantelor intre punctul curent si pozitia determinata prin interpolare a extremului
+  interpolateStep( octv, intvl, r, c, &xi, &xr, &xc );
+
+  //Daca punctul este suficient de aproape de extremul calculat prin interpolare, el este considerat punct de interes
+  if( fabs( xi ) < 0.5  &&  fabs( xr ) < 0.5  &&  fabs( xc ) < 0.5 )
+  {
+    // Crearea punctului de interes si adaugarea sa in lista de puncte
+    Poi ipt;
+    ipt.x = (float) (c + step*xc);
+    ipt.y = (float) (r + step*xr);
+    ipt.scale = (float) ((1.2f/9.0f) * (3*(pow(2.0f, octv+1) * (intvl+xi+1)+1)));
+    ipt.laplacianSign = getLaplacianSign(octv, intvl, c, r);
+    iPts_out.push_back(ipt);
+  }
+}
+\end{lstlisting}
+\end{framed}
 
 \subsection{Paralelizarea procesãrii}
 Distribuþia sarcinilor de lucru pe mai multe fire de execuþie se realizeazã în cadrul codului managed, pe nivelul de administrare a resurselor de procesare. Aici, este preluatã instanþa unei surse de date ºi configuratã astfel încât în momentul în care o nouã imagine este disponibilã, sã fie rulatã o funcþie care sã realizeze trimiterea acestei imagini cãtre o resursã de prelucrare disponibilã:
@@ -273,7 +366,7 @@ void __stdcall DirectShowCameraSource::callbackFunc(DWORD dwSize, BYTE* pbData){
 \end{lstlisting}
 \end{framed}
 \subsection{Ordinea obþinerii rezultatelor procesãrii}
-Având în vedere cã se lucreazã pe mai multe fire de execuþie, se pune în mod natural intrebarea legatã de ordinea în care vor fi afiºate rezultatele procesãrii. O ordonare precisã a frame-urilor ar presupune menþinerea pentru fiecare frame a unui timp al apariþiei în sistemul de prelucrare ºi afiºarea rezultatelor pe baza acestui timp. Nici aceastã soluþie nu este una perfectã, deoarece frame-uri apãrute anterior în sistem pot sã fie terminate de procesat dupã ce un alt frame (apãrut dupã ele) a fost deja prelucrat ºi afiºat. De asemenea, ar fi necesare o serie de regiuni critice, care ar scãdea din performanþa algoritmului. 
+Având în vedere cã se lucreazã pe mai multe fire de execuþie, se pune în mod natural întrebarea legatã de ordinea în care vor fi afiºate rezultatele procesãrii. O ordonare precisã a cadrelor ar presupune menþinerea pentru fiecare cadru a unui timp al apariþiei în sistemul de prelucrare ºi afiºarea rezultatelor pe baza acestui timp. Nici aceastã soluþie nu este una perfectã, deoarece cadre apãrute anterior în sistem pot sã fie terminate de procesat dupã ce un alt cadru (apãrut dupã ele) a fost deja prelucrat ºi afiºat. De asemenea, ar fi necesare o serie de regiuni critice, care ar scãdea din performanþa algoritmului. 
 
 Datoritã faptului cã ordinea de afiºare nu este un element foarte important în rularea aplicaþiei, a fost acceptatã prin implementare posibilitatea ca frame-urile sã nu fie afiºate cãtre utilizator exact în ordinea în care ele au fost capturate de cãtre camerã. Totuºi, chiar dacã acest eveniment are loc, rularea algoritmului ºi recunoaºterea obiectelor nu au de suferit. În practicã, datoritã duratei aproximativ constante de prelucrare a fiecãrui frame (obþinutã de algoritm), nu apar inversiuni ale ordinii de afiºare.
 %\section{Salvarea datelor obþinute din procesare}

@@ -10,6 +10,17 @@ Bay, H., Tuytelaars, T., and Gool, L.~V. (2006).
 \newblock Surf: Speeded-up robust features.
 \newblock In {\em ECCV}, pages 404--417.
 
+\bibitem[Beardsley et~al., 1996]{Beardsley96:3dmodel}
+Beardsley, P., Beardsley, P., Torr, P., Torr, P., Zisserman, A., and Zisserman,
+  A. (1996).
+\newblock 3d model acquisition from extended image sequences.
+\newblock pages 683--695. Springer-Verlag.
+
+\bibitem[Brown and Lowe, 2002]{Brown02:invariantfeatures}
+Brown, M. and Lowe, D. (2002).
+\newblock Invariant features from interest point groups.
+\newblock In {\em In British Machine Vision Conference}, pages 656--665.
+
 \bibitem[Cheng and Huang, 1984]{Cheng84}
 Cheng, J. and Huang, T. (1984).
 \newblock Image registration by matching relational structures.
@@ -20,6 +31,13 @@ Cole, L., Austin, D., and Cole, L. (2004).
 \newblock Visual object recognition using template matching.
 \newblock In {\em Proceedings of Australian Conference on Robotics and
   Automation}.
+
+\bibitem[Cornelis and Gool, 2008]{cornelis_fast_2008}
+Cornelis, N. and Gool, L.~V. (2008).
+\newblock Fast scale invariant feature detection and matching on programmable
+  graphics hardware.
+\newblock In {\em Computer Vision and Pattern Recognition Workshops, 2008.
+  {CVPRW} '08. {IEEE} Computer Society Conference on}, pages 1--8.
 
 \bibitem[C.Schmid et~al., 2000]{Schmid00}
 C.Schmid, Mohr, R., and C.Bauckhage (2000).
@@ -60,5 +78,11 @@ Lowe, D.~G. (2003).
 Ullman, S. (1979).
 \newblock {\em The Interpretation of Visual Motion}.
 \newblock MIT Press, Cambridge, MA.
+
+\bibitem[Zhang et~al., 1995]{Zhang95:robustepipolar}
+Zhang, Z., Deriche, R., Faugeras, O.~D., and Luong, Q.~T. (1995).
+\newblock A robust technique for matching two uncalibrated images through the
+  recovery of the unknown epipolar geometry.
+\newblock {\em Artificial Intelligence}, 78(1-2):87--119.
 
 \end{thebibliography}

@@ -1,0 +1,34 @@
+\begin{theindex}
+
+  \item blob, \hyperpage{6}
+
+  \indexspace
+
+  \item design patterns, \hyperpage{23}
+  \item detector Harris, \hyperpage{7}, \hyperpage{10}
+  \item DOG, \hyperpage{10}
+
+  \indexspace
+
+  \item feature matching, \hyperpage{6}
+
+  \indexspace
+
+  \item nucleu gaussian, \hyperpage{10}
+
+  \indexspace
+
+  \item scale space, \hyperpage{10}
+  \item SIFT, \hyperpage{9}, \hyperpage{13}, \hyperpage{21}
+  \item spaţiul scalărilor, \hyperpage{10}
+  \item SURF, \hyperpage{13}, \hyperpage{21}
+
+  \indexspace
+
+  \item template matching, \hyperpage{5}
+
+  \indexspace
+
+  \item şablon de proiectare, \hyperpage{23}
+
+\end{theindex}

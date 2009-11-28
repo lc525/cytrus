@@ -10,6 +10,7 @@
 \BOOKMARK [1][-]{section.2.3}{2.3 Identificarea trăsăturilor în timp real}{chapter.2}
 \BOOKMARK [2][-]{subsection.2.3.1}{2.3.1 Detectorul SURF}{section.2.3}
 \BOOKMARK [2][-]{subsection.2.3.2}{2.3.2 Alegerea parametrilor de rulare ai algoritmilor}{section.2.3}
+\BOOKMARK [1][-]{section.2.4}{2.4 Potrivirea trăsăturilor}{chapter.2}
 \BOOKMARK [0][-]{chapter.3}{3 Proiectarea aplicaţiei}{}
 \BOOKMARK [1][-]{section.3.1}{3.1 Descrierea aplicaţiei}{chapter.3}
 \BOOKMARK [1][-]{section.3.2}{3.2 Obiective}{chapter.3}
@@ -38,12 +39,18 @@
 \BOOKMARK [2][-]{subsection.4.4.3}{4.4.3 Deadlock-uri în codul DirectShow}{section.4.4}
 \BOOKMARK [2][-]{subsection.4.4.4}{4.4.4 Ordinea obţinerii rezultatelor procesării}{section.4.4}
 \BOOKMARK [1][-]{section.4.5}{4.5 Interfaţa cu utilizatorul}{chapter.4}
-\BOOKMARK [0][-]{chapter.5}{5 Instalarea şi testarea aplicaţiei}{}
+\BOOKMARK [0][-]{chapter.5}{5 Compilarea şi testarea aplicaţiei}{}
 \BOOKMARK [1][-]{section.5.1}{5.1 Compilarea aplicaţiei}{chapter.5}
 \BOOKMARK [2][-]{subsection.5.1.1}{5.1.1 Dependenţe}{section.5.1}
 \BOOKMARK [1][-]{section.5.2}{5.2 Testarea unităţilor}{chapter.5}
-\BOOKMARK [0][-]{chapter.6}{6 Concluzii}{}
-\BOOKMARK [0][-]{section*.9}{Bibliografie}{}
-\BOOKMARK [0][-]{appendix.A}{A Anexa 1}{}
-\BOOKMARK [0][-]{appendix*.10}{Lista de simboluri şi prescurtări}{}
-\BOOKMARK [0][-]{section*.11}{Lista de figuri}{}
+\BOOKMARK [0][-]{chapter.6}{6 Rezultate şi Concluzii}{}
+\BOOKMARK [1][-]{section.6.1}{6.1 Rezultate experimentale}{chapter.6}
+\BOOKMARK [1][-]{section.6.2}{6.2 Concluzii}{chapter.6}
+\BOOKMARK [2][-]{subsection.6.2.1}{6.2.1 Direcţii de cercetare}{section.6.2}
+\BOOKMARK [0][-]{section*.20}{Bibliografie}{}
+\BOOKMARK [0][-]{appendix.A}{A Diagrame UML}{}
+\BOOKMARK [0][-]{appendix.B}{B Filtre utilizate în algoritmul SURF}{}
+\BOOKMARK [0][-]{appendix.C}{C Codul aplicaţiei \(parţial\)}{}
+\BOOKMARK [0][-]{appendix*.24}{Lista de simboluri şi prescurtări}{}
+\BOOKMARK [0][-]{section*.25}{Lista de figuri}{}
+\BOOKMARK [0][-]{section*.26}{Glosar}{}

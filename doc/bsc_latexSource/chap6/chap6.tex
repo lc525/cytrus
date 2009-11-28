@@ -1,7 +1,128 @@
 \XeTeXinputencoding cp1250
 
 % ********** Chapter 6 **********
-\chapter{Concluzii}
+\chapter{Rezultate ºi Concluzii}
 \label{sec:chapter6}
+Experimentele realizate pentru a verifica corectitudinea implementãrii algoritmului SURF, precum ºi analiza comportamentului acestuia în condiþii variate, au fost realizate într-un mediu necontrolat (nu au fost preluate date anterioare privind poziþionarea obiectelor în scenã, luminozitatea ambientalã sau poziþia camerelor). Obiectele prezente în mediu ºi alese pentru a fi detectate conþin zone cu variaþii de culoare ºi texturã ºi nu au aplicate marcaje speciale care sã ajute în identificarea punctelor de interes. Detectarea unora dintre ele ar fi dificilã folosind puncte de interes determinate prin alte metode (cu detectorul Harris, de exemplu), deoarece nu au muchii sau colþuri bine definite. 
 
+Au fost folosite 3 dispozitive pentru capturarea imaginilor, necalibrate anterior:
+\begin{itemize}
+\item Camerã Web Creative Live!, conexiune USB, focus fix, rezoluþie utilizatã $320\times 240$, max. 15 cadre pe secunda (variabil în funcþie de condiþiile de luminozitate).
+\item Camerã video digitalã Sony DCR-TRV730E, conexiune firewire (IEEE 1394), focus automat, rezoluþie $720\times 520$, max. 25 cadre pe secundã
+\item Aparat foto digital Canon PowerShot A590 8Mp, focus automat, rezoluþie $3264\times 2448$. 
+
+\end{itemize}
+
+Rularea propriu-zisã a algoritmului, achiziþia în timp real a datelor ºi detecþia obiectelor au fost realizate pe un Laptop cu procesor Intel Core2 Duo 2.2GHz, cu 4GB RAM ºi placã graficã NVIDIA Quadro NVS 135M, cu 128 MB RAM. Toate rezultatele descrise mai jos sunt obþinute experimental folosind aceastã configuraþie. Pentru capturile în timp real de dimensiune $720\times 520$ a fost obþinutã o vitezã medie de 13 cadre pe secundã. Pentru dimensiuni mai mici ale imaginii, viteza de prelucrare este limitatã de posibilitãþile dispozitivelor de capturã.
+
+Dupã executarea paºilor algoritmului, se estimeazã pentru fiecare cadru ºi precizia detecþiei obiectului, luându-se în calcul media distanþelor între vectorii descriptori ai fiecãrui punct de interes detectat în cadrul curent ºi vectorii descriptori ai obiectului definit ca referinþã. Ecuaþia utilizatã este:
+\begin{equation}
+Acc=\frac{\displaystyle\sum_{i=0}^{p}Dist_{r_iv_i}}{p}
+\label{eq:chap6:acc}
+\end{equation}
+, unde p reprezintã numãrul total al punctelor identificate ca aparþinând obiectului, iar $Dist_{r_iv_i}$ este distanþa dintre vectorul referinþã $r_i$ ºi vectorul detectat $v_i$, obþinutã pe baza relaþiei \ref{eq:chap2:ssd}. Valorile obþinute nu trebuie interpretate ca fiind o probabilitate a prezenþei sau absenþei obiectului din scenã, deºi o valoare 0 indicã faptul cã obiectul nu a fost detectat.
+
+\section{Rezultate experimentale}
+Mai jos sunt prezentate un numãr de rezultate considerate relevante, prin prisma rezultatelor tipice obþinute de cãtre alþi autori în analiza algoritmului SIFT sau SURF \cite{Lowe99objectrecognition,Brown02:invariantfeatures,Schmid00}.
+\subsubsection{Invarianþa la rotaþii}
+\begin{figure}[htbp]
+\numberwithin{figure}{chapter}
+\centering
+\includegraphics[scale=0.5]{chap6/ff_rotational.png}
+\caption{Detecþia obiectului rotit relativ la imaginea de referinþã}
+\label{fig:chap6:rot}
+\end{figure}
+În cazul de faþã (figura \ref{fig:chap6:rot}), ambele imagini sunt preluate cu aparatul foto. Imaginea din partea stângã reprezintã referinþa, în care au fost selectate punctele de interes corespunzãtoare cãrþii. În partea dreaptã este prezentat rezultatul detecþiei obiectului, algoritmul fiind rulat pe o imagine staticã. În comparaþie cu imaginea de referinþã, cartea este rotitã la un unghi de aproximativ $30^\circ$. Se poate observa detecþia cu succes. Punctele reprezentând protriviri suficient de bune sunt împrãºtiate pe toatã suprafaþa obiectului, precizia detecþiei lor fiind în jurul valorii de 67\% ($Acc=0.67$).
+
+\subsubsection{Invarianþa la scalãri}
+\begin{figure}[htbp]
+\numberwithin{figure}{chapter}
+\centering
+\includegraphics[scale=0.5]{chap6/ff_scale_large.png}
+\caption{Detecþia obiectului în prezenþa unor modificãri de scalã}
+\label{fig:chap6:scale1}
+\end{figure}
+Ambele imagini sunt achiziþionate folosind aparatul foto (figura \ref{fig:chap6:scale1}). În partea stângã este imaginea de referinþã, reprezentând toatã scena de test. În partea dreaptã, poate fi observat rezultatul detecþiei folosind o imagine de detaliu (cartea este prezentã în aceastã imagine la o scalã mai mare). Între cele douã imagini existã ºi o diferenþã de culoare, datoratã setãrilor automate ale aparatului foto. Punctele reprezentând protriviri suficient de bune sunt împrãºtiate pe toatã suprafaþa obiectului, precizia detecþiei lor fiind în jurul valorii de 65\% ($Acc=0.65$).
+
+\subsubsection{Modificãri de luminozitate ambientalã}
+\begin{figure}[htbp]
+\numberwithin{figure}{chapter}
+\centering
+\includegraphics[scale=0.5]{chap6/ww_luminosity.png}
+\caption{Detecþia obiectului în prezenþa unor modificãri de luminozitate}
+\label{fig:chap6:lum}
+\end{figure}
+În figura \ref{fig:chap6:lum}, ambele imagini sunt preluate de la camera web, în condiþii de luminozitate diferite. Ele reprezintã rezultatul detecþiei unui obiect definit anterior. Se poate observa cã deºi punctele de interes detectate nu sunt aceleaºi în ambele situaþii, se reuºeºte totuºi identificarea corectã a obiectului. De asemenea, este de menþionat calitatea slabã a imaginilor, regiuni relativ mari fiind subexpuse sau supraexpuse, acesta fiind unul dintre factorii care reduc calitatea detecþiei în cazul algoritmilor de tip SIFT.
+
+\subsubsection{Transformãri multiple}
+\begin{figure}[htbp]
+\numberwithin{figure}{chapter}
+\centering
+\includegraphics[scale=0.5]{chap6/ww_blur_affine_scale.png}
+\caption{Detecþia obiectului în prezenþa unor transformãri multiple}
+\label{fig:chap6:multiple}
+\end{figure}
+Figura \ref{fig:chap6:multiple} prezintã rezultatul detecþiei în contextul unor transformãri multiple în comparaþie cu imaginea de referinþã. Ambele imagini sunt achiziþionate folosind camera web, între ele existând diferenþe de scalã, claritate, perspectivã ºi luminozitate. Recunoaºterea este realizatã totuºi cu succes, pentru regiunea definitã în imaginea referinþã. În plus, aceastã regiune are o texturã complicatã.
+
+\subsubsection{Modificarea rezoluþiei imaginii}
+\begin{figure}[htbp]
+\numberwithin{figure}{chapter}
+\centering
+\includegraphics[scale=0.5]{chap6/cw_res.png}
+\caption{Detecþia obiectului la schimbarea rezoluþiei}
+\label{fig:chap6:res}
+\end{figure}
+Figura \ref{fig:chap6:res} prezintã rezultatul detecþiei la modificarea dispozitivului de achiziþie a imaginii. În cazul de faþã, imaginea de referinþã este preluatã folosind camera video, iar imaginea pe care se realizeazã detecþia este achiziþiontã de la camera web. Schimbarea rezoluþiei ºi a dispozitivului de capturã duce în general la rezultate mai slabe de detecþie. Cele douã surse de imagini au lentile ºi senzori diferiþi, ºi prin urmare imaginile rezultate vor avea caracteristici diferite.  Recunoaºterea este realizatã cu succes, deºi numãrul punctelor detectate este mic iar precizia nu este foarte mare (aproximativ 48\% ($Acc=0.48$)).
+
+\subsubsection{Detecþia de obiecte multiple}
+\begin{figure}[htbp]
+\numberwithin{figure}{chapter}
+\centering
+\includegraphics[scale=0.5]{chap6/multiple.png}
+\caption{Detecþia de obiecte multiple}
+\label{fig:chap6:many}
+\end{figure}
+Folosind acelaºi algoritm, se poate realiza ºi identificarea mai multor obiecte în aceeaºi scenã, chiar ºi în prezenþa unor ocluziuni parþiale a unora dintre obiecte. Un astfel de rezultat este prezentat ºi în figura \ref{fig:chap6:many}, unde sunt detectate cu succes 2 obiecte. Imaginea din dreapta este de foarte slabã calitate (blur de miºcare), însã detecþia este realizatã cu succes. Folosind aceeaºi tehnicã (a definirii mai multor obiecte), se poate îmbunãtãþii ºi detecþia unui singur obiect: se recomandã selectarea acestuia în mai multe imagini diferite (obiectul fiind pozat din unghiuri diferite, la scalãri diferite sau în condiþii diferite de luminozitate). Apoi, aplicând algoritmul de recunoaºtere, se va putea obþine o invarianþã crescutã la condiþiile de mediu, pentru detecþia obiectului respectiv.
+
+\subsubsection{Erori în detecþie}
+\begin{figure}[htbp]
+\numberwithin{figure}{chapter}
+\centering
+\includegraphics[scale=0.5]{chap6/cc_scale_err.png}
+\caption{Detecþia eronatã a unui punct de interes}
+\label{fig:chap6:err}
+\end{figure}
+Uneori, datoritã modelului simplu ales în aplicaþie pentru potrivirea punctelor de interes, sunt detectate ºi unele care nu aparþin obiectului cãutat. Aceste detecþii false (eng. false-positives) apar ca urmare a asemãnãrii unor alte regiuni din imagine cu regiuni de pe obiectul cãutat. Eliminarea situaþiilor de acest gen poate fi realizatã folosind o clusterizare a punctelor de interes ºi detecþia unor grupãri de puncte poziþionate similar, în locul potrivirii punct cu punct. Precizia în acest caz poate creºte semnificativ.
+
+\section{Concluzii}
+Soluþia propusã pentru identificarea obiectelor cu ajutorul algoritmului SURF este una robustã, ce poate fi folositã cu succes într-un numãr mare de aplicaþii. În plus, platforma dezvoltatã pentru prelucrarea fluxurilor de imagini permite o adaptare ºi o extindere uºoarã a funcþionalitãþilor. 
+
+Prin comparaþie, alte implementãri open-source ale algoritmului SURF (OpenSurf, GPUSurf \cite{cornelis_fast_2008}) sunt dezvoltate utilizând biblioteci care pot fi adaptate mai greu unui numãr mare de surse ºi formate ale imaginilor de intrare. În aceastã implementare, s-a urmãrit cu precãdere obþinerea unei prelucrãri ºi detecþii în timp real, pentru imagini de dimensiuni cât mai mari.  
+
+Pentru a îndeplini acest obiectiv, aplicaþia (cytrus) utilizeazã paralelismul la nivel de procesor, permiþându-se astfel o îmbunãtãþire a performanþelor algoritmului faþã de soluþii care utilizeazã un singur fir de execuþie (cazul OpenSurf), pãstrând aceeaºi acurateþe a rezultatelor. Totuºi, în comparaþie cu soluþia identificãrii obiectelor propusã în~\cite{Brown02:invariantfeatures}, lucrarea de faþã utilizeazã o metodã mai simplã ºi mai puþin precisã pentru realizarea potrivirii între seturile de puncte de interes. Eliminarea unora dintre erorile de detecþie ar putea fi realizatã aplicând tehnici similare celor din ~\cite{Brown02:invariantfeatures}, realizând compromisul unei reduceri a vitezei de procesare datoratã calculelor suplimentare.
+
+Prelucrarea imaginilor de dimensiuni mari în timp real este posibilã ºi datoritã propunerii de a folosi o frecvenþã de eºantionare variabilã în spaþiul scalãrilor. Astfel, se realizeazã o limitare a creºterii numãrului de puncte de interes o datã cu mãrirea dimensiunilor imaginii. Practic, având în vedere cã performanþele de vitezã ale algoritmului depind în mod direct de numãrul de puncte detectate, folosirea unei frecvenþe care sã scadã liniar cu creºterea dimensiunilor imaginii asigurã implicit o limitare a creºterii timpului de procesare.
+
+\subsection{Direcþii de cercetare}
+\subsubsection{Reconstrucþia unor obiecte ca modele 3D}
+Având în vedere faptul cã algoritmul SURF realizeazã o identificare consistentã a punctelor de interes între imagini, invariant la schimbãri ale condiþiilor de mediu ºi ale perspectivei, existã posibilitatea de a aplica acest algoritm în \textbf{reconstrucþia unor obiecte} ºi crearea de modele 3D rare (bazate pe puncte) sau dense (suprefeþe). Dacã este necesar, modificarea parametrilor de rulare utilizaþi poate asigura o acoperire mai bunã cu puncte de interes a obiectelor vizate (comparativ cu aplicaþia de identificare a obiectelor).
+
+În momentul construirii unor astfel de modele, se pune în mod natural problema identificãrii obiectelor nerigide, cu luarea în calcul a deformãrilor care pot apãrea în timp. Se doreºte analiza oportunitãþii de a folosi algoritmi de tip SURF în studiul deformãrilor care apar în cadrul unor studii medicale: un exemplu ar fi studiul comparativ al protezelor femurale (Figura~ \ref{fig:chap6:def}), sau analiza post-operatorie a poziþionãrii implanturilor folosind radiografii din unghiuri multiple.  
+\begin{figure}[htbp]
+\numberwithin{figure}{chapter}
+\centering
+\includegraphics[scale=1.0]{chap6/femur.png}
+\caption[Analiza clasicã a deformãrilor în cazul studiului comparativ al protezelor femurale]{Analiza clasicã a deformãrilor în cazul studiului comparativ al protezelor femurale, cu PhotoModeller. Înregistrarea punctelor de interes se realizeazã manual.}
+\label{fig:chap6:def}
+\end{figure}
+
+\subsubsection{Realitate virtualã}
+Soluþii bazate pe algoritmi de tip SIFT pot fi folosite în aplicaþii de augumentare a realitãþii cu obiecte virtuale. Astfel de soluþii pot fi aplicate în industria cinematograficã sau a jocurilor, iar biblioteci care sã implementeze o parte a funcþionalitãþilor necesare sunt deja disponibile (de exemplu, ARToolkit - \texttt{http://www.hitl.washington.edu/artoolkit/}). Aici, SIFT/SURF pot fi utilizaþi pentru a determina parametrii geometrici ai scenei reprezentate (poziþie a camerelor, perspectivã), furnizând astfel informaþii despre cum trebuie randate obiectele virtuale pentru a se integra în imaginea de ansamblu.
+
+\subsubsection{Motoare de cãutare}
+Îmbunãtãþiri semnificative ale vitezei de potrivire a punctelor de interes dintr-o imagine datã cu o bazã de date de dimensiuni foarte mari, conþinând puncte de inters ale multor obiecte sau imagini de referinþã, ar putea duce la aplicarea algoritmului SURF în urmãtoarea generaþie de \textbf{motoare de cãutare}. De exemplu, numele unui actor ar putea fi cãutat furnizând ca datã de intrare o pozã a acestuia. Pentru a folosi SURF în aceste aplicaþii, ar putea fi necesarã o modificare a modului de stocare al descriptorilor, care sã permitã potrivirea rapidã. 
+
+Tehnologii similare au fost deja dezvoltate, la scarã redusã, pentru dispozitivele mobile. Microsoft Tag este una dintre ele (\texttt{http://www.microsoft.com/tag/}). Totuºi, aceste propuneri folosesc soluþii similare codurilor de bare, fiind necesarã o pre-marcare a obiectului pentru a putea realiza recunoaºterea sa.
+
+ 
 % ********** End of chapter **********

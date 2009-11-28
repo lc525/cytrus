@@ -1,0 +1,75 @@
+\XeTeXinputencoding cp1250
+% ********** Appendix 2 **********
+\chapter{Filtre utilizate în algoritmul SURF}
+\label{sec:appendix2}
+În aceastã anexã sunt prezentate pe scurt variantele continuii ale filtrelor folosite în cadrul algoritmului SURF, ºi implementate în varianta lor discretã, folosind aproximãri (Figura \ref{fig:chap2:surfBoxFilters}). Totuºi, o justificare a folosirii acestor filtre este importantã, pentru cã alegerea utilizãrii lor nu a fost una întâmplãtoare. Este de menþionat faptul cã deºi în cadrul acestei anexe majoritatea filtrelor sunt reprezentate ºi în 3 dimensiuni, pentru prelucrarea imaginilor se folosesc variantele 2D. Imaginile 3D au fost ataºate pentru a da o viziune mai clarã asupra formei generale a filtrelor.
+\section*{Nucleul Gauss}
+Ca funcþie matematicã de douã variabile ºi parametru $\sigma$, nucleul gaussian poate fi exprimat sub forma:
+\begin{equation*}
+G(x,y,\sigma)=\frac{1}{2\pi\sigma^2}e^{-\frac{x^2+y^2}{2\sigma^2}}
+\end{equation*} 
+Forma graficã a unei astfel de funcþii poate fi observatã în Figura \ref{fig:app2:gauss}. În general, nucleul Gauss este folosit în estomparea imaginilor (blur), iar în cadrul algoritmilor de tip SIFT el este utilizat împreunã cu Laplacianul, variind $\sigma$, pentru a crea spaþiul scalãrilor. Faptul cã nucleul Gauss este simetric permite obþinerea invarianþei la rotaþii. Nucleele Gauss mai sunt utilizate ºi atunci când se doreºte ponderarea vectorilor gradienþilor din imagine, pentru a acorda o mai mare importanþã celor mai aproape de centrul unei vecinãtãþi alese (a se vedea secþiunea \ref{sec:chapter2:descrpctinteres}).
+\begin{figure}[htbp]
+\numberwithin{figure}{chapter}
+\centering
+\includegraphics[scale=0.5]{app2/gauss.png}
+\caption{Nucleul Gauss}
+\label{fig:app2:gauss}
+\end{figure}
+\section*{Laplacianul Gaussian-ului, aproximare cu diferenþã de nuclee Gauss}
+Determinarea maximelor dupã convoluþia imaginii cu o funcþie ce reprezintã diferenþa a douã nuclee Gauss, descrisã de ecuaþia \ref{eq:chap2:diffGauss} porneºte de la premisa cã aceastã funcþie aproximeazã destul de bine Laplacianul Gausianului, $\sigma^2\nabla^2G$. Aici, Laplacian-ul este folosit pornind de la ideea cã pentru o singurã dimensiune, derivata a doua permite detecþia unor structuri de tip muchie în imagine, dacã vom considera trecerile acesteia prin 0, precum în Figura \ref{fig:app2:laplace}.
+\begin{figure}[htbp]
+\numberwithin{figure}{chapter}
+\centering
+\includegraphics[scale=0.7]{app2/laplace.png}
+\caption{Detecþia unor muchii folosind trecerile prin 0 ale derivatei a doua}
+\label{fig:app2:laplace}
+\end{figure}
+Aplicarea suplimentarã a nucleului Gauss în convoluþie este necesarã deoarece derivata a doua este foarte sensibilã la zgomotul existent în semnalul îniþial (în imagine pentru cazul 2D). Astfel, se doreºte o netezire preliminarã, pentru a mai estompa din zgomote. Datoritã proprietãþilor filtrelor ºi ale convoluþiei, se poate aplica mai convoluþia între nuclee (Laplacian,Gauss), urmãnd ca nucleul rezultat sã fie aplicat (tot prin convoluþie, imaginii). În Figura \ref{fig:app2:doglapl} este prezentatã asemãnarea dintre nucleul obþinut prin diferenþa de nuclee Gauss ºi nucleul funcþiei Laplacianul Gausianului.
+\begin{figure}[htbp]
+\numberwithin{figure}{chapter}
+\centering
+\subfloat[][]{
+\includegraphics[scale=0.35]{app2/LoG.png}
+}
+\subfloat[][]{
+\includegraphics[scale=0.35]{app2/DoG.png}
+}
+\caption{Comparaþia LoG/DoG (eng. Laplacian of Gaussian/Difference of Gaussian)}
+\label{fig:app2:doglapl}
+\end{figure}
+\section*{Derivatele parþiale de ordinul doi ale nucleului Gauss}
+Pentru calcularea determinantului Hessian-ului utilizat în SURF, este necesarã determinarea anterioarã a derivatelor parþiale ale funcþiei $L(x,y)$, reprezentând imaginea în convoluþie cu nucleul Gaussian (\ref{eq:chap2:sifthessian}). Forma 2D a nucleelor este aproximatã în cadul algoritmului SURF prin compunerea unor filtre de mediere (a se vedea Figura \ref{fig:chap2:surfBoxFilters} pentru o comparaþie).
+\begin{figure}[htbp]
+\numberwithin{figure}{chapter}
+\centering
+\subfloat[][]{
+\includegraphics[scale=0.5]{app2/Lxx.png}
+}
+\subfloat[][]{
+\includegraphics[scale=0.3]{app2/Lxx2D.png}
+}
+\caption{Nucleu Gaussian, derivata $L_{xx}$}
+\label{fig:app2:Lxx}
+\hfill
+\numberwithin{figure}{chapter}
+\subfloat[][]{
+\includegraphics[scale=0.4]{app2/Lyy.png}
+}
+\subfloat[][]{
+\includegraphics[scale=0.3]{app2/Lyy2D.png}
+}
+\caption{Nucleu Gaussian, derivata $L_{yy}$}
+\label{fig:app2:Lyy}
+\hfill
+\numberwithin{figure}{chapter}
+\subfloat[][]{
+\includegraphics[scale=0.5]{app2/Lxy.png}
+}
+\subfloat[][]{
+\includegraphics[scale=0.3]{app2/Lxy2D.png}
+}
+\caption{Nucleu Gaussian, derivata $L_{xy}$}
+\label{fig:app2:Lxy}
+\end{figure}
+% ********** End of appendix **********
