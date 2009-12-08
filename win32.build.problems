@@ -1,5 +1,34 @@
-+modify project boost path - CytrusAlgLib
-+qedit.h missing in Win SDK 7, add the 6.0A SDK to C++ Directories
-+directshow dxtrans missing - copied from C:\Program Files\Microsoft Visual Studio 9.0\SmartDevices\SDK\PocketPC2003\Include\
-+gil extensions (numerical) - get it from http://opensource.adobe.com/wiki/download/attachments/3866769/numeric.zip?version=1
-+gil_all.hpp not seen from FileImageSource.h - modify boost path - CytrusManagedLib
+[SOLVED] +modify project boost path - CytrusAlgLib
+ +
+ | [SOLVED]+gil_all.hpp not seen from FileImageSource.h - modify boost path - CytrusManagedLib
+ |  |
+ +--+--[! SOLUTION, MUST ] modify the BoostInit UserMacro in src\buildSettings.vsprops
+
+
+[SOLVED] +qedit.h missing in Win SDK 7
+ |
+ +-----[! SOLUTION, MUST ] add the 6.0A SDK path to C++ Directories in Visual Studio: From the menu Tools->Options | Projects and Solutions\VC++ Directories 
+
+
+[SOLVED] +directshow dxtrans.h missing 
+ |
+ +-----[! SOLUTION, MAY ] copy from C:\Program Files\Microsoft Visual Studio 9.0\SmartDevices\SDK\PocketPC2003\Include\
+
+
+[PENDING] +gil extensions (numerical)
+ |
+ +-----[~ FIX, MAY ] get it from http://opensource.adobe.com/wiki/download/attachments/3866769/numeric.zip?version=1
+ +-----[     , MUST] add it to the $BOOST_HOME\boost\gil\extension\ directory.
+
+Legend: 
+[SOLVED|PENDING|ISSUE] - problem definition
+	SOLVED - the problem has a known definitive solution, watch for "solution definition" markup for a detailed description
+	PENDING - the problem has a temporary solution (the solution might be further improved)
+	ISSUE - an outstanding build issue
+
+[(!|~) SOLUTION|FIX, MUST|MAY] - solution definition
+	SOLUTION - this represents the section documenting the definitive solution
+	FIX - the text describes an intermediary fix or workaround
+
+	MUST - it is highly recommended to apply this solution, even if other possibilities exist.
+	MAY - the text describes a possible solution, other -equally efective- ways to solve the step exist, and can be followed.
