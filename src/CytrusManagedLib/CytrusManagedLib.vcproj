@@ -21,6 +21,7 @@
 			OutputDirectory=".\bin"
 			IntermediateDirectory=".\tmp"
 			ConfigurationType="2"
+			InheritedPropertySheets="..\buildSettings.vsprops"
 			CharacterSet="1"
 			ManagedExtensions="1"
 			DeleteExtensionsOnClean="*.obj;*.ilk;*.tlb;*.tli;*.tlh;*.tmp;*.rsp;*.pgc;*.pgd;*.meta;$(TargetPath)"
@@ -98,6 +99,7 @@
 			OutputDirectory=".\bin"
 			IntermediateDirectory=".\tmp"
 			ConfigurationType="2"
+			InheritedPropertySheets="..\buildSettings.vsprops"
 			CharacterSet="1"
 			ManagedExtensions="1"
 			WholeProgramOptimization="1"
@@ -119,7 +121,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="&quot;C:\Program Files\boost\boost_1_41_0&quot;;..\..\include;..\..\include\jpeglib"
+				AdditionalIncludeDirectories=""
 				PreprocessorDefinitions="WIN32;NDEBUG"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="2"
@@ -139,7 +141,7 @@
 				Name="VCLinkerTool"
 				AdditionalDependencies="CytrusAlgLib.lib $(NOINHERIT)"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories="..\..\lib"
+				AdditionalLibraryDirectories=""
 				GenerateDebugInformation="true"
 				TargetMachine="1"
 			/>

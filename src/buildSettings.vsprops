@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<VisualStudioPropertySheet
+	ProjectType="Visual C++"
+	Version="8.00"
+	Name="buildSettings"
+	>
+	<Tool
+		Name="VCCLCompilerTool"
+		AdditionalIncludeDirectories="..\..\include\jpeglib;..\..\include;&quot;$(BoostInclude)&quot;"
+	/>
+	<Tool
+		Name="VCLinkerTool"
+		AdditionalLibraryDirectories="..\..\lib"
+	/>
+	<UserMacro
+		Name="BoostInclude"
+		Value="C:\Program Files\boost\boost_1_41_0"
+		PerformEnvironmentSet="true"
+	/>
+</VisualStudioPropertySheet>
