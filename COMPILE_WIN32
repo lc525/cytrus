@@ -14,9 +14,12 @@ Prerequesites for compiling on Win32:
 
 + EXTERNAL
 
-Boost Libraries (add to include path for the CytrusAlgLib project) - used mainly for GIL Library
-Windows Platform SDK (add to include path for the WebCamLib project) - used for DirectShow camera capture
+Boost Libraries - used mainly for GIL Library
+Windows Platform SDK - used for DirectShow camera capture
 
 + BUNDLED
 
 libjpeg - you can use the bundled library (includes & linking already set-up for the project), or you can link your own (latest version)
+
+
+Please see the win32.build.problems file for solutions to some of the most frequent build problems.

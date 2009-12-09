@@ -2,7 +2,7 @@
  +
  | [SOLVED]+gil_all.hpp not seen from FileImageSource.h - modify boost path - CytrusManagedLib
  |  |
- +--+--[! SOLUTION, MUST ] modify the BoostInit UserMacro in src\buildSettings.vsprops
+ +--+--[! SOLUTION, MUST ] modify the BoostInit UserMacro in src\buildSettings.vsprops to point to the boost path
 
 
 [SOLVED] +qedit.h missing in Win SDK 7
