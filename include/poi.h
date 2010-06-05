@@ -8,7 +8,7 @@
 ** Loosely Based on OpenSURF, by C.Evans (GNU GPL licence)
 **
 ** -----------------------------------------------------------------
-** poi.h: Defines data structures for the points of interest used
+** Poi.h: Defines data structures for the points of interest used
 ** in algorithms like SURF or SIFT
 **
 */
@@ -26,24 +26,26 @@
 
 
 class CYTRUSALGLIB_API Poi{
+private:
+	float* descriptor;
 public:
 	float x, y;
 	float scale;
 	float orientation;
 	int laplacianSign;
 	int descriptorSize;
-	float* descriptor;
 	float dx, dy;
 	//int clusterIndex; - not used yet
 	int matchesObjectNr;
 	float matchedDistance;
 
-	Poi(int descrSize=64) : orientation(0), descriptorSize(descrSize)
-	{
-		descriptor=new float[descriptorSize];
-		matchesObjectNr=-1;
-		matchedDistance=-1;
-	}
+	Poi(int descrSize=64);
+	Poi(const Poi& other);
+	Poi& operator=(const Poi &rhs);
+	
+	virtual ~Poi();
+
+	float* getDescriptor();
 };
 
 #endif

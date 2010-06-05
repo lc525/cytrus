@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Collections.ObjectModel;
 using cytrus.managed;
+using System.Runtime.InteropServices;
 
 namespace CytrusConsole
 {

@@ -86,9 +86,10 @@ void ObjectPoiStorage::matchObjects(std::vector<Poi>& iPts){
 
 float ObjectPoiStorage::comparePOIs(Poi& p1, Poi& p2){
   float sum=0;
-
+  float* descriptor1=p1.getDescriptor();
+  float* descriptor2=p2.getDescriptor();
   for(int i=0; i < 64; i++)
-    sum += pow(p1.descriptor[i] - p2.descriptor[i],2);
+    sum += pow(descriptor1[i] - descriptor2[i],2);
 
   return sqrt(sum);
 }

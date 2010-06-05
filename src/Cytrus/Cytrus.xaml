@@ -616,7 +616,7 @@
 			<GradientStop Color="#DDDDDD" Offset="0.5"/>
 			<GradientStop Color="#A0A0A0" Offset="1"/>
 		</LinearGradientBrush>
-		<SolidColorBrush x:Key="ToolBarButtonHover" Color="#C2E0FF"/>
+		<SolidColorBrush x:Key="ToolBarButtonHover" Color="#19C2E0FF"/>
 		<SolidColorBrush x:Key="ToolBarGripper" Color="#C6C3C6"/>
 		<Style x:Key="ToolBarVerticalOverflowButtonStyle" TargetType="{x:Type ToggleButton}">
 			<Setter Property="Background" Value="{StaticResource ToolBarToggleButtonVerticalBackground}"/>
@@ -800,7 +800,7 @@
 			</Setter>
 		</Style>
 		<SolidColorBrush x:Key="ToolBarSubMenuBackground" Color="#FDFDFD"/>
-		<SolidColorBrush x:Key="ToolBarMenuBorder" Color="#808080"/>
+		<SolidColorBrush x:Key="ToolBarMenuBorder" Color="#FF6E6E6E"/>
 		<DrawingBrush x:Key="Brush1" TileMode="Tile" Viewbox="0,0,4,4" ViewboxUnits="Absolute" Viewport="0,0,4,4" ViewportUnits="Absolute">
 			<DrawingBrush.Drawing>
 				<DrawingGroup>
@@ -836,6 +836,7 @@
 				</Setter.Value>
 			</Setter>
 		</Style>
+		<SolidColorBrush x:Key="ToolBarButtonPressedBorder" Color="#FF6E6E6E"/>
 		<Style x:Key="ToolBarStyle1" TargetType="{x:Type ToolBar}">
 			<Setter Property="Background" Value="{StaticResource ToolBarHorizontalBackground}"/>
 			<Setter Property="Template">
@@ -853,7 +854,7 @@
 								</ToggleButton>
 								<Popup x:Name="OverflowPopup" AllowsTransparency="true" IsOpen="{Binding Path=IsOverflowOpen, RelativeSource={RelativeSource TemplatedParent}}" Placement="Bottom" PopupAnimation="{DynamicResource {x:Static SystemParameters.ComboBoxPopupAnimationKey}}" StaysOpen="false" Focusable="false">
 									<Microsoft_Windows_Themes:SystemDropShadowChrome x:Name="Shdw" Color="Transparent">
-										<Border Background="{StaticResource ToolBarSubMenuBackground}" BorderBrush="{StaticResource ToolBarMenuBorder}" BorderThickness="1">
+										<Border Background="#CD6E6E6E" BorderBrush="{StaticResource ToolBarMenuBorder}" BorderThickness="1">
 											<ToolBarOverflowPanel FocusVisualStyle="{x:Null}" Margin="2" x:Name="PART_ToolBarOverflowPanel" Focusable="true" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" KeyboardNavigation.DirectionalNavigation="Cycle" KeyboardNavigation.TabNavigation="Cycle" WrapWidth="200"/>
 										</Border>
 									</Microsoft_Windows_Themes:SystemDropShadowChrome>
@@ -907,9 +908,8 @@
 				</Setter.Value>
 			</Setter>
 		</Style>
-		<SolidColorBrush x:Key="ToolBarButtonHoverBorder" Color="#3399FF"/>
-		<SolidColorBrush x:Key="ToolBarButtonPressedBorder" Color="#3399FF"/>
-		<SolidColorBrush x:Key="ToolBarButtonPressed" Color="#99CCFF"/>
+		<SolidColorBrush x:Key="ToolBarButtonHoverBorder" Color="#FF6E6E6E"/>
+		<SolidColorBrush x:Key="ToolBarButtonPressed" Color="#FF5E5E5E"/>
 		<Style x:Key="ButtonStyle1" TargetType="{x:Type ToggleButton}">
 			<Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
 			<Setter Property="Padding" Value="2"/>
@@ -1050,6 +1050,213 @@
 				<SplineDoubleKeyFrame KeyTime="00:00:00.5000000" Value="0.44"/>
 			</DoubleAnimationUsingKeyFrames>
 		</Storyboard>
+		<SolidColorBrush x:Key="ToolBarDisabledFill" Color="#F7F7F7"/>
+		<SolidColorBrush x:Key="ToolBarDisabledBorder" Color="#B5B2B5"/>
+		<Style x:Key="ToolBarComboBoxTransparentButtonStyle" TargetType="{x:Type ToggleButton}">
+			<Setter Property="MinWidth" Value="0"/>
+			<Setter Property="MinHeight" Value="0"/>
+			<Setter Property="Width" Value="Auto"/>
+			<Setter Property="Background" Value="Transparent"/>
+			<Setter Property="Focusable" Value="false"/>
+			<Setter Property="ClickMode" Value="Press"/>
+			<Setter Property="Template">
+				<Setter.Value>
+					<ControlTemplate TargetType="{x:Type ToggleButton}">
+						<Grid Background="Transparent">
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition Width="*"/>
+								<ColumnDefinition SharedSizeGroup="ComboBoxButton" Width="Auto"/>
+							</Grid.ColumnDefinitions>
+							<Border x:Name="Chrome" Width="13" SnapsToDevicePixels="true" Background="{TemplateBinding Background}" Grid.Column="1" BorderThickness="0,1,1,1">
+								<Path x:Name="ArrowDownPath" Fill="White" VerticalAlignment="Center" Data="M 2.5 0 L 8.5 0 L 5.5 3 Z"/>
+							</Border>
+						</Grid>
+						<ControlTemplate.Triggers>
+							<Trigger Property="IsEnabled" Value="false">
+								<Setter Property="BorderBrush" TargetName="Chrome" Value="{x:Null}"/>
+							</Trigger>
+							<MultiTrigger>
+								<MultiTrigger.Conditions>
+									<Condition Property="IsMouseOver" Value="true"/>
+									<Condition Property="IsChecked" Value="false"/>
+								</MultiTrigger.Conditions>
+								<Setter Property="Background" TargetName="Chrome" Value="{StaticResource ToolBarButtonHover}"/>
+							</MultiTrigger>
+							<Trigger Property="IsChecked" Value="true">
+								<Setter Property="BorderBrush" TargetName="Chrome" Value="{StaticResource ToolBarButtonPressedBorder}"/>
+							</Trigger>
+							<Trigger Property="IsPressed" Value="true">
+								<Setter Property="Background" TargetName="Chrome" Value="{StaticResource ToolBarButtonPressed}"/>
+							</Trigger>
+							<Trigger Property="IsEnabled" Value="false">
+								<Setter Property="Fill" TargetName="ArrowDownPath" Value="{StaticResource ToolBarDisabledBorder}"/>
+							</Trigger>
+						</ControlTemplate.Triggers>
+					</ControlTemplate>
+				</Setter.Value>
+			</Setter>
+		</Style>
+		<Style x:Key="ComboBoxEditableTextBox" TargetType="{x:Type TextBox}">
+			<Setter Property="OverridesDefaultStyle" Value="true"/>
+			<Setter Property="AllowDrop" Value="true"/>
+			<Setter Property="MinWidth" Value="0"/>
+			<Setter Property="MinHeight" Value="0"/>
+			<Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+			<Setter Property="Template">
+				<Setter.Value>
+					<ControlTemplate TargetType="{x:Type TextBox}">
+						<ScrollViewer x:Name="PART_ContentHost" Background="Transparent" Focusable="false" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden"/>
+					</ControlTemplate>
+				</Setter.Value>
+			</Setter>
+		</Style>
+		<Style x:Key="modeSelStyle" TargetType="{x:Type ComboBox}">
+			<Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+			<Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}"/>
+			<Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.WindowBrushKey}}"/>
+			<Setter Property="BorderBrush" Value="{DynamicResource {x:Static SystemColors.WindowBrushKey}}"/>
+			<Setter Property="BorderThickness" Value="1"/>
+			<Setter Property="Margin" Value="1,0"/>
+			<Setter Property="Padding" Value="0"/>
+			<Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto"/>
+			<Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
+			<Setter Property="ScrollViewer.CanContentScroll" Value="true"/>
+			<Setter Property="HorizontalAlignment" Value="Center"/>
+			<Setter Property="VerticalAlignment" Value="Center"/>
+			<Setter Property="MinHeight" Value="18"/>
+			<Setter Property="Template">
+				<Setter.Value>
+					<ControlTemplate TargetType="{x:Type ComboBox}">
+						<Grid SnapsToDevicePixels="true">
+							<Grid Grid.IsSharedSizeScope="true">
+								<Grid.ColumnDefinitions>
+									<ColumnDefinition Width="*"/>
+									<ColumnDefinition SharedSizeGroup="ComboBoxButton" Width="Auto"/>
+								</Grid.ColumnDefinitions>
+								<Border x:Name="Background" Background="{TemplateBinding Background}"/>
+								<Border x:Name="SelectedContentBorder" Margin="1,0">
+									<ContentPresenter x:Name="ContentSite" Margin="{TemplateBinding Padding}" VerticalAlignment="Center" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" Content="{TemplateBinding SelectionBoxItem}" ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}" ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}"/>
+								</Border>
+								<Border x:Name="Border" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Grid.ColumnSpan="2"/>
+								<ToggleButton x:Name="DropDownButton" Style="{StaticResource ToolBarComboBoxTransparentButtonStyle}" BorderBrush="white" BorderThickness="1" Grid.ColumnSpan="2" IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"/>
+								<TextBox x:Name="PART_EditableTextBox" Margin="1,1,0,1" MinHeight="18" Style="{StaticResource ComboBoxEditableTextBox}" VerticalAlignment="Center" Padding="{TemplateBinding Padding}" Visibility="Collapsed" IsReadOnly="{Binding IsReadOnly, RelativeSource={RelativeSource TemplatedParent}}"/>
+							</Grid>
+							<Popup x:Name="PART_Popup" AllowsTransparency="true" IsOpen="{Binding IsDropDownOpen, RelativeSource={RelativeSource TemplatedParent}}" Placement="Bottom" PopupAnimation="{DynamicResource {x:Static SystemParameters.ComboBoxPopupAnimationKey}}" Focusable="false">
+								<Microsoft_Windows_Themes:SystemDropShadowChrome x:Name="Shdw" MaxHeight="{TemplateBinding MaxDropDownHeight}" MinWidth="{TemplateBinding ActualWidth}" Color="Transparent">
+									<Border x:Name="DropDownBorder" Background="{TemplateBinding Background}" BorderBrush="{StaticResource ToolBarMenuBorder}" BorderThickness="1">
+										<ScrollViewer>
+											<ItemsPresenter KeyboardNavigation.DirectionalNavigation="Contained"/>
+										</ScrollViewer>
+									</Border>
+								</Microsoft_Windows_Themes:SystemDropShadowChrome>
+							</Popup>
+						</Grid>
+						<ControlTemplate.Triggers>
+							<Trigger Property="IsEnabled" Value="false">
+								<Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
+								<Setter Property="Background" TargetName="Background" Value="{StaticResource ToolBarDisabledFill}"/>
+								<Setter Property="Grid.ColumnSpan" TargetName="Background" Value="2"/>
+								<Setter Property="BorderBrush" TargetName="Border" Value="{StaticResource ToolBarDisabledBorder}"/>
+							</Trigger>
+							<MultiTrigger>
+								<MultiTrigger.Conditions>
+									<Condition Property="IsKeyboardFocusWithin" Value="true"/>
+									<Condition Property="IsDropDownOpen" Value="false"/>
+									<Condition Property="IsEditable" Value="false"/>
+								</MultiTrigger.Conditions>
+								<Setter Property="Background" TargetName="SelectedContentBorder" Value="{DynamicResource MenuItemPressedFill}"/>
+							</MultiTrigger>
+							<Trigger Property="IsEditable" Value="true">
+								<Setter Property="Background" TargetName="DropDownButton" Value="{x:Null}"/>
+								<Setter Property="Visibility" TargetName="ContentSite" Value="Collapsed"/>
+								<Setter Property="Visibility" TargetName="PART_EditableTextBox" Value="Visible"/>
+							</Trigger>
+							<Trigger Property="IsMouseOver" Value="true">
+								<Setter Property="BorderBrush" TargetName="DropDownButton" Value="{StaticResource ToolBarButtonHoverBorder}"/>
+								<Setter Property="Background" TargetName="DropDownButton" Value="{StaticResource ToolBarButtonHover}"/>
+								<Setter Property="BorderBrush" TargetName="Border" Value="{StaticResource ToolBarButtonHoverBorder}"/>
+							</Trigger>
+							<Trigger Property="IsKeyboardFocusWithin" Value="true">
+								<Setter Property="BorderBrush" TargetName="DropDownButton" Value="{StaticResource ToolBarButtonHoverBorder}"/>
+								<Setter Property="Background" TargetName="DropDownButton" Value="{StaticResource ToolBarButtonHover}"/>
+								<Setter Property="BorderBrush" TargetName="Border" Value="{StaticResource ToolBarButtonHoverBorder}"/>
+							</Trigger>
+							<Trigger Property="HasDropShadow" SourceName="PART_Popup" Value="true">
+								<Setter Property="Margin" TargetName="Shdw" Value="0,0,5,5"/>
+								<Setter Property="SnapsToDevicePixels" TargetName="Shdw" Value="true"/>
+								<Setter Property="Color" TargetName="Shdw" Value="#71000000"/>
+							</Trigger>
+							<Trigger Property="HasItems" Value="false">
+								<Setter Property="MinHeight" TargetName="DropDownBorder" Value="95"/>
+							</Trigger>
+							<Trigger Property="IsGrouping" Value="true">
+								<Setter Property="ScrollViewer.CanContentScroll" Value="false"/>
+							</Trigger>
+							<MultiTrigger>
+								<MultiTrigger.Conditions>
+									<Condition Property="IsKeyboardFocusWithin" Value="true"/>
+									<Condition Property="IsDropDownOpen" Value="false"/>
+									<Condition Property="IsEditable" Value="false"/>
+								</MultiTrigger.Conditions>
+								<Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.HighlightTextBrushKey}}"/>
+							</MultiTrigger>
+							<Trigger Property="IsEditable" Value="true">
+								<Setter Property="Padding" Value="2"/>
+								<Setter Property="IsTabStop" Value="false"/>
+							</Trigger>
+						</ControlTemplate.Triggers>
+					</ControlTemplate>
+				</Setter.Value>
+			</Setter>
+		</Style>
+		<Style x:Key="ModeSelectionItemStyle1" TargetType="{x:Type ComboBoxItem}">
+			<Setter Property="HorizontalContentAlignment" Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
+			<Setter Property="VerticalContentAlignment" Value="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
+			<Setter Property="Padding" Value="3,0,3,0"/>
+			<Setter Property="Background" Value="Transparent"/>
+			<Setter Property="Template">
+				<Setter.Value>
+					<ControlTemplate TargetType="{x:Type ComboBoxItem}">
+						<Border x:Name="Bd" SnapsToDevicePixels="true" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Padding="{TemplateBinding Padding}">
+							<ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+						</Border>
+						<ControlTemplate.Triggers>
+							<Trigger Property="IsHighlighted" Value="true">
+								<Setter Property="Background" TargetName="Bd" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
+								<Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.HighlightTextBrushKey}}"/>
+							</Trigger>
+							<Trigger Property="IsEnabled" Value="false">
+								<Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
+							</Trigger>
+						</ControlTemplate.Triggers>
+					</ControlTemplate>
+				</Setter.Value>
+			</Setter>
+		</Style>
+		<Style x:Key="ModeChangeItemStyle1" TargetType="{x:Type ComboBoxItem}">
+			<Setter Property="HorizontalContentAlignment" Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
+			<Setter Property="VerticalContentAlignment" Value="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
+			<Setter Property="Padding" Value="3,0,3,0"/>
+			<Setter Property="Background" Value="Transparent"/>
+			<Setter Property="Template">
+				<Setter.Value>
+					<ControlTemplate TargetType="{x:Type ComboBoxItem}">
+						<Border x:Name="Bd" SnapsToDevicePixels="true" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Padding="{TemplateBinding Padding}">
+							<ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+						</Border>
+						<ControlTemplate.Triggers>
+							<Trigger Property="IsHighlighted" Value="true">
+								<Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.HighlightTextBrushKey}}"/>
+								<Setter Property="Background" TargetName="Bd" Value="#E5393939"/>
+							</Trigger>
+							<Trigger Property="IsEnabled" Value="false">
+								<Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
+							</Trigger>
+						</ControlTemplate.Triggers>
+					</ControlTemplate>
+				</Setter.Value>
+			</Setter>
+		</Style>
 	</Window.Resources>
 	<Window.Triggers>
 		<EventTrigger RoutedEvent="FrameworkElement.Loaded">
@@ -1098,41 +1305,55 @@
 				</MenuItem>
 			</Menu>
 		</Grid>
-		<ToolBarTray Width="Auto" Height="30" DockPanel.Dock="Top" Margin="0,0,0,10">
+		<ToolBarTray Width="Auto" DockPanel.Dock="Top" Margin="0,0,0,10">
 			<ToolBarTray.Background>
 				<LinearGradientBrush EndPoint="344.005,344.799" StartPoint="343.997,-343.201" MappingMode="Absolute">
 					<GradientStop Color="#FF5D5D5D" Offset="0"/>
 					<GradientStop Color="#FF3A3A3A" Offset="1"/>
 				</LinearGradientBrush>
 			</ToolBarTray.Background>
-			<ToolBar Height="30" Style="{DynamicResource ToolBarStyle1}" x:Name="switchModes" Width="152.637">
+			<ToolBar Height="30" Style="{DynamicResource ToolBarStyle1}" x:Name="switchModes" Margin="0" Padding="0,0,15,0">
 				<ToolBar.Background>
 					<LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
 						<GradientStop Color="#00FFFFFF" Offset="0"/>
 						<GradientStop Color="#528D8A8D" Offset="0.982"/>
 					</LinearGradientBrush>
 				</ToolBar.Background>
-				<ToggleButton Style="{DynamicResource ButtonStyle3}" x:Name="modeSw" Click="modeSw_Click">
-					<Image x:Name="modeSwImg" Source="res\switch_to_camera_mode.png" ToolTip="Switch current mode"/>
-				</ToggleButton>
 				<!--ToggleButton Style="{DynamicResource ButtonStyle1}" x:Name="modeSw2" Click="modeSw_Click">
 					<Image x:Name="modeSwimgobj" Source="res\webcam.png"/>
 				</ToggleButton-->
-				<Separator/>
-				<Label Background="#00FFFFFF" Foreground="#FFE5DC5E" FontWeight="Bold" x:Name="currentMode">Capture Mode</Label>
-			</ToolBar>
-			<ToolBar Width="88" Height="30" Style="{DynamicResource ToolBarStyle1}" x:Name="objectToolbar" Visibility="Hidden">
-				<ToolBar.Background>
-					<LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
-						<GradientStop Color="#00FFFFFF" Offset="0"/>
-						<GradientStop Color="#528D8A8D" Offset="0.982"/>
-					</LinearGradientBrush>
-				</ToolBar.Background>
-				<Button x:Name="loadImage" Click="ldImage_Click" Style="{DynamicResource ButtonStyle2}" ToolTip="Load Image">
+				<ComboBox x:Name="modeSelection" HorizontalAlignment="Stretch" Margin="5,0,0,0" VerticalAlignment="Stretch" Width="137.666" BorderBrush="#3D373737" SelectedIndex="0" Style="{DynamicResource modeSelStyle}" ItemContainerStyle="{DynamicResource ModeChangeItemStyle1}" SelectionChanged="modeSelection_SelectionChanged">
+					<ComboBox.Background>
+						<LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+							<GradientStop Color="#FF4C4C4C" Offset="0"/>
+							<GradientStop Color="#FF5F5E5F" Offset="1"/>
+						</LinearGradientBrush>
+					</ComboBox.Background>
+					<ComboBoxItem>
+						<StackPanel Orientation="Horizontal">
+							<Image Source="res\webcam.png" Margin="0,0,5,0"/>
+							<Label Background="#00FFFFFF" Foreground="#FFDEDEDE" Content="Capture Mode"/>
+						</StackPanel>
+					</ComboBoxItem>
+					<ComboBoxItem>
+						<StackPanel Orientation="Horizontal">
+							<Image Source="res\switch_to_camera_mode.png" Margin="0,0,5,0"/>
+							<Label Background="#00FFFFFF" Foreground="#FFDEDEDE" Content="Image Mode"/>
+						</StackPanel>
+					</ComboBoxItem>
+					<ComboBoxItem>
+						<StackPanel Orientation="Horizontal">
+							<Image Source="res\switch_to_batch_mode.png" Margin="0,0,5,0"/>
+							<Label Background="#00FFFFFF" Foreground="#FFDEDEDE" Content="Batch Mode"/>
+						</StackPanel>
+					</ComboBoxItem>
+				</ComboBox>
+				<Separator Margin="6,2" Background="#9AC6C7C6"/>
+				<Button x:Name="loadImage" Click="ldImage_Click" Style="{DynamicResource ButtonStyle2}" ToolTip="Load Image" OpacityMask="Black" Visibility="Collapsed">
 					<Image Source="res\picture_add.png"/>
 				</Button>
-				<ToggleButton x:Name="pick" Style="{DynamicResource ButtonStyle1}" Click="pick_Click" ToolTip="Define objects" IsEnabled="False" OpacityMask="#7E000000">
-					<Image Source="res\pick_objects.png"/>
+				<ToggleButton x:Name="pick" Style="{DynamicResource ButtonStyle1}" Click="pick_Click" ToolTip="Define objects" OpacityMask="#8A000000">
+					<Image Source="res\pick_objects.png" IsEnabled="False"/>
 				</ToggleButton>
 			</ToolBar>
 		</ToolBarTray>
@@ -1155,8 +1376,14 @@
 					<Path Fill="{x:Null}" Stretch="Fill" Stroke="#85BBBBBB" Height="1" Data="M2,1 L303,1" Margin="-2.978,0,85.021,0" VerticalAlignment="Top"/>
 					<StackPanel Margin="14,25,85.021,0" VerticalAlignment="Top">
 						<CheckBox Width="194" Height="15.96" Content="Display Points of Interest (POI's)" Foreground="#FFFFFFFF" IsEnabled="True" IsChecked="True" HorizontalAlignment="Left" VerticalAlignment="Top" x:Name="dispPOI" Unchecked="dispPOI_Unchecked" Checked="dispPOI_Checked"/>
-						<CheckBox Content="Display POI Orientation" Foreground="#FFFFFFFF" IsEnabled="True" IsChecked="True" Width="194" Height="15.96" Margin="0,10,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" x:Name="dispOrientation"/>
-						<CheckBox Content="Display Descriptor Area" Foreground="#FFFFFFFF" IsEnabled="True" IsChecked="False" Width="194" Height="15.96" Margin="0,10,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" x:Name="dispArea"/>
+						<CheckBox Content="Display POI Orientation" Foreground="#FFFFFFFF" 
+                                  IsEnabled="True" IsChecked="True" 
+                                  Width="194" Height="15.96" Margin="0,10,0,0" 
+                                  HorizontalAlignment="Left" VerticalAlignment="Top" 
+                                  x:Name="dispOrientation" 
+                                  Unchecked="dispOri_Unchecked" Checked="dispOri_Checked"/>
+						<CheckBox Content="Display Descriptor Area" Foreground="#FFFFFFFF" IsEnabled="True" IsChecked="False" Width="194" Height="15.96" Margin="0,10,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" x:Name="dispArea" 
+                                  Unchecked="dispArea_Unchecked" Checked="dispArea_Checked"/>
 					</StackPanel>
 				</Grid>
 			</Expander>
@@ -1247,7 +1474,21 @@
 						<TextBlock Margin="22.542,1.52,0,3.52" FontSize="12" Foreground="#FFDEDEDE" Text="Capture not active. Press &quot;Start Capture&quot;" TextWrapping="Wrap" d:LayoutOverrides="HorizontalAlignment, VerticalAlignment, Width, Height"/>
 						<TextBlock HorizontalAlignment="Left" Width="20.542" FontFamily="Webdings" FontSize="18" Foreground="#FFC40000" Text="&lt;" TextWrapping="Wrap"/>
 					</Grid>
-				</Border> 
+				</Border>
+				<ScrollViewer x:Name="batchScroll" Visibility="Hidden">
+					<TextBlock 
+						x:Name="batchCommandWind" 
+						Margin="4" 
+						TextWrapping="Wrap" 
+						IsEnabled="False" 
+						Background="Black" 
+						Foreground="White" 
+						FontFamily="Consolas" 
+						FontSize="13.333"
+						ScrollViewer.CanContentScroll="True"
+						ScrollViewer.VerticalScrollBarVisibility="Auto" Visibility="Hidden"
+					/> 
+				</ScrollViewer>
 			</Grid>
 		</Border>
 	</DockPanel>

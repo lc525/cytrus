@@ -17,6 +17,7 @@
 #include "stdafx.h"
 #include "WebCamLib.h"
 
+
 #ifdef _MANAGED
 #pragma managed(push, off)
 #endif
@@ -131,6 +132,8 @@ __declspec(dllexport) DWORD APIENTRY GetCameraDetails(int index, IUnknown **ppUn
 
 	return S_OK;
 }
+
+//TODO: release details?
 
 __declspec(dllexport) DWORD APIENTRY DisplayCameraPropertiesDialog(IUnknown *pUnk, HWND hwnd)
 {

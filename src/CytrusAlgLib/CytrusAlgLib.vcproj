@@ -178,6 +178,10 @@
 		</Configuration>
 	</Configurations>
 	<References>
+		<ProjectReference
+			ReferencedProjectIdentifier="{28623A2E-01DB-46ED-AF4B-2B10C4610A95}"
+			RelativePathToProject=".\WebCamLib\WebCamLib.vcproj"
+		/>
 	</References>
 	<Files>
 		<Filter
@@ -271,6 +275,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\Poi.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\SurfAlg.cpp"
 					>
 				</File>
@@ -349,7 +357,7 @@
 					>
 				</File>
 				<File
-					RelativePath="..\..\include\poi.h"
+					RelativePath="..\..\include\Poi.h"
 					>
 				</File>
 				<File

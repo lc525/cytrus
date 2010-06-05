@@ -47,6 +47,7 @@ DirectShowCameraSource::~DirectShowCameraSource(){
 	if(deviceHandle!=NULL) 
 		delete []deviceHandle;
 	CoUninitialize();
+	imageData=(BYTE*)realloc((void*)imageData, 0);
 }
 
 void DirectShowCameraSource::getCameraList(){
@@ -145,8 +146,8 @@ std::pair<int,int> DirectShowCameraSource::getImageSize(){
 void __stdcall DirectShowCameraSource::callbackFunc(DWORD dwSize, BYTE* pbData){
 	if(imageDataSize!=dwSize){
 		imageDataSize=dwSize;
-			imageData=(BYTE*)realloc((void*)imageData, sizeof(BYTE)*dwSize);
-			if(imageData==NULL) exit(1);
+		imageData=(BYTE*)realloc((void*)imageData, sizeof(BYTE)*dwSize);
+		if(imageData==NULL) exit(1);
 	}
 	memcpy_s((void*)imageData, sizeof(BYTE)*dwSize, pbData, sizeof(BYTE)*dwSize);
 	signalNewImageAvailable();

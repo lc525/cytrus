@@ -19,7 +19,7 @@ namespace cytrus {
         private:
             int _x, _y;
 			float _orientation;
-			int _scale;
+			float _scale;
 			int _matchesObjectNr;
 			float _matchedDistance;
 
@@ -80,7 +80,7 @@ namespace cytrus {
                 }
             }
 
-			property int Scale
+			property float Scale
             {
                 int get(){
                     return _scale;

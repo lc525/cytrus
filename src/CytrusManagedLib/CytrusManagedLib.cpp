@@ -179,6 +179,7 @@ bool CameraMgr::setProcessingSize(int width, int height){
             _camWidth=width;
             _camHeight=height;
         }
+		else break;
     }
     return success;
 }
@@ -193,5 +194,17 @@ void CameraMgr::startCapture(){
 void CameraMgr::stopCapture(){
     cs->stopCapture();
 
+}
+
+int CameraMgr::registerObject(int startX, int startY, int widthR, int heightR /*, IPOIAlgorithm* poiAlg*/ ){
+	ObjectPoiStorage* store=ObjectPoiStorage::getInstance();
+	//int index=store->registerObject(startX, startY, widthR, heightR, poiAlg);
+	int index=store->registerObject(startX, startY, widthR, heightR, *alg_ProcessingPool->begin());
+	return index;
+}
+
+void CameraMgr::removeObject(int index){
+	ObjectPoiStorage* store=ObjectPoiStorage::getInstance();
+	store->removeObject(index);
 }
 

@@ -43,7 +43,7 @@ namespace cytrus{
 
             public:
                 SurfAlg(IImageSource* imgSrc, POIAlgResult outputFunc, int index);
-                ~SurfAlg();
+                virtual ~SurfAlg();
 
                 virtual void processImage(unsigned long dwSize, unsigned char* pbData);
 

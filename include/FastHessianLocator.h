@@ -42,7 +42,7 @@ namespace cytrus{
         static const int INT_SAMPLE = 2;
 
         template <typename IntegralImageView>
-        class FastHessianLocator:public ILocator{
+        class FastHessianLocator : public ILocator{
 
             private:
 
@@ -72,7 +72,7 @@ namespace cytrus{
             int _sampling;
             int _threshold;
 
-            float* hessianDet; // array that contains
+            float* hessianDet; // array that contains the Hessian Determinant
 
             public:
                 FastHessianLocator(IntegralImageView& intImg, 

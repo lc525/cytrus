@@ -11,6 +11,7 @@
 **
 */
 #include "stdafx.h"
+//#include "vld.h"
 #include "SurfAlg.h"
 #include "IntegralImageTransform.h"
 #include "FastHessianLocator.h"
@@ -69,7 +70,7 @@ void SurfAlg::processImage(unsigned long dwSize, unsigned char* pbData){
     int width=size.first;
     int height=size.second;
     ptrdiff_t myVal=dwSize/(height);
-    rgb8c_view_t* prelView;
+    rgb8c_view_t* prelView=NULL;
     rgb8_image_t* scaled=NULL;
     rgb8c_view_t myView=interleaved_view(width,height,(const rgb8_pixel_t*)pbData,myVal);
 
@@ -104,7 +105,7 @@ void SurfAlg::processImage(unsigned long dwSize, unsigned char* pbData){
 		locator->setParameters(3,4,width/120>=2?width/120:2, 25.007f);
 	}
     locator->setSourceIntegralImg(integralView);
-    iPts.clear();
+    //iPts.clear();
     locator->locatePOIInImage(iPts);
 
 	// get POI's descriptors
@@ -145,6 +146,7 @@ void SurfAlg::processImage(unsigned long dwSize, unsigned char* pbData){
 
     //cleanup:
     if(scaled!=NULL) delete scaled;
+	prelView=NULL;
 }
 
 bool SurfAlg::setProcessingSize(int newWidth, int newHeight){

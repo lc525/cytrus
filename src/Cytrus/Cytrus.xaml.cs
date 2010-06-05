@@ -22,15 +22,32 @@ using ImageAnnotationDemo;
 using System.Reflection;
 using System.Diagnostics;
 using System.Configuration;
+using System.Runtime.InteropServices;
 
 namespace cytrus.managed
 {
+    public delegate void BatchMessageDelegate(string c);
+
+    public enum AppModes{
+        CAPTURE_MODE,
+        IMAGE_MODE,
+        BATCH_MODE
+    }
+
+    
     /// <summary>
     /// Interaction logic for Window1.xaml
     /// </summary>
     public partial class Window1 : Window,INotifyPropertyChanged
     {
 
+        public Dictionary<String, AppModes> menuAppModesStrings=new Dictionary<String,AppModes>{
+                                                                    { "Capture Mode", AppModes.CAPTURE_MODE},
+                                                                    { "Batch Mode", AppModes.BATCH_MODE},
+                                                                    { "Image Mode", AppModes.IMAGE_MODE}
+                                                                };
+        
+        
         public struct ImgSize
         {
             public int width, height;
@@ -38,6 +55,7 @@ namespace cytrus.managed
             public ImgSize(int w, int h){
                 width=w;
                 height=h;
+                
             }
             
             public override string ToString()
@@ -58,12 +76,15 @@ namespace cytrus.managed
         private int meanFrames;
         private int currentNoOfFrames;
         private Size imgSize;
+        private AppModes currentMode;
         private double selRectTL_x, selRectTL_y;
         private PoiAdorner prevAdorner = null;
         AdornerLayer myAdornerLayer;
         private ImageCaptureCallback staticImageCallback;
+        private ImageCaptureCallback cameraImageCallback;
+        private ImageCaptureCallback batchImageCallback;
         private Point startDrag, currentPoint, objStDrag;
-        BitmapImage bpCM, bpOM;
+        //BitmapImage bpCM, bpOM;
         bool imageLoaded;
         MouseButtonEventHandler md, mu;
         MouseEventHandler mm;
@@ -76,14 +97,14 @@ namespace cytrus.managed
             //_rObj.Add(new RecognisedObject("Human Face", 20));
             //p.RecognitionCertainty = 80;
             //
-           
             Fps = 0;
             meanFrames = 100;
             currentNoOfFrames = 0;
+            
             InitializeComponent();
             sizeChangeHandler = new SelectionChangedEventHandler(imgSizeCombo_SelectionChanged);
-            bpCM = new BitmapImage(new Uri(@"res\switch_to_camera_mode.png", UriKind.Relative));
-            bpOM = new BitmapImage(new Uri(@"res\webcam.png", UriKind.Relative));
+            //bpCM = new BitmapImage(new Uri(@"res\switch_to_camera_mode.png", UriKind.Relative));
+            //bpOM = new BitmapImage(new Uri(@"res\webcam.png", UriKind.Relative));
 
             md = new MouseButtonEventHandler(image_MouseDown);
             mu = new MouseButtonEventHandler(image_MouseUp);
@@ -93,7 +114,7 @@ namespace cytrus.managed
             selRectTL_y = 0;
             imageLoaded = false;
 
-
+            
             InitializeComponent();
             ContextMenu myMenu = new ContextMenu();
             MenuItem objItem = new MenuItem();
@@ -110,8 +131,8 @@ namespace cytrus.managed
             myMenu2.Items.Add(objItem2);
 
             objListDisp.ContextMenu = myMenu2;
-
-
+            currentMode = AppModes.CAPTURE_MODE;
+            
         }
 
         void objItem2_Click(object sender, RoutedEventArgs e)
@@ -228,7 +249,10 @@ namespace cytrus.managed
             outputM.ItemsSource = cameraManager.getOutputModesList();
             cameraManager.setActiveOutputMode(0);
             cameraManager.selectCamera(0);
-            cameraManager.onImageAvailableForRendering += new ImageCaptureCallback(c_onNewImageAvailable);
+            cameraImageCallback = new ImageCaptureCallback(c_onNewImageAvailable);
+            batchImageCallback = new ImageCaptureCallback(batch_onNewImageAvailable);
+            cameraManager.onImageAvailableForRendering += cameraImageCallback;
+            //cameraManager.onImageAvailableForRendering += new ImageCaptureCallback(c_onNewImageAvailable);
             //cameraManager.onOutputModeChange += new OutputModeCallback(cameraManager_onOutputModeChange);
             isCapturing = false;
             myAdornerLayer = AdornerLayer.GetAdornerLayer(captureImg);
@@ -237,6 +261,63 @@ namespace cytrus.managed
             pictureManager.onImageAvailableForRendering += staticImageCallback;
         }
 
+        void batch_onNewImageAvailable(byte[] pbData, List<Poi_m> poiData)
+        {
+            
+            if (currentNoOfFrames % 100 == 0)
+            {
+                string message = "captured images: " + currentNoOfFrames;
+                batchCommandWind.Dispatcher.BeginInvoke(new BatchMessageDelegate(changeText), message);
+            }
+
+            //this.Dispatcher.Invoke(DispatcherPriority.Normal, (Action)(() =>
+            //{
+            if (currentNoOfFrames > 25)
+            {
+                try
+                {
+                    System.Drawing.Bitmap bmp = new System.Drawing.Bitmap(320, 240, System.Drawing.Imaging.PixelFormat.Format24bppRgb);
+                    System.Drawing.Imaging.BitmapData bmpData = bmp.LockBits(
+                                         new System.Drawing.Rectangle(0, 0, bmp.Width, bmp.Height),
+                                         System.Drawing.Imaging.ImageLockMode.WriteOnly, bmp.PixelFormat);
+                    Marshal.Copy(pbData, 0, bmpData.Scan0, pbData.Length);
+                    bmp.UnlockBits(bmpData);
+                    bmp.Save("data\\cap" + currentNoOfFrames.ToString("D5") + ".jpg", System.Drawing.Imaging.ImageFormat.Jpeg);
+                    FileStream fs = new FileStream("data\\poidata" + currentNoOfFrames.ToString("D5") + ".dat", FileMode.OpenOrCreate);
+                    using (StreamWriter sw = new StreamWriter(fs))
+                    {
+                        foreach(Poi_m ipct in poiData){
+                            sw.WriteLine(ipct.X + " " + ipct.Y + " " + ipct.Scale + " " + ipct.Orientation);
+                        }
+                    }
+                }
+                catch (Exception e)
+                {
+                    System.Console.WriteLine(e.StackTrace);
+                }
+                //}));
+            }
+            currentNoOfFrames++;
+        }
+
+        void changeText(string message)
+        {
+
+            if (currentNoOfFrames < 100)
+            {
+                batchCommandWind.Text += "#cytrus> ... " + Environment.NewLine;
+            }
+            else
+            {
+                DateTime dtCap = DateTime.Now;
+                double milliseconds = (double)((dtCap.Ticks - _lastCapture.Ticks) / TimeSpan.TicksPerMillisecond); //*1.15;
+                Fps = Math.Round((100 * 1000) / milliseconds, 2);
+                if (currentNoOfFrames % 5000 == 0) batchCommandWind.Text = "";
+                batchCommandWind.Text += "#cytrus>" + message + " (fps:" + Fps + ")" + Environment.NewLine;
+                batchScroll.ScrollToVerticalOffset(batchScroll.ScrollableHeight);
+            }
+            _lastCapture = DateTime.Now;
+        }
 
         void c_onNewImageAvailable(byte[] pbData, List<Poi_m> poiData)
         {
@@ -359,7 +440,6 @@ namespace cytrus.managed
                 OutputMode om = outputM.SelectedItem as OutputMode;
                 _frameRenderer.ChangePixelFormat((PixelFormat)om.pixelFormat);
 
-
                 _prelSizes.Clear();
                 for (int i = 0; i < 4; i++)
                 {
@@ -371,6 +451,8 @@ namespace cytrus.managed
                 imgSizeCombo.SelectedIndex = 0;
                 imgSizeCombo.IsEnabled = true;
                 imgSizeCombo.SelectionChanged += sizeChangeHandler;
+                pick.OpacityMask = Brushes.Black;
+                pick.IsEnabled = true;
             }
             else
             {
@@ -482,65 +564,14 @@ namespace cytrus.managed
         private void modeSw_Click(object sender, RoutedEventArgs e)
         {
 
-            if (modeSw.IsChecked==true)
-            {
-                if (isCapturing == true)
-                {
-                    StartCapture_Click(null, null); 
-                }
-                objectToolbar.Visibility = Visibility.Visible;
-                currentMode.Content = "Object Mode";
-                modeSwImg.Source = bpOM;
-
-                No_capture.Visibility = Visibility.Hidden;
-                ImageSetup.Visibility = Visibility.Collapsed;
-
-                fps_bar.Visibility = Visibility.Hidden;
-                fps_text.Visibility = Visibility.Hidden;
-                fpsDisplay.Visibility = Visibility.Hidden;
-                viewbox.Visibility = Visibility.Hidden;
-            }
-            else
-            {
-                objectToolbar.Visibility = Visibility.Hidden;
-                currentMode.Content = "Capture Mode";
-                modeSwImg.Source = bpCM;
-
-                No_capture.Visibility = Visibility.Visible;
-                ImageSetup.Visibility = Visibility.Visible;
-                if (prevAdorner != null) myAdornerLayer.Remove(prevAdorner);
-                captureImg.Source = null;
-                imageLoaded = false;
-                pick.IsChecked = false;
-
-                captureImg.Cursor = Cursors.Arrow;
-                captureImg.MouseDown -= md;
-                captureImg.MouseUp -= mu;
-                captureImg.MouseMove -= mm;
-
-                rectangle.Visibility = Visibility.Hidden;
-
-                fps_bar.Visibility = Visibility.Visible;
-                fps_text.Visibility = Visibility.Visible;
-                fpsDisplay.Visibility = Visibility.Visible;
-                viewbox.Visibility = Visibility.Visible;
-
-                pick.IsEnabled = false;
-                Color p=new Color();
-                p.A=126;
-                SolidColorBrush opM = new SolidColorBrush(p);
-                pick.OpacityMask = opM;
-
-                pictureManager.freeResources();
-                //pictureManager = null;
-            }
+            
         }
 
         private void pick_Click(object sender, RoutedEventArgs e)
         {
             if (pick.IsChecked == true)
             {
-                if (imageLoaded == true)
+                if (imageLoaded == true || isCapturing==true)
                 {
                     captureImg.Cursor = Cursors.Cross;
                     captureImg.MouseDown += md;
@@ -574,6 +605,8 @@ namespace cytrus.managed
         private void dispPOI_Unchecked(object sender, RoutedEventArgs e)
         {
             dispOrientation.IsEnabled = false;
+            prevAdorner.showPOI = false;
+            myAdornerLayer.Update();
             dispArea.IsEnabled = false;
         }
 
@@ -582,19 +615,31 @@ namespace cytrus.managed
             if (dispOrientation != null && dispArea != null)
             {
                 dispOrientation.IsEnabled = true;
+                prevAdorner.showPOI = true;
+                myAdornerLayer.Update();
                 dispArea.IsEnabled = true;
             }
         }
 
         private void objAddButton_Click(object sender, RoutedEventArgs e)
         {
-            int rWidth, rHeight, x ,y;
-            x = (int)Math.Floor(objStDrag.X * pictureManager._imgWidth / captureImg.ActualWidth);
-            y = (int)Math.Floor(objStDrag.Y * pictureManager._imgHeight / captureImg.ActualHeight);
-            rWidth = (int)Math.Floor(rectangle.ActualWidth * pictureManager._imgWidth / captureImg.ActualWidth);
-            rHeight = (int)Math.Floor(rectangle.ActualHeight * pictureManager._imgHeight / captureImg.ActualHeight);
-
-            int no=pictureManager.registerObject(x,y,rWidth,rHeight);
+            int rWidth, rHeight, x ,y, no=0;
+            if (currentMode == AppModes.IMAGE_MODE && imageLoaded == true)
+            {
+                x = (int)Math.Floor(objStDrag.X * pictureManager._imgWidth / captureImg.ActualWidth);
+                y = (int)Math.Floor(objStDrag.Y * pictureManager._imgHeight / captureImg.ActualHeight);
+                rWidth = (int)Math.Floor(rectangle.ActualWidth * pictureManager._imgWidth / captureImg.ActualWidth);
+                rHeight = (int)Math.Floor(rectangle.ActualHeight * pictureManager._imgHeight / captureImg.ActualHeight);
+                no = pictureManager.registerObject(x, y, rWidth, rHeight);
+            }
+            if (currentMode == AppModes.CAPTURE_MODE && isCapturing == true)
+            {
+                x = (int)Math.Floor(objStDrag.X * cameraManager._camWidth / captureImg.ActualWidth);
+                y = (int)Math.Floor(objStDrag.Y * cameraManager._camHeight / captureImg.ActualHeight);
+                rWidth = (int)Math.Floor(rectangle.ActualWidth * cameraManager._camWidth / captureImg.ActualWidth);
+                rHeight = (int)Math.Floor(rectangle.ActualHeight * cameraManager._camHeight / captureImg.ActualHeight);
+                no = cameraManager.registerObject(x, y, rWidth, rHeight);
+            }
             RecognisedObject nObj = new RecognisedObject(objName.Text, no);
             //RecognisedObject nObj = new RecognisedObject(objName.Text, 0);
             _rObj.Add(nObj);
@@ -611,7 +656,147 @@ namespace cytrus.managed
             }
             catch
             {
-                MessageBox.Show("Help not found");
+                MessageBox.Show("Help file not found!");
+            }
+        }
+
+        private void dispOri_Checked(object sender, System.Windows.RoutedEventArgs e)
+        {
+            if (prevAdorner != null)
+            {
+                prevAdorner.showOrientation = true;
+                myAdornerLayer.Update();
+            }
+        }
+
+        private void dispOri_Unchecked(object sender, System.Windows.RoutedEventArgs e)
+        {
+            if (prevAdorner != null)
+            {
+                prevAdorner.showOrientation = false;
+                myAdornerLayer.Update();
+            }
+        }
+
+        private void dispArea_Unchecked(object sender, System.Windows.RoutedEventArgs e)
+        {
+            if (prevAdorner != null)
+            {
+                prevAdorner.showVicinity = false;
+                myAdornerLayer.Update();
+            }
+        }
+
+        private void dispArea_Checked(object sender, System.Windows.RoutedEventArgs e)
+        {
+            if (prevAdorner != null)
+            {
+                prevAdorner.showVicinity = true;
+                myAdornerLayer.Update();
+            }
+        }
+
+        private void modeSelection_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        {
+           
+            ComboBoxItem item=(ComboBoxItem)e.AddedItems[0];
+            StackPanel pnl=(StackPanel)item.Content;
+            IEnumerable<Label> lblList=pnl.Children.OfType<Label>();
+            Label contentTitle=lblList.ElementAt<Label>(0);
+            switch(menuAppModesStrings[contentTitle.Content.ToString()]){
+                case AppModes.IMAGE_MODE: {
+                    No_capture.Visibility = Visibility.Hidden;
+                    ImageSetup.Visibility = Visibility.Collapsed;
+                    Results.Visibility = Visibility.Visible;
+                    Objects.Visibility = Visibility.Visible;
+
+                    fps_bar.Visibility = Visibility.Hidden;
+                    fps_text.Visibility = Visibility.Hidden;
+                    fpsDisplay.Visibility = Visibility.Hidden;
+                    viewbox.Visibility = Visibility.Hidden;
+                    batchCommandWind.Visibility = Visibility.Hidden;
+                    if (myAdornerLayer != null)
+                        myAdornerLayer.Visibility = Visibility.Visible;
+                    loadImage.Visibility=Visibility.Visible;
+                    pick.Visibility = Visibility.Visible;
+                    currentMode = AppModes.IMAGE_MODE;
+                    break;
+                }
+                case AppModes.BATCH_MODE:{
+                    Fps = 0.0;
+                    if(myAdornerLayer!=null)
+                        myAdornerLayer.Visibility = Visibility.Hidden;
+                    No_capture.Visibility = Visibility.Hidden;
+                    Results.Visibility = Visibility.Collapsed;
+                    Objects.Visibility = Visibility.Collapsed;
+                    ImageSetup.Visibility = Visibility.Visible;
+                    batchCommandWind.Visibility = Visibility.Visible;
+                    batchScroll.Visibility = Visibility.Visible;
+
+                    fps_bar.Visibility = Visibility.Hidden;
+                    fps_text.Visibility = Visibility.Hidden;
+                    fpsDisplay.Visibility = Visibility.Hidden;
+                    viewbox.Visibility = Visibility.Hidden;
+                    currentNoOfFrames = 0;
+                    cameraManager.onImageAvailableForRendering -= cameraImageCallback;
+                    cameraManager.onImageAvailableForRendering += batchImageCallback;
+
+                    loadImage.Visibility=Visibility.Collapsed;
+                    pick.Visibility=Visibility.Collapsed;
+                    currentMode = AppModes.BATCH_MODE;
+                    break;
+                }
+                case AppModes.CAPTURE_MODE:{
+                    if (cameraManager != null)
+                    {
+
+                        if(myAdornerLayer!=null)
+                            myAdornerLayer.Visibility = Visibility.Visible;
+                        currentNoOfFrames = 0;
+
+                        cameraManager.onImageAvailableForRendering -= batchImageCallback;
+                        cameraManager.onImageAvailableForRendering += cameraImageCallback;
+
+
+                        No_capture.Visibility = Visibility.Visible;
+                        ImageSetup.Visibility = Visibility.Visible;
+                        Results.Visibility = Visibility.Visible;
+                        Objects.Visibility = Visibility.Visible;
+                        batchCommandWind.Visibility = Visibility.Hidden;
+                        batchScroll.Visibility = Visibility.Hidden;
+                        if (prevAdorner != null) myAdornerLayer.Remove(prevAdorner);
+                        captureImg.Source = null;
+                        imageLoaded = false;
+                        pick.IsChecked = false;
+
+                        captureImg.Cursor = Cursors.Arrow;
+                        captureImg.MouseDown -= md;
+                        captureImg.MouseUp -= mu;
+                        captureImg.MouseMove -= mm;
+
+                        rectangle.Visibility = Visibility.Hidden;
+
+                        fps_bar.Visibility = Visibility.Visible;
+                        fps_text.Visibility = Visibility.Visible;
+                        fpsDisplay.Visibility = Visibility.Visible;
+                        viewbox.Visibility = Visibility.Visible;
+
+                        pick.Visibility = Visibility.Visible;
+                        loadImage.Visibility = Visibility.Collapsed;
+
+                        //pick.IsEnabled = false;
+                        //Color p = new Color();
+                        //p.A = 126;
+                        //SolidColorBrush opM = new SolidColorBrush(p);
+                        //pick.OpacityMask = opM;
+                        pictureManager.freeResources();
+                    }
+
+                    //pictureManager = null;
+                    currentMode = AppModes.CAPTURE_MODE;
+                    break;
+                    
+                }
             }
         }
 

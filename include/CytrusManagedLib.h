@@ -95,6 +95,11 @@ namespace cytrus {
 			void startCapture();
 			void stopCapture();
 
+			//returns the object index
+			//int registerObject(int startX, int startY, int width, int height, IPOIAlgorithm* poiAlg);
+			int registerObject(int startX, int startY, int width, int height);
+			void removeObject(int index);
+
 		};
 	}
 }

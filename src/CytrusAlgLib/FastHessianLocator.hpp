@@ -111,7 +111,7 @@ void FastHessianLocator<IntegralImageView>::locatePOIInImage(std::vector<Poi>& i
     for(int o=0; o < _octaves; o++) 
     {
         // For each octave double the sampling step of the previous
-        int step = _sampling * (int)floor(pow(2.0f,o)+0.5f);;
+        int step = _sampling * (int)floor(pow(2.0f,o)+0.5f);
         int border = border_cache[o];
 
         // 3x3x3 non-max suppression over whole image
@@ -182,7 +182,7 @@ void FastHessianLocator<IntegralImageView>::interpolateExtremum(std::vector<Poi>
 template <typename IntegralImageView>
 void FastHessianLocator<IntegralImageView>::interpolateStep( int octv, int intvl, int r, int c, double* xi, double* xr, double* xc )
 {
-  double* dD;
+  double *dD;
   double *H; 
   double t[9];
 

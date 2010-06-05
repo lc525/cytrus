@@ -123,7 +123,7 @@ void SurfDescriptor<IntegralImageView>::getDescriptor(Poi& ipt){
   y = floor(ipt.y);  
   co = cos(ipt.orientation);
   si = sin(ipt.orientation);
-  desc = ipt.descriptor;
+  desc = ipt.getDescriptor();
 
   // Calculate descriptor for this interest point
   for (int i = -10; i < 10; i+=5)
