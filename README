@@ -1,23 +1,18 @@
 /*
  * Author: Lucian Carata, calucian[]yahoo.co.uk
  *
- * Automatic Control and Computer Engineering Faculty
+ * This was a project towards the fulfilment of my bachelor thesis
+ * in the Automatic Control and Computer Engineering Faculty,
  * Techical University of Iasi, Romania
  *
- * B.Sc. Theme: (I) object recognition from video stream, (II) 3D object reconstruction from camera motion (SfM)
- *
- *                 I. Bibliografical Research/Writing Utility Software
- *                 II. Technology prototype implementation | Project Architecture
- *                          (CUDA - gpu alg, 
- *                           C++ - cpu alg, 
- *                           C++/CLI - managed dll, allows interface to access the lower layers, 
- *                           WPF - interface)
- * 		   III. Implementation | Thesis Writing
- *
+ * B.Sc. Theme: 
+ * () object recognition from video stream, 
+ * (future work:) 3D object reconstruction from camera motion (SfM)
+ 
  * B.Sc. Deadline: 20.07.2009
  * Supervisor: Ph.D. Vasile Manta
  *
- * Current Status: Further development (B.Sc Thesis Mark: 10/10)
+ * Current Status: Frozen (B.Sc Thesis Mark: 10/10)
  */
 
 
@@ -25,21 +20,22 @@
 
 This code is written as part of my B.Sc. Thesis.
 Please feel free to comment/send me suggestions or develop your own branches from my code.
-I will try to post here the progress of my work, as well as references to
-important articles in the field.
+I will try to post here the progress of my work, as well as references to important
+articles in the field.
 
 My B.Sc Thesis focuses on real-time object recognition (in video data), as an aplication
 of the SURF algorithm, implemented on CPU, as well as GPU - CUDA).
 The SURF algorithm should be used in the end as a first step in 3D object modelling.
 [out of scope for the time being]
 
-The interface of the application will be written in WPF/C# , and as such will not be portable on linux environments. 
-(This is due to my lack of knowledge/experience in the GTK++ area, and the small amout of available time)
-Despite this, the library implementing the SURF algorithm is written in C++, and it will be tested on both windows/linux 
-before release.
+The interface of the application will be written in WPF/C# , and as such will not be portable
+to linux environments. (This is due to my lack of knowledge/experience in the GTK++ area, and
+the lack of time) Despite this, the library implementing the SURF algorithm is written in C++,
+and will be tested on both windows/linux before release.
 
-Practically, for making the whole application work under linux, one must write 2 SO-specific layers: the Camera HAL Layer 
-(for image aquisition from cameras, currently using DirectShow on Windows) and the Presentation Layer (for displaying 
-the results, currently using WPF on Windows).
+Practically, for making the whole application work under linux, one must write 2 SO-specific
+layers: 
+(i)  the Camera HAL Layer (for image aquisition from cameras, using DirectShow on Windows)
+(ii) the Presentation Layer (for displaying the results, using WPF on Windows).
 
 ***
